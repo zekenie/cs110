@@ -10,6 +10,8 @@
     "coffee-script":"*",
     "twilio":"*",
     "lodash":"*",
+    "passport":"*",
+    "passport-facebook":"*",
     "twilio-router":"*",
     "bower":"*"
   },
