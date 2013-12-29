@@ -1,0 +1,11 @@
+{
+    "cookie_secret":"mysecret",
+    "session":{
+        "key":"myke3ey",
+        "secret": "myse5cret"
+    },
+    "mongoUri":"{{MONGOLAB_URI}}",
+    "request_timeout":2200,
+    "port":"{{PORT}}",
+    "character_encoding":"utf-8"
+}

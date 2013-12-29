@@ -1,0 +1,22 @@
+{
+  "name": "cs110",
+  "version": "0.0.1",
+  "dependencies": {
+    "express":"*",
+    "express-train":"2.0.2",
+    "express-hbs":"*",
+    "mongoose":"*",
+    "source-map-support":"*",
+    "coffee-script":"*",
+    "twilio":"*",
+    "lodash":"*",
+    "twilio-router":"*",
+    "bower":"*"
+  },
+  "main": "./app/index.js",
+  "scripts":{
+    "postinstall":"./node_modules/bower/bin/bower install",
+    "start": "./app/index.js"
+  }
+
+}
