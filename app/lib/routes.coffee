@@ -1,4 +1,21 @@
+passport = require 'passport'
 module.exports = (app,DaysController,HwsController,UsersController,TermsController,IssuesController,TagsController)->
+
+	auth = (req,res,next)->
+		if req.isAuthenticated()
+			app.locals.user = req.user
+			next()
+		else
+			res.redirect '/login'
+
+	app.get '/login',(req,res,next)->
+		res.render 'login'
+
+	app.get '/fb',passport.authenticate 'facebook'
+
+	app.get '/fb/cb',passport.authenticate 'facebook',{successRedirect: '/',failureRedirect: '/login'}
+
+	app.all '*',auth
 
 	#--- Days ---#
 
