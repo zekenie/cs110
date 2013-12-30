@@ -17,6 +17,10 @@ module.exports = (app,DaysController,HwsController,UsersController,TermsControll
 
 	app.all '*',auth
 
+	app.get '/logout',(req,res,next)->
+		req.logout()
+		res.redirect '/login'
+
 	#--- Days ---#
 
 	app.get '/',DaysController.index
@@ -86,7 +90,3 @@ module.exports = (app,DaysController,HwsController,UsersController,TermsControll
 	app.get '/tags/:tagId',TagsController.view
 
 	app.param 'tagId',TagsController.load
-
-	#--- Hw_submissions ---#
-
-	app.param 'hw_submissionId',Hw_submissionsController.load

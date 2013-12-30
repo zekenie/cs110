@@ -2,7 +2,7 @@ mongoose = require 'mongoose'
 Schema = mongoose.Schema
 
 module.exports = ->
-	UsersSchema = new Schema { 
+	UsersSchema = new Schema {
 		first: {type:String}
 		last: {type:String}
 		role: {type:String}
@@ -13,21 +13,30 @@ module.exports = ->
 		phone: {type:String}
 		createdAt: {type:Date}
 	}
-	
 
-	
+
+
 	UsersSchema.methods.getHwSubmissions = (cb)->
 		cb()
-	
 
-	
-	UsersSchema.statics.getList = (cb)->
-		cb()
-	
 
-	
+
+	UsersSchema.statics.getList = (query,cb)->
+		query = query or {}
+		hash = {}
+		@find query,(err,users)->
+			return cb err if err?
+			for user in users
+				hash[user.id] = user.name
+			cb(null,hash);
+
+	UsersSchema.statics.getListByRole = (role,cb)->
+		@getList {role:role},cb
+
+
+
 	UsersSchema.virtual('name').get ->
-		# Document can be accessed through `this`
-	
+		return "#{@first} #{@last}"
+
 
 	mongoose.model 'Users', UsersSchema

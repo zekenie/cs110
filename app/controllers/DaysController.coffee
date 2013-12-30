@@ -9,7 +9,7 @@ module.exports = (app,config,Days)->
 
 	controller.index = [
 		((req,res,next)->
-			res.render "index"
+			res.render "days/index"
 
 		)
 	]

@@ -10,13 +10,23 @@
 
 express = require "express"
 mongoose = require 'mongoose'
+MongoStore = require 'connect-mongodb'
 passport = require 'passport'
 FacebookStrategy = require('passport-facebook').Strategy
 module.exports = (app,config,Users) ->
     errorConfig =
         dumpExceptions: true
         showStack: true
-    mongoose.set 'debug', true
+
+    mongoStore = new MongoStore {
+        url:config.mongoUri
+    }
+
+    session_middleware = express.session {
+        key:config.session.key
+        secret:config.session.secret
+        store:mongoStore
+    }
 
     mongoose.connect config.mongoUri
 
@@ -25,12 +35,19 @@ module.exports = (app,config,Users) ->
 
     app.use express.static( app.get "public" )
     app.use express.cookieParser()
+    app.use session_middleware
     app.use express.bodyParser()
     app.use express.methodOverride()
+
+    app.use passport.initialize()
+
+    app.use passport.session()
+
     app.use app.router
     app.use (req, res, next) ->
         res.send 404
     app.use error_middleware
+
 
     passport.use new FacebookStrategy {
         clientID:config.fb.clientId
@@ -57,3 +74,5 @@ module.exports = (app,config,Users) ->
         Users.findById id, (err,user)->
             return done err if err?
             done null,user
+
+
