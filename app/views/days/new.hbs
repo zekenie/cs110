@@ -1,0 +1,32 @@
+{{!< ../layouts/default}}
+<h2>New Day</h2>
+<link rel="stylesheet" href="/bower_components/smalot-bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
+
+<form role="form">
+	<div class="form-group">
+        <div class="input-group date form_datetime" data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input1">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+        	<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+            <input class="form-control" size="16" type="text" value="" readonly>
+
+        </div>
+        <input type="hidden" name="meetingAt" id="meetingAt" value="" /><br/>
+    </div>
+    <div class="form-group">
+    	<label for="summary">Summary</label>
+    	<textarea class="form-control" name="summary"></textarea>
+    </div>
+    <div class="form-group">
+    	<label for="links">Links</label>
+    	<textarea class="form-control" name="links"></textarea>
+    </div>
+    <div class="form-group">
+    	<label for="slides">Slides URL</label>
+    	<input class="form-control" type="url" name="slides">
+    </div>
+</form>
+
+<script src="/bower_components/smalot-bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script>
+$('.form_datetime').datetimepicker();
+</script>

@@ -1,2 +1,8 @@
 {{!< ../layouts/default}}
 <h2>Schedule</h2>
+
+
+
+{{#if user.instructor}}
+	<a href="/days/new" class="btn btn-success">Create day</a>
+{{/if}}

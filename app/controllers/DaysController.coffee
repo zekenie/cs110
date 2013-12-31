@@ -16,7 +16,7 @@ module.exports = (app,config,Days)->
 
 	controller.new = [
 		((req,res,next)->
-			res.render "new"
+			res.render "days/new"
 
 		)
 	]

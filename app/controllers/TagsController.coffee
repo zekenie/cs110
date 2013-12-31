@@ -1,4 +1,4 @@
-module.exports = (app,config)->
+module.exports = (app,config,Tags)->
 	controller = {}
 	controller.load = (req,res,next,id)->
 		Tags.findById id, (err,tag)->
@@ -10,8 +10,14 @@ module.exports = (app,config)->
 	controller.view = [
 		((req,res,next)->
 			res.render "view"
-			
+
 		)
+	]
+
+	controller.index = [
+		(req,res,next)->
+			Tags.find {},'name createdAt',(err,tags)->
+				res.json tags
 	]
 
 	controller

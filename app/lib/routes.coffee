@@ -25,9 +25,9 @@ module.exports = (app,DaysController,HwsController,UsersController,TermsControll
 
 	app.get '/',DaysController.index
 
-	app.get '/day/new',DaysController.new
+	app.get '/days/new',DaysController.new
 
-	app.post '/day',DaysController.create
+	app.post '/days',DaysController.create
 
 	app.param 'dayId',DaysController.load
 

@@ -1,7 +1,7 @@
 <html>
 <head>
     <title>{{title}}</title>
-
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
     {{> css}}
     <style>
     	html{height:100%;}
@@ -32,10 +32,52 @@
          border-radius:5px;
           background:white;
         }
+        .ribbon {
+          overflow: hidden;
+          /* top left corner */
+          position: absolute;
+          right: -3em;
+          top: 2.5em;
+          /* 45 deg ccw rotation */
+          -moz-transform: rotate(45deg);
+          -webkit-transform: rotate(45deg);
+          /* shadow */
+
+
+        }
+
+        .instructor{
+            background-color: #aa0000;
+        }
+
+        .ta{
+            background-color: #bf8726;
+        }
+
+        .student{
+            background-color: #5cb85c;
+        }
+
+        .ribbon a {
+            width:170px;
+          /*border: 1px solid #faa;*/
+          color: #fff;
+          display: block;
+          font: bold 81.25% 'Helvetiva Neue', Helvetica, Arial, sans-serif;
+          margin: 0.05em 0 0.075em 0;
+          padding: 0.5em 3.5em;
+          text-align: center;
+          text-decoration: none;
+          /* shadow */
+          text-shadow: 0 0 0.5em #444;
+        }
     </style>
     {{> scripts}}
 </head>
 <body>
+    <div class="ribbon {{user.role}}">
+        <a href="" rel="me">{{user.name}}</a>
+    </div>
     <a class="btn" id="simple-menu" href="#sidr">
         <span class="glyphicon glyphicon-align-justify"></span>
     </a>
@@ -50,8 +92,9 @@
             <li><a href="/logout">Logout</a></li>
         </ul>
     </div>
+    <br/><br/>
 	<div class="container">
-        <h1>CS-110 @ Hampshire College</h1>
+        <h1>CS-110: Hacking Class</h1>
 		<div id="main">
             {{{body}}}
         </div>
@@ -61,5 +104,6 @@
           $('#simple-menu').sidr();
         });
     </script>
+    <script src="http://www.berriart.com/sidr/javascripts/min.js"></script>
 </body>
 </html>

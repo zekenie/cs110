@@ -2,7 +2,7 @@ mongoose = require 'mongoose'
 Schema = mongoose.Schema
 
 module.exports = ->
-	TagsSchema = new Schema { 
+	TagsSchema = new Schema {
 		name: {type:String}
 		days: [{type:Schema.Types.ObjectId, ref:"Days"}]
 		hws: [{type:Schema.Types.ObjectId, ref:"Hws"}]
@@ -10,15 +10,15 @@ module.exports = ->
 		issues: [{type:Schema.Types.ObjectId, ref:"Issues"}]
 		createdAt: {type:Date}
 	}
-	
 
-	
 
-	
-	TagsSchema.statics.getByName = (cb)->
-		cb()
-	
 
-	
+
+
+	TagsSchema.statics.getByName = (name,cb)->
+		@findOne {name:name},cb
+
+
+
 
 	mongoose.model 'Tags', TagsSchema

@@ -1,0 +1,15 @@
+{
+  "name": "cs110",
+  "version": "0.0.1",
+  "dependencies": {
+    "smalot-bootstrap-datetimepicker":"*",
+    "select2":"*"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

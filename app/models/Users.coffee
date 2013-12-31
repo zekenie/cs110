@@ -5,7 +5,7 @@ module.exports = ->
 	UsersSchema = new Schema {
 		first: {type:String}
 		last: {type:String}
-		role: {type:String}
+		role: {type:String,default:"student"}
 		fbData: {type:Schema.Types.Mixed}
 		hw_submissions: [{type:Schema.Types.ObjectId, ref:"Hw_submissions"}]
 		issues: [{type:Schema.Types.ObjectId, ref:"Issues"}]
@@ -36,7 +36,15 @@ module.exports = ->
 
 
 	UsersSchema.virtual('name').get ->
-		return "#{@first} #{@last}"
+		"#{@first} #{@last}"
 
+	UsersSchema.virtual('instructorOrTa').get ->
+		@instructor or @ta
+
+	UsersSchema.virtual('instructor').get ->
+		@role is 'instructor'
+
+	UsersSchema.virtual('ta').get ->
+		@role is 'ta'
 
 	mongoose.model 'Users', UsersSchema
