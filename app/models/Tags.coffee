@@ -15,7 +15,7 @@ module.exports = ->
 
 
 
-	TagsSchema.statics.getByName = (name,cb)->
+	TagsSchema.statics.findByName = (name,cb)->
 		@findOne {name:name},cb
 
 

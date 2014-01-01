@@ -1,8 +1,8 @@
 mongoose = require 'mongoose'
 Schema = mongoose.Schema
 
-module.exports = ->
-	DaysSchema = new Schema { 
+module.exports = (tagHelper)->
+	DaysSchema = new Schema {
 		meetingAt: {type:Date}
 		summary: {type:String}
 		links: [{type:String}]
@@ -13,12 +13,13 @@ module.exports = ->
 		tags: [{type:Schema.Types.ObjectId, ref:"Tags"}]
 		createdAt: {type:Date}
 	}
-	
 
-	
 
-	
+	DaysSchema.methods.tag = (tags,cb)->
+		tagHelper.tag.call @, tags,cb
 
-	
+
+
+
 
 	mongoose.model 'Days', DaysSchema

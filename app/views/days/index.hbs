@@ -6,3 +6,28 @@
 {{#if user.instructor}}
 	<a href="/days/new" class="btn btn-success">Create day</a>
 {{/if}}
+
+<div id="days"></div>
+
+<script>
+	var days = {{{days}}}
+	var dayTemplate =	'<div class="panel panel-default">\
+							<div class="panel-heading">\
+								<%=i%>\
+								<small class="pull-right">\
+									<%=day.meetingAt%>\
+									<a href="<%=day.slidesUrl%>">Slides</a>\
+								</small>\
+							</div>\
+							<div class="panel-body">\
+							</div>\
+						</div>';
+
+	var daysContainer = $("#days");
+
+	days.forEach(function(day,i) {
+		daysContainer.append(_.template(dayTemplate,{day:day,i:i}));
+
+	});
+	console.log(daysContainer.html())
+</script>

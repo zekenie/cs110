@@ -87,6 +87,8 @@ module.exports = (app,DaysController,HwsController,UsersController,TermsControll
 
 	#--- Tags ---#
 
+	app.get '/tags',TagsController.index
+
 	app.get '/tags/:tagId',TagsController.view
 
 	app.param 'tagId',TagsController.load

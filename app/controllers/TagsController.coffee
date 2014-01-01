@@ -16,7 +16,7 @@ module.exports = (app,config,Tags)->
 
 	controller.index = [
 		(req,res,next)->
-			Tags.find {},'name createdAt',(err,tags)->
+			Tags.find {name:new RegExp req.query.q,'i','g'}, 'name createdAt', (err,tags) ->
 				res.json tags
 	]
 

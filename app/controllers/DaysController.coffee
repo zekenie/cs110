@@ -1,3 +1,4 @@
+async = require 'async'
 module.exports = (app,config,Days)->
 	controller = {}
 	controller.load = (req,res,next,id)->
@@ -9,7 +10,9 @@ module.exports = (app,config,Days)->
 
 	controller.index = [
 		((req,res,next)->
-			res.render "days/index"
+			Days.find({}).sort('meetingAt').populate('hwDue hwAssigned issues tags').exec (err,days)->
+				days = days.map (day)-> day.toObject()
+				res.render "days/index",{days:JSON.stringify(days)}
 
 		)
 	]
@@ -22,10 +25,22 @@ module.exports = (app,config,Days)->
 	]
 
 	controller.create = [
+		#transform req.body
 		((req,res,next)->
-			Days.create req.body, (err,day)->
+			req.body.links = req.body.links.split "\r\n"
+			req.body.meetingAt = new Date req.body.meetingAt
+			req.tags = req.body.tags.split ','
+			delete req.body.tags
+			next()
+		),
+		((req,res,next)->
+			# return console.log req.body
+			day = new Days req.body
+			day.tag req.tags, (err,day)->
 				return next err if err?
-				res.json day
+				day.save (err,day)->
+					return next err if err?
+					res.json day
 		)
 	]
 
