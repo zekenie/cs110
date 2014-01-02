@@ -1,33 +1,43 @@
 {{!< ../layouts/default}}
-<h2>Schedule</h2>
+<h2>
+	Schedule
+	{{#if user.instructor}}
+		<a href="/days/new" class="pull-right btn btn-success">Create day</a>
+	{{/if}}
+</h2>
 
 
 
-{{#if user.instructor}}
-	<a href="/days/new" class="btn btn-success">Create day</a>
-{{/if}}
 
-<div id="days"></div>
 
-<script>
-	var days = {{{days}}}
-	var dayTemplate =	'<div class="panel panel-default">\
-							<div class="panel-heading">\
-								<%=i%>\
-								<small class="pull-right">\
-									<%=day.meetingAt%>\
-									<a href="<%=day.slidesUrl%>">Slides</a>\
-								</small>\
-							</div>\
-							<div class="panel-body">\
-							</div>\
-						</div>';
-
-	var daysContainer = $("#days");
-
-	days.forEach(function(day,i) {
-		daysContainer.append(_.template(dayTemplate,{day:day,i:i}));
-
-	});
-	console.log(daysContainer.html())
-</script>
+<div id="days">
+	{{#each days}}
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				{{meetingAt}}
+				<small class="pull-right"><a href="{{slidesUrl}}">Slides</a></small>
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-4">
+						<p>{{summary}}</p>
+						{{#if links.length}}
+							<ul class="list-group">
+								{{#each links}}
+									<li class="list-group-item"><a href="{{this}}" target="_blank">{{this}}</a></li>
+								{{/each}}
+							</ul>
+						{{/if}}
+					</div>
+					<div class="col-md-4">
+						<strong>Assigned</strong>
+					</div>
+					<div clas="col-md-4">
+						<strong>Due</strong>
+					</div>
+				</div>
+				{{> tags}}
+			</div>
+		</div>
+	{{/each}}
+</div>

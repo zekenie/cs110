@@ -3,7 +3,10 @@
   "version": "0.0.1",
   "dependencies": {
     "smalot-bootstrap-datetimepicker":"*",
-    "select2":"*"
+    "select2":"*",
+    "bootstrap-markdown":"*",
+    "markdown":"*",
+    "to-markdown":"*"
   },
   "ignore": [
     "**/.*",

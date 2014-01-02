@@ -1,0 +1,69 @@
+{{!< ../layouts/default}}
+
+<div class="page-header">
+	<h2>
+		Open Issue Ticket
+		<small>get help!</small>
+	</h2>
+</div>
+<p class="checklist">Before we let you open up an issue, please fill out the checklist below. The checklist will change over time.</p>
+
+<ul id="checklist" class="list-group checklist"></ul>
+
+<form id="newIssueFrm" class="">
+	<div class="alert alert-success">
+		<strong>Great!</strong> Now. What's going on? Be super specific. Don't tell us that its 'not working.' What isn't working? What have you already tried? If appropriate, provide links to bitbucket examples of the problem.
+	</div>
+	<div class="form-group">
+		<label for="title">Title</label>
+		<input class="form-control" name="title" id="title">
+	</div>
+	<div class="form-group">
+		<label for="description">Description</label>
+		<textarea class="form-control" name="description" data-provide="markdown" id="description"></textarea>
+		<p class="help-block">This editor uses <a href="http://daringfireball.net/projects/markdown/" target="_blank">Markdown</a>. <a href="http://www.youtube.com/watch?v=6A5EpqqDOdk" target="_blank">Here</a>'s a video tutorial.</p>
+	</div>
+	 <div>
+    	<input type="hidden" name="tags" id="tags"/>
+    </div>
+    <br/>
+    <div>
+    	<button type="submit" class="btn btn-primary">Create</button>
+    </div>
+</form>
+<script src="/tags.js"></script>
+
+<script>
+	var CheckItem = function(item) {
+		this.item = item;
+		this.el = $(_.template(checkListTemplate,{check:this.item}));
+		this.checkbox = this.el.find('input');
+		checklist.append(this.el);
+		this.addEventListeners();
+	};
+
+	CheckItem.prototype.addEventListeners = function() {
+		this.checkbox.on("change",function() {
+			if(this.checked)
+				checkedCount++;
+			else
+				checkedCount--;
+			if(checkedCount === checkListItems.length){
+				form.show();
+				$('.checklist').hide();
+				$("#title").focus();
+			}else
+				form.hide();
+		});
+	};
+	var form = $("#newIssueFrm");
+	var checklist = $("#checklist");
+	var checkedCount = 0;
+	var checkListTemplate = "<li class='list-group-item checkItem'><div class='checkbox'><label><input type='checkbox'> <%=check%></label></div></li>"
+	var checkListItems = ["I've looked at <a href='/issues' target='_blank'>other open issues</a> for the same problem","I've tried to figure it out for at least a couple of minutes"];
+	form.hide();
+	checkListItems.forEach(function(item) {
+		var checkItem = new CheckItem(item);
+	});
+
+</script>

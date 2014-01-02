@@ -18,8 +18,8 @@ module.exports = (tagHelper)->
 	DaysSchema.methods.tag = (tags,cb)->
 		tagHelper.tag.call @, tags,cb
 
-
-
+	DaysSchema.methods.removeTag = (tag,cb)->
+		tagHelper.removeTag.call @, tag,cb
 
 
 	mongoose.model 'Days', DaysSchema
