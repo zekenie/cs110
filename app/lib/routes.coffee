@@ -3,7 +3,7 @@ module.exports = (app,DaysController,HwsController,UsersController,TermsControll
 
 	auth = (req,res,next)->
 		if req.isAuthenticated()
-			app.locals.user = req.user
+			app.locals.loggedInUser = req.user
 			next()
 		else
 			res.redirect '/login'
@@ -76,6 +76,8 @@ module.exports = (app,DaysController,HwsController,UsersController,TermsControll
 	app.get '/issues',IssuesController.index
 
 	app.get '/issues/new',IssuesController.new
+
+	app.get '/issues/:issueId', IssuesController.view
 
 	app.post '/issues',IssuesController.create
 

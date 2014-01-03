@@ -1,0 +1,11 @@
+<span class="label {{#if open}}{{#if assignedTo}}label-primary{{else}}label-warning{{/if}}{{/if}}">
+	{{#if open}}
+		{{#if assignedTo}}
+			{{assignedTo.name}}
+		{{else}}
+			Open
+		{{/if}}
+	{{else}}
+		Closed
+	{{/if}}
+</span>

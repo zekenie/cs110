@@ -14,7 +14,7 @@ module.exports = (app,config,Days)->
 			Days.find({}).sort('meetingAt').populate('hwDue hwAssigned issues tags').exec (err,days)->
 				days = days.map (day)->
 					day = day.toObject()
-					day.meetingAt = moment(day.meetingAt).format 'YYYY-MM-DD HH:mm'
+					day.meetingAt = moment(day.meetingAt).format app.get 'dateFormat'
 					day
 				res.render "days/index",{days:days}
 

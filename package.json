@@ -12,6 +12,7 @@
     "lodash":"*",
     "async":"*",
     "moment":"*",
+    "pagedown":"*",
     "passport":"*",
     "passport-facebook":"*",
     "connect-mongodb":"*",

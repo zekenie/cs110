@@ -1,5 +1,1 @@
-<div class="tags">
-	{{#each tags}}
-		<span class="tag"><a href="/tags/{{_id}}">{{name}}</a></span>
-	{{/each}}
-</div>
+<span class="tags">{{#each tags}}<span class="tag">{{#if @index}},{{/if}}<a href="/tags/{{_id}}">{{name}}</a></span>{{/each}}</span>

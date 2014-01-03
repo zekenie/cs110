@@ -1,12 +1,12 @@
 mongoose = require 'mongoose'
 Schema = mongoose.Schema
 
-module.exports = (CommentsSchema)->
+module.exports = (CommentsSchema,tagHelper)->
 	IssuesSchema = new Schema {
 		title: {type:String}
 		user: {type:Schema.Types.ObjectId, ref:"Users"}
 		description: {type:String}
-		createdAt:{type:Date}
+		createdAt:{type:Date,default:new Date()}
 		day: {type:Schema.Types.ObjectId, ref:"Days"}
 		hw: {type:Schema.Types.ObjectId, ref:"Hws"}
 		tags: [{type:Schema.Types.ObjectId, ref:"Tags"}]

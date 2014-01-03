@@ -17,7 +17,7 @@ $("#tags").select2({
 		},
 		results: function(data,page) {
 			data = _.map(data,function(obj) {
-				obj.id = obj._id;
+				obj.id = obj.name;
 				obj.text = obj.name;
 				return obj;
 			});
