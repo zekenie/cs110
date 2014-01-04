@@ -1,5 +1,5 @@
 _ = require 'lodash'
-module.exports = (app,config,Hws)->
+module.exports = (app,config,Hws,Days)->
 	controller = {}
 	controller.load = (req,res,next,id)->
 		Hws.findById id, (err,hw)->
@@ -10,29 +10,38 @@ module.exports = (app,config,Hws)->
 
 	controller.index = [
 		((req,res,next)->
-			res.render "index"
+			res.render "hws/index"
 
 		)
 	]
 
 	controller.new = [
-		((req,res,next)->
-			res.render "new"
-
-		)
+		(req,res,next)->
+			return next() if req.user.instructor
+			res.send 400, 'You\'re not authorized to make homework assignments'
+		(req,res,next)->
+			Days.getDaysList {}, (err,daysHash)->
+				res.render "hws/new",{daysHash:daysHash}
 	]
 
 	controller.create = [
-		((req,res,next)->
-			Hws.create req.body,(err,hw)->
+		(req,res,next)->
+			req.body.checklist = req.body.split "\n"
+			req.tags = req.body.tags.split ','
+			delete req.body.tags
+			next()
+		(req,res,next)->
+			hw = new Hws req.body
+			hw.tag req.tags, (err,hw)->
 				return next err if err?
-				res.json hw
-		)
+				hw.save (err,hw)->
+					return next err if err?
+					res.json hw
 	]
 
 	controller.view = [
 		((req,res,next)->
-			res.render "view"
+			res.render "hws/view"
 
 		)
 	]

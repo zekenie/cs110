@@ -6,7 +6,7 @@ module.exports = ()->
 	fns = {}
 
 	fns.get = (d)->
-		moment(d).format
+		moment(d).format format
 
 	fns.set = (d)->
 		moment(d, format)._d

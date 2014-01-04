@@ -1,11 +1,11 @@
 mongoose = require 'mongoose'
 Schema = mongoose.Schema
 
-module.exports = (dateFormatter)->
+module.exports = (dateFormatter,CommentsSchema)->
 	Hw_submissionsSchema = new Schema {
 		user: {type:Schema.Types.ObjectId, ref:"Users"}
 		hw: {type:Schema.Types.ObjectId, ref:"Hws"}
-		comments: {type:Array}
+		comments: [CommentsSchema]
 		checklist: {type:Array}
 	}
 

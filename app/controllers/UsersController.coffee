@@ -4,42 +4,45 @@ module.exports = (app,config)->
 		Users.findById id, (err,user)->
 			return next err if err?
 			return res.send 404 if not user?
-			req.user = user
+			req.reqUser = user
 			next()
 
 	controller.index = [
 		((req,res,next)->
 			res.render "index"
-			
+
 		)
 	]
 
 	controller.new = [
 		((req,res,next)->
 			res.render "new"
-			
+
 		)
 	]
 
 	controller.create = [
 		((req,res,next)->
-			
+
 			res.json {}
 		)
 	]
 
 	controller.delete = [
 		((req,res,next)->
-			
+
 			res.json {}
 		)
 	]
 
 	controller.view = [
-		((req,res,next)->
-			res.render "view"
-			
-		)
+		(req,res,next)->
+			return next() if req.user.id is req.reqUser.id or req.user.instructorOrTa
+			res.send 400, "You're not authorized to see that profile."
+
+		(req,res,next)->
+			res.render "view",req.reqUser
+
 	]
 
 	controller

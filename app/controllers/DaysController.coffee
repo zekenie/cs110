@@ -10,7 +10,7 @@ module.exports = (app,config,Days)->
 			next()
 
 	controller.index = [
-		((req,res,next)->
+		(req,res,next)->
 			Days.find({}).sort('meetingAt').populate('hwDue hwAssigned issues tags').exec (err,days)->
 				days = days.map (day)->
 					day = day.toObject()
@@ -18,26 +18,22 @@ module.exports = (app,config,Days)->
 					day
 				res.render "days/index",{days:days}
 
-		)
 	]
 
 	controller.new = [
-		((req,res,next)->
+		(req,res,next)->
 			res.render "days/new"
-
-		)
 	]
 
 	controller.create = [
 		#transform req.body
-		((req,res,next)->
+		(req,res,next)->
 			req.body.links = _.compact req.body.links.split "\r\n"
-			# req.body.meetingAt = moment(req.body.meetingAt, 'YYYY-MM-DD HH:mm')._d
 			req.tags = req.body.tags.split ','
 			delete req.body.tags
 			next()
-		),
-		((req,res,next)->
+
+		(req,res,next)->
 			# return console.log req.body
 			day = new Days req.body
 			day.tag req.tags, (err,day)->
@@ -45,7 +41,6 @@ module.exports = (app,config,Days)->
 				day.save (err,day)->
 					return next err if err?
 					res.json day
-		)
 	]
 
 	controller

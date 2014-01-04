@@ -24,6 +24,13 @@ module.exports = (tagHelper,dateFormatter)->
 
 	DaysSchema.plugin dateFormatter.addon
 
+	DaysSchema.static 'getDaysList', (query,cb)->
+		@find query,(err,days)->
+			return cb err if err?
+			hash = {}
+			for day in days
+				hash[day.id] = day.meetingAt
+			cb null, hash
 
 
 	mongoose.model 'Days', DaysSchema
