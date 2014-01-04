@@ -14,7 +14,7 @@ module.exports = (app,config,Days)->
 			Days.find({}).sort('meetingAt').populate('hwDue hwAssigned issues tags').exec (err,days)->
 				days = days.map (day)->
 					day = day.toObject()
-					day.meetingAt = moment(day.meetingAt).format app.get 'dateFormat'
+					# day.meetingAt = moment(day.meetingAt).format app.get 'dateFormat'
 					day
 				res.render "days/index",{days:days}
 
@@ -32,7 +32,7 @@ module.exports = (app,config,Days)->
 		#transform req.body
 		((req,res,next)->
 			req.body.links = _.compact req.body.links.split "\r\n"
-			req.body.meetingAt = moment(req.body.meetingAt, 'YYYY-MM-DD HH:mm')._d
+			# req.body.meetingAt = moment(req.body.meetingAt, 'YYYY-MM-DD HH:mm')._d
 			req.tags = req.body.tags.split ','
 			delete req.body.tags
 			next()

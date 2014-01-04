@@ -1,17 +1,14 @@
 {{!< ../layouts/default}}
 <br/>
 <div class="media">
-	<a class="pull-left" href="/users/{{user._id}}">
-		<img class="media-object" src="{{user.fbData.picture.data.url}}" alt="{{user.name}}">
-	</a>
+	<span class="pull-left">
+		{{#with user}}
+			{{> avatar}}
+		{{/with}}
+	</span>
 	<div class="media-body">
-<pre><code>{
-	title:"{{title}}",
-	createdAt:"{{createdAt}}",
-	tags:[{{> tags}}],
-	status:{{> issueStatus}}
-}</code></pre>
+		{{> issueSummary}}
 		<p>{{{description}}}</p>
 	</div>
 </div>
-
+{{> comments}}

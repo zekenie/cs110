@@ -6,6 +6,7 @@
     <style>
     	html{height:100%;}
         body{
+
           height:100%;
           background: #f7fbfc;
           background: -moz-radial-gradient(center, ellipse cover,  #f7fbfc 0%, #add9e4 100%);
@@ -35,7 +36,7 @@
         .ribbon {
           overflow: hidden;
           /* top left corner */
-          position: absolute;
+          position: fixed;
           right: -3em;
           top: 2.5em;
           /* 45 deg ccw rotation */
@@ -103,9 +104,13 @@
         </div>
 	</div>
     <script>
+    $(".avatar").tooltip({
+            placement:"bottom"
+        });
         $(document).ready(function() {
           $('#simple-menu').sidr();
         });
+
     </script>
     <script src="http://www.berriart.com/sidr/javascripts/min.js"></script>
 </body>

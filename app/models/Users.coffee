@@ -1,7 +1,7 @@
 mongoose = require 'mongoose'
 Schema = mongoose.Schema
 
-module.exports = ->
+module.exports = (dateFormatter)->
 	UsersSchema = new Schema {
 		first: {type:String}
 		last: {type:String}
@@ -9,9 +9,9 @@ module.exports = ->
 		fbData: {type:Schema.Types.Mixed}
 		hw_submissions: [{type:Schema.Types.ObjectId, ref:"Hw_submissions"}]
 		issues: [{type:Schema.Types.ObjectId, ref:"Issues"}]
+		issueContributions: [{type:Schema.Types.ObjectId, ref:"Issues"}]
 		email: {type:String}
 		phone: {type:String}
-		createdAt: {type:Date}
 	}
 
 
@@ -46,5 +46,8 @@ module.exports = ->
 
 	UsersSchema.virtual('ta').get ->
 		@role is 'ta'
+
+	UsersSchema.plugin dateFormatter.addon
+
 
 	mongoose.model 'Users', UsersSchema

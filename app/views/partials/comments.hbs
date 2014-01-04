@@ -1,0 +1,29 @@
+{{#each comments}}
+	<div class="media">
+		<span class="pull-left">
+			{{#with user}}
+				{{> avatar}}
+			{{/with}}
+		</span>
+		<div class="media-body">
+			<small>{{createdAt}}</small>
+			<p>{{{comment}}}</p>
+		</div>
+	</div>
+{{/each}}
+
+
+<div class="media">
+	<span class="pull-left">
+		{{#with loggedInUser}}
+			{{> avatar}}
+		{{/with}}
+	</span>
+	<div class="media-body">
+		<form method="post">
+			<textarea name="comment" data-provide="markdown" placeholder="Comment"></textarea>
+			<p class="help-block">This editor uses <a href="http://daringfireball.net/projects/markdown/" target="_blank">Markdown</a>. <a href="http://www.youtube.com/watch?v=6A5EpqqDOdk" target="_blank">Here</a>'s a video tutorial.</p>
+			<button class="btn btn-success">Comment</button>
+		</form>
+	</div>
+</div>

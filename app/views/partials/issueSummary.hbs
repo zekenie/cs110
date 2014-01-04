@@ -1,0 +1,9 @@
+<pre><code>{
+	title:"<a href="/issues/{{_id}}">{{title}}</a>",
+	createdAt:"{{createdAt}}",
+	tags:[{{> tags}}],
+	status:{{> issueStatus}}{{#if day}},
+	day: <a href="/days/{{day._id}}">{{day.createdAt}}</a>,{{/if}}{{#if hw}},
+	hw: <a href="/hw/{{hw._id}}">{{hw.createdAt}}</a>,{{/if}}{{#if day}},
+	day: <a href="/days/{{day._id}}">{{day.createdAt}}</a>{{/if}}
+}</code></pre>

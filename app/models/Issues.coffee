@@ -1,12 +1,13 @@
 mongoose = require 'mongoose'
+pagedown = require 'pagedown'
 Schema = mongoose.Schema
 
-module.exports = (CommentsSchema,tagHelper)->
+module.exports = (CommentsSchema,tagHelper,dateFormatter)->
 	IssuesSchema = new Schema {
 		title: {type:String}
 		user: {type:Schema.Types.ObjectId, ref:"Users"}
-		description: {type:String}
-		createdAt:{type:Date,default:new Date()}
+		description: {type:String,get:(str)-> pagedown.getSanitizingConverter().makeHtml str }
+		closedAt:{type:Date,get:dateFormatter.get}
 		day: {type:Schema.Types.ObjectId, ref:"Days"}
 		hw: {type:Schema.Types.ObjectId, ref:"Hws"}
 		tags: [{type:Schema.Types.ObjectId, ref:"Tags"}]
@@ -21,7 +22,7 @@ module.exports = (CommentsSchema,tagHelper)->
 	IssuesSchema.methods.removeTag = (tag,cb)->
 		tagHelper.removeTag.call @, tag,cb
 
-
+	IssuesSchema.plugin dateFormatter.addon
 
 
 

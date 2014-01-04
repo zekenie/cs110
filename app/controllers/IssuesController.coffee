@@ -1,5 +1,6 @@
 pagedown = require 'pagedown'
 moment = require 'moment'
+_ = require 'lodash'
 module.exports = (app,config,Issues)->
 	controller = {}
 	controller.load = (req,res,next,id)->
@@ -10,16 +11,16 @@ module.exports = (app,config,Issues)->
 			next()
 
 	controller.index = [
-		((req,res,next)->
-			res.render "issues/index"
-		)
+		(req,res,next)->
+			req.query = req.query or {open:true}
+			Issues.find(req.query).populate('user day hw tags assignedTo').exec (err,issues)->
+				return next err if err?
+				res.render "issues/index",{issues:issues}
+
 	]
 
 	controller.view = [
 		((req,res,next)->
-			req.issue = req.issue.toObject()
-			req.issue.description = pagedown.getSanitizingConverter().makeHtml req.issue.description
-			req.issue.createdAt = moment(req.issue.createdAt).format app.get 'dateFormat'
 			res.render "issues/view",req.issue
 		)
 	]
@@ -55,10 +56,15 @@ module.exports = (app,config,Issues)->
 	]
 
 	controller.comment = [
-		((req,res,next)->
-
-
-		)
+		(req,res,next)->
+			req.body.user = req.user._id
+			req.issue.comments.push req.body
+			req.issue.save (err,issue)->
+				res.redirect '/issues/' + issue.id
+				# if this isn't the users issues, add it to their issue contribution
+				if req.user._id isnt req.issue.user._id
+					req.user.issueContributions.push req.issue._id
+					req.user.save()
 	]
 
 	controller

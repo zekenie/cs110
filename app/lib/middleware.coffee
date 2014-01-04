@@ -38,7 +38,6 @@ module.exports = (app,config,Users) ->
     app.use session_middleware
     app.use express.bodyParser()
     app.use express.methodOverride()
-    app.set 'dateFormat','YYYY-MM-DD HH:mm'
 
     app.use passport.initialize()
 
