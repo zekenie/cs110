@@ -26,7 +26,7 @@ module.exports = (app,config,Hws,Days)->
 
 	controller.create = [
 		(req,res,next)->
-			req.body.checklist = req.body.split "\n"
+			req.body.checklist = req.body.checklist.split "\r\n"
 			req.tags = req.body.tags.split ','
 			delete req.body.tags
 			next()

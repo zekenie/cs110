@@ -1,7 +1,8 @@
 mongoose = require 'mongoose'
 Schema = mongoose.Schema
+moment = require 'moment'
 
-module.exports = (dateFormatter)->
+module.exports = (dateFormatter,tagHelper)->
 	HwsSchema = new Schema {
 		name: {type:String}
 		dateAssigned: {type:Date}
@@ -14,7 +15,29 @@ module.exports = (dateFormatter)->
 		checklist: [{type:String}]
 	}
 
+	HwsSchema.pre 'save',(next)->
+		self = @
+		# if the dates have been changed
+		if @isModified 'dayAssigned' or @isModified 'dayDue'
+			#if we've got paths populated
+			if "meetingAt" in @dayAssigned and "meetingAt" in @dayDue
+				@dateAssigned = @dayAssigned.meetingAt
+				@dateDue = @dayDue.meetingAt
+				next()
+			else
+				@populate 'dayAssigned dayDue',(err,hw)->
+					self.dateAssigned = hw.dayAssigned.meetingAt
+					self.dateDue = hw.dayDue.meetingAt
+					next()
+		else
+			next()
 
+
+	HwsSchema.methods.tag = (tags,cb)->
+		tagHelper.tag.call @, tags,cb
+
+	HwsSchema.methods.removeTag = (tag,cb)->
+		tagHelper.removeTag.call @, tag,cb
 
 	HwsSchema.methods.getCompleteStudents = (cb)->
 		cb()
@@ -24,15 +47,14 @@ module.exports = (dateFormatter)->
 
 	HwsSchema.plugin dateFormatter.addon
 
-
-
-
-
 	HwsSchema.virtual('timeLeft').get ->
-		# Document can be accessed through `this`
+		moment.duration moment().diff(@dateDue).humanize()
 
 	HwsSchema.virtual('timeTotal').get ->
-		# Document can be accessed through `this`
+		moment.duration moment(@dateAssigned).diff(@dateDue).humanize()
+
+
+
 
 
 	mongoose.model 'Hws', HwsSchema

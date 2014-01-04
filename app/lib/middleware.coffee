@@ -36,7 +36,8 @@ module.exports = (app,config,Users) ->
     app.use express.static( app.get "public" )
     app.use express.cookieParser()
     app.use session_middleware
-    app.use express.bodyParser()
+    app.use express.urlencoded()
+    app.use express.json()
     app.use express.methodOverride()
 
     app.use passport.initialize()
