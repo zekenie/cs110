@@ -48,10 +48,13 @@ module.exports = (dateFormatter,tagHelper)->
 	HwsSchema.plugin dateFormatter.addon
 
 	HwsSchema.virtual('timeLeft').get ->
-		moment.duration moment().diff(@dateDue).humanize()
+		moment.duration(moment().diff(@dateDue)).humanize()
 
 	HwsSchema.virtual('timeTotal').get ->
-		moment.duration moment(@dateAssigned).diff(@dateDue).humanize()
+		moment.duration(moment(@dateAssigned).diff(@dateDue)).humanize()
+
+	HwsSchema.virtual('past').get ->
+		Date.now() > @dateDue
 
 
 

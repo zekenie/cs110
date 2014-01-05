@@ -1,0 +1,19 @@
+{{!< ../layouts/default}}
+
+<div class="page-header">
+	<h2>
+		Homework
+	</h2>
+</div>
+
+<pre>[
+{{#each hws}}
+	<code>{
+		name:"<a href="/hws/{{_id}}">{{name}}</a>",{{#if past}}{{else}}
+		timeLeft:"{{timeLeft}}",{{/if}}
+		dateAssigned:"<a href="/days/{{dayAssigned}}">{{dateAssigned}}</a>",
+		dateDue:"<a href="/days/{{dayDue}}">{{dateDue}}</a>",
+		tags:[{{> tags}}]
+	},</code>
+{{/each}}
+]</pre>
