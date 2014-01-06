@@ -9,7 +9,7 @@ module.exports = (dateFormatter,CommentsSchema,mdHelper)->
 		comments: [CommentsSchema]
 	}
 
-	Hw_submissions.post 'save', ->
+	Hw_submissionsSchema.post 'save', ->
 		self = @
 		mongoose.models('Hws').findById @hw, (err,hw)->
 			return console.log err if err?

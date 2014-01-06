@@ -2,7 +2,7 @@ mongoose = require 'mongoose'
 Schema = mongoose.Schema
 moment = require 'moment'
 
-module.exports = (dateFormatter,tagHelper)->
+module.exports = (dateFormatter,tagHelper,mdHelper)->
 	HwsSchema = new Schema {
 		name: {type:String}
 		description:{type:String,get:mdHelper.get}
