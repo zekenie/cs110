@@ -19,6 +19,9 @@ module.exports = (dateFormatter)->
 	UsersSchema.methods.getHwSubmissions = (cb)->
 		cb()
 
+	UsersSchema.methods.getSubmissionForHw = (hw,cb)->
+		mongoose.models('Hw_submissions').findOne {hw:hw,user:@id}, cb
+
 
 
 	UsersSchema.statics.getList = (query,cb)->
@@ -43,6 +46,9 @@ module.exports = (dateFormatter)->
 
 	UsersSchema.virtual('instructor').get ->
 		@role is 'instructor'
+
+	UsersSchema.virtual('student').get ->
+		@role is 'student'
 
 	UsersSchema.virtual('ta').get ->
 		@role is 'ta'

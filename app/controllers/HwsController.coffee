@@ -1,22 +1,25 @@
 _ = require 'lodash'
-module.exports = (app,config,Hws,Days,dateFormatter)->
+module.exports = (app,config,Users,Hws,Days,dateFormatter)->
 	controller = {}
+
+	hwTransform = (hw)->
+		hw = hw.toObject {virtuals:true}
+		hw.dateAssigned = dateFormatter.get hw.dateAssigned
+		hw.dateDue = dateFormatter.get hw.dateDue
+		hw
+
 	controller.load = (req,res,next,id)->
-		Hws.findById id, (err,hw)->
+		Hws.findById(id).populate('tags issues hw_submissions').exec (err,hw)->
 			return next err if err?
 			return res.send 404 if not hw?
-			req.hw = hw
+			req.hw = hwTransform hw
 			next()
 
 	controller.index = [
 		(req,res,next)->
 			Hws.find({}).populate('tags').exec (err,hws)->
 				return next err if err?
-				hws = hws.map (hw)->
-					hw = hw.toObject {virtuals:true}
-					hw.dateAssigned = dateFormatter.get hw.dateAssigned
-					hw.dateDue = dateFormatter.get hw.dateDue
-					hw
+				hws = hws.map hwTransform
 				res.render "hws/index",{hws:hws}
 
 	]
@@ -47,7 +50,18 @@ module.exports = (app,config,Hws,Days,dateFormatter)->
 
 	controller.view = [
 		(req,res,next)->
-			res.render "hws/view"
+			return next() if req.user.student
+			Users.find {role:'student'}, (err,students)->
+				return next err if err?
+				for student in students
+					student = student.toObject()
+					student.submission = _.find req.hw.hw_submissions, (submission)->
+						submission._id.toString() is student._id.toString()
+				req.hw.students = students
+				next()
+
+		(req,res,next)->
+			res.render "hws/view",req.hw
 
 	]
 

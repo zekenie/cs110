@@ -1,7 +1,7 @@
 {{!< ../layouts/default}}
 <h2>
 	Schedule
-	{{#if user.instructor}}
+	{{#if loggedInUser.instructor}}
 		<a href="/days/new" class="pull-right btn btn-success">Create day</a>
 	{{/if}}
 </h2>

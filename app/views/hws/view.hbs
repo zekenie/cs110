@@ -1,0 +1,55 @@
+{{!< ../layouts/default}}<br/>
+<pre>{{> hwSummary}}</pre>
+
+<p>{{description}}</p>
+
+<div class="page-header">
+	<h3>
+		Issues
+		<a href="/issues/new?hw={{_id}}" class="pull-right btn btn-success">Open Issue</a>
+	</h3>
+</div>
+{{#if issues.length}}
+	{{#each issues}}
+	<div class="media">
+		<span class="pull-left">
+			{{#with user}}
+				{{> avatar}}
+			{{/with}}
+		</span>
+		<div class="media-body">
+			{{> issueSummary}}
+		</div>
+	</div>
+	{{/each}}
+{{else}}
+	<p>No issues.</p>
+{{/if}}
+
+{{#if loggedInUser.student}}
+	<div class="page-header">
+		<h3>Submit</h3>
+	</div>
+	{{#if checklist.length}}
+		<ul class="list-group">
+			{{#each checklist}}
+				<li class='list-group-item'><div class='checkbox'><label><input type='checkbox'> {{this}}</label></div></li>
+			{{/each}}
+		</ul>
+	{{/if}}
+
+<div class="media">
+	<span class="pull-left">
+		{{#with loggedInUser}}
+			{{> avatar}}
+		{{/with}}
+	</span>
+	<div class="media-body">
+		<form method="post" action="/hw_submissions">
+			<textarea name="text" data-provide="markdown" placeholder="Comment... (typically required)"></textarea>
+			<p class="help-block">This editor uses <a href="http://daringfireball.net/projects/markdown/" target="_blank">Markdown</a>. <a href="http://www.youtube.com/watch?v=6A5EpqqDOdk" target="_blank">Here</a>'s a video tutorial.</p>
+			<button class="btn btn-success">Turn in HW</button>
+		</form>
+	</div>
+</div>
+{{/if}}

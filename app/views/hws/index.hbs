@@ -3,17 +3,12 @@
 <div class="page-header">
 	<h2>
 		Homework
+		{{#if loggedInUser.instructor}}
+			<a href="/hws/new" class="pull-right btn btn-success">Create Homework</a>
+		{{/if}}
 	</h2>
 </div>
 
-<pre>[
-{{#each hws}}
-	<code>{
-		name:"<a href="/hws/{{_id}}">{{name}}</a>",{{#if past}}{{else}}
-		timeLeft:"{{timeLeft}}",{{/if}}
-		dateAssigned:"<a href="/days/{{dayAssigned}}">{{dateAssigned}}</a>",
-		dateDue:"<a href="/days/{{dayDue}}">{{dateDue}}</a>",
-		tags:[{{> tags}}]
-	},</code>
-{{/each}}
-]</pre>
+<pre>{{#each hws}}
+{{> hwSummary}}
+{{/each}}</pre>
