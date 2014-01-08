@@ -1,23 +1,27 @@
+_ = require 'lodash'
 module.exports = (app,config,Tags)->
 	controller = {}
 	controller.load = (req,res,next,id)->
-		Tags.findById id, (err,tag)->
+		Tags.findById(id).populate('days hw terms issues').exec (err,tag)->
 			return next err if err?
 			return res.send 404 if not tag?
 			req.tag = tag
 			next()
 
 	controller.view = [
-		((req,res,next)->
-			res.render "view"
+		(req,res,next)->
+			res.render "tags/view",req.tag
 
-		)
 	]
 
 	controller.index = [
 		(req,res,next)->
-			Tags.find {name:new RegExp req.query.q,'i','g'}, 'name createdAt', (err,tags) ->
-				res.json tags
+			query = {}
+			query.name = new RegExp req.query.q,'i','g' if req.query.q?
+			Tags.find query, 'name createdAt', (err,tags) ->
+				accepts = req.accepts 'html','json'
+				return res.json tags if accepts is 'json'
+				res.render 'tags/index',{tags:tags}
 	]
 
 	controller

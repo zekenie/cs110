@@ -11,6 +11,9 @@
 <ul id="checklist" class="list-group checklist"></ul>
 
 <form id="newIssueFrm" action="/issues" method="post">
+	{{#if hw}}
+		<input type="hidden" name="hw" value="{{hw}}"/>
+	{{/if}}
 	<div class="alert alert-success">
 		<strong>Great!</strong> Now. What's going on? Be super specific. Don't tell us that it's "not working." What isn't working? What have you already tried? If appropriate, provide links to bitbucket examples of the problem.
 	</div>

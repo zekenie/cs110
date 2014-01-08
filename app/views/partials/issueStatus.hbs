@@ -1,4 +1,4 @@
-<span class="label {{#if open}}{{#if assignedTo}}label-primary{{else}}label-warning{{/if}}{{/if}}">
+<span class="label {{#if open}}{{#if assignedTo}}label-primary{{else}}label-warning{{/if}}{{else}}label-default{{/if}}">
 	{{#if open}}
 		{{#if assignedTo}}
 			{{assignedTo.name}}

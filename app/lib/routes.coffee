@@ -41,6 +41,8 @@ module.exports = (app,DaysController,HwsController,UsersController,TermsControll
 
 	app.get '/hws/:hwId',HwsController.view
 
+	app.post '/hws/:hwId', HwsController.submit
+
 	app.put '/hws/:hwId',HwsController.update
 
 	app.param 'hwId',HwsController.load

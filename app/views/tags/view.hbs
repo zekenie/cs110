@@ -1,0 +1,16 @@
+{{!< ../layouts/default}}
+
+<div class="page-header">
+	<h1>{{name}}</h1>
+</div>
+
+<pre><code>{
+	issues:[{{#each issues}}{{#if @index}},{{/if}}
+		"<a href="/issues/{{_id}}">{{title}}</a>"{{/each}}],
+	days:[{{#each days}}{{#if @index}},{{/if}}
+		"<a href="/days/{{_id}}">{{meetingAt}}</a>"{{/each}}],
+	hws:[{{#each hws}}{{#if @index}},{{/if}}
+		"<a href="/hws/{{_id}}">{{name}}</a>"{{/each}}],
+	terms:[{{#each terms}}{{#if @index}},{{/if}}
+		"<a href="/terms/{{_id}}">{{name}}</a>"{{/each}}]
+}</code></pre>

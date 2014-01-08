@@ -4,6 +4,6 @@
 	tags:[{{> tags}}],
 	status:{{> issueStatus}}{{#if day}},
 	day: <a href="/days/{{day._id}}">{{day.createdAt}}</a>,{{/if}}{{#if hw}},
-	hw: <a href="/hw/{{hw._id}}">{{hw.createdAt}}</a>,{{/if}}{{#if day}},
+	hw: <a href="/hw/{{hw._id}}">{{hw.name}}</a>,{{/if}}{{#if day}},
 	day: <a href="/days/{{day._id}}">{{day.createdAt}}</a>{{/if}}
 }</code></pre>

@@ -27,7 +27,7 @@ module.exports = (app,config,Issues)->
 
 	controller.new = [
 		((req,res,next)->
-			res.render "issues/new"
+			res.render "issues/new",req.query
 		)
 	]
 

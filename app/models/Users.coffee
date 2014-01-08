@@ -20,7 +20,7 @@ module.exports = (dateFormatter)->
 		cb()
 
 	UsersSchema.methods.getSubmissionForHw = (hw,cb)->
-		mongoose.models('Hw_submissions').findOne {hw:hw,user:@id}, cb
+		mongoose.model('Hw_submissions').findOne {hw:hw,user:@id}, cb
 
 
 

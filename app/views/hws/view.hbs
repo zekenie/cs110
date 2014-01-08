@@ -27,29 +27,60 @@
 {{/if}}
 
 {{#if loggedInUser.student}}
+	{{#if loggedInUser.submission}}
+		<div class="page-header">
+			<h3>Your submission</h3>
+		</div>
+		<p>{{{loggedInUser.submission.text}}}</p>
+	{{else}}
+		<div class="page-header">
+			<h3>Submit</h3>
+		</div>
+		{{#if checklist.length}}
+			<ul class="list-group">
+				{{#each checklist}}
+					<li class='list-group-item'><div class='checkbox'><label><input type='checkbox'> {{this}}</label></div></li>
+				{{/each}}
+			</ul>
+		{{/if}}
+
+		<div class="media">
+			<span class="pull-left">
+				{{#with loggedInUser}}
+					{{> avatar}}
+				{{/with}}
+			</span>
+			<div class="media-body">
+				<form method="post">
+					<textarea name="text" data-provide="markdown" placeholder="Comment... (typically required)"></textarea>
+					<p class="help-block">This editor uses <a href="http://daringfireball.net/projects/markdown/" target="_blank">Markdown</a>. <a href="http://www.youtube.com/watch?v=6A5EpqqDOdk" target="_blank">Here</a>'s a video tutorial.</p>
+					<button class="btn btn-success">Turn in HW</button>
+				</form>
+			</div>
+		</div>
+	{{/if}}
+{{/if}}
+
+{{#if loggedInUser.instructorOrTa}}
 	<div class="page-header">
-		<h3>Submit</h3>
+		<h3>Submissions</h3>
 	</div>
-	{{#if checklist.length}}
-		<ul class="list-group">
-			{{#each checklist}}
-				<li class='list-group-item'><div class='checkbox'><label><input type='checkbox'> {{this}}</label></div></li>
+	{{#if students.length}}
+		<ul class="media-list">
+			{{#each students}}
+				<li class="media">
+					<span class="pull-left">{{> avatar}}</span>
+					<div class="media-body">
+						{{#if submission}}
+							{{{submission.text}}}
+						{{else}}
+							<p class="error">No submission</p>
+						{{/if}}
+					</div>
+				</li>
 			{{/each}}
 		</ul>
+	{{else}}
+		<p>No submissions</p>
 	{{/if}}
-
-<div class="media">
-	<span class="pull-left">
-		{{#with loggedInUser}}
-			{{> avatar}}
-		{{/with}}
-	</span>
-	<div class="media-body">
-		<form method="post" action="/hw_submissions">
-			<textarea name="text" data-provide="markdown" placeholder="Comment... (typically required)"></textarea>
-			<p class="help-block">This editor uses <a href="http://daringfireball.net/projects/markdown/" target="_blank">Markdown</a>. <a href="http://www.youtube.com/watch?v=6A5EpqqDOdk" target="_blank">Here</a>'s a video tutorial.</p>
-			<button class="btn btn-success">Turn in HW</button>
-		</form>
-	</div>
-</div>
 {{/if}}

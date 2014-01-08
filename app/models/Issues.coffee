@@ -16,6 +16,25 @@ module.exports = (CommentsSchema,tagHelper,dateFormatter)->
 		comments:[CommentsSchema]
 	}
 
+	IssuesSchema.pre 'save', (next)->
+		self = @
+		if @hw?
+			mongoose.model('Hws').findById @hw, (err,hw)->
+				return console.log err if err?
+				hw.issues.addToSet self.id
+				hw.save (err,hw)->
+					return console.log err if err?
+					next()
+		else if @day?
+			mongoose.model('Days').findById @day, (err,day)->
+				return console.log err if err?
+				day.issues.addToSet self.id
+				day.save (err,day)->
+					return console.log err if err?
+					next()
+		else
+			next()
+
 	IssuesSchema.methods.tag = (tags,cb)->
 		tagHelper.tag.call @, tags,cb
 

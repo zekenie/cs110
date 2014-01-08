@@ -1,19 +1,25 @@
 _ = require 'lodash'
-module.exports = (app,config,Users,Hws,Days,dateFormatter)->
+module.exports = (app,config,Users,Hws,Hw_submissions,Days,Issues,dateFormatter)->
 	controller = {}
 
 	hwTransform = (hw)->
-		hw = hw.toObject {virtuals:true}
 		hw.dateAssigned = dateFormatter.get hw.dateAssigned
 		hw.dateDue = dateFormatter.get hw.dateDue
 		hw
 
 	controller.load = (req,res,next,id)->
-		Hws.findById(id).populate('tags issues hw_submissions').exec (err,hw)->
+		Hws.findById(id).populate('tags hw_submissions').populate({path:"issues",options:{sort:"open"}}).exec (err,hw)->
 			return next err if err?
 			return res.send 404 if not hw?
-			req.hw = hwTransform hw
-			next()
+			hw = hw.toObject {virtuals:true,getters:true}
+			Issues.populate hw.issues,{path:"tags"},(err,issues)->
+				return next err if err?
+				issues = issues.map (issue) ->
+					issue.hw = hw
+					issue
+				hw.issues = issues
+				req.hw = hwTransform hw
+				next()
 
 	controller.index = [
 		(req,res,next)->
@@ -33,6 +39,16 @@ module.exports = (app,config,Users,Hws,Days,dateFormatter)->
 				res.render "hws/new",{daysHash:daysHash}
 	]
 
+	controller.submit = [
+		(req,res,next)->
+			req.body.user = req.user._id
+			req.body.hw = req.hw._id
+			Hw_submissions.create req.body, (err,hw_submission)->
+				return next err if err?
+				res.redirect "/hws/#{req.hw._id}"
+
+	]
+
 	controller.create = [
 		(req,res,next)->
 			req.body.checklist = req.body.checklist.split "\r\n"
@@ -50,15 +66,19 @@ module.exports = (app,config,Users,Hws,Days,dateFormatter)->
 
 	controller.view = [
 		(req,res,next)->
-			return next() if req.user.student
-			Users.find {role:'student'}, (err,students)->
+			req.user.getSubmissionForHw req.hw._id, (err,submission)->
 				return next err if err?
-				for student in students
-					student = student.toObject()
-					student.submission = _.find req.hw.hw_submissions, (submission)->
-						submission._id.toString() is student._id.toString()
-				req.hw.students = students
-				next()
+				req.user.submission = submission
+				return next() if req.user.student
+				Users.find {role:'student'}, (err,students)->
+					return next err if err?
+					students = students.map (student)->
+						student = student.toObject {virtuals:true}
+						student.submission = _.find req.hw.hw_submissions, (submission)->
+							submission.user.toString() is student._id.toString()
+						student
+					req.hw.students = students
+					next()
 
 		(req,res,next)->
 			res.render "hws/view",req.hw

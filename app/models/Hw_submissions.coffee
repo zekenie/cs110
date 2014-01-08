@@ -11,7 +11,7 @@ module.exports = (dateFormatter,CommentsSchema,mdHelper)->
 
 	Hw_submissionsSchema.post 'save', ->
 		self = @
-		mongoose.models('Hws').findById @hw, (err,hw)->
+		mongoose.model('Hws').findById @hw, (err,hw)->
 			return console.log err if err?
 			hw.hw_submissions.addToSet self.id
 			hw.save()
