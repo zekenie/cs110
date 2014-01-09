@@ -1,0 +1,25 @@
+{{!< ../layouts/default}}
+<div style="height:50px">
+	<h2>
+		{{name}}
+		<small>{{role}}</small>
+		<span class="pull-right">{{> avatar}}</span>
+	</h2>
+</div>
+
+<div class="row">
+	<div class="col-md-6">
+		<div class="page-header">
+			<h3>Issues</h3>
+			{{#each issues}}
+				{{> issueSummary}}
+			{{/each}}
+		</div>
+	</div>
+
+	<div class="col-md-6">
+		<div class="page-header">
+			<h3>Issue Contributions</h3>
+		</div>
+	</div>
+</div>

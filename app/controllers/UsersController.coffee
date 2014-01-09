@@ -1,4 +1,4 @@
-module.exports = (app,config)->
+module.exports = (app,config,Users)->
 	controller = {}
 	controller.load = (req,res,next,id)->
 		Users.findById id, (err,user)->
@@ -41,7 +41,7 @@ module.exports = (app,config)->
 			res.send 400, "You're not authorized to see that profile."
 
 		(req,res,next)->
-			res.render "view",req.reqUser
+			res.render "users/view",req.reqUser
 
 	]
 
