@@ -6,7 +6,7 @@ module.exports = (CommentsSchema,tagHelper,dateFormatter,mdHelper)->
 	IssuesSchema = new Schema {
 		title: {type:String}
 		user: {type:Schema.Types.ObjectId, ref:"Users"}
-		description: {type:String,mdHelper.get }
+		description: {type:String,get:mdHelper.get }
 		closedAt:{type:Date,get:dateFormatter.get}
 		day: {type:Schema.Types.ObjectId, ref:"Days"}
 		hw: {type:Schema.Types.ObjectId, ref:"Hws"}
