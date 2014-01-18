@@ -22,7 +22,7 @@
   "main": "./app/index.js",
   "scripts":{
     "postinstall":"./node_modules/bower/bin/bower install",
-    "start": "./app/index.js"
+    "start": "train run"
   }
 
 }
