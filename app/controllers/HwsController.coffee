@@ -1,5 +1,6 @@
 _ = require 'lodash'
-module.exports = (app,config,Users,Hws,Hw_submissions,Days,Issues,dateFormatter)->
+mongoose = require 'mongoose'
+module.exports = (app,config,Users,Hws,Hw_submissions,Days,Issues,dateFormatter,tagHelper)->
 	controller = {}
 
 	hwTransform = (hw)->
@@ -12,13 +13,10 @@ module.exports = (app,config,Users,Hws,Hw_submissions,Days,Issues,dateFormatter)
 			return next err if err?
 			return res.send 404 if not hw?
 			hw = hw.toObject {virtuals:true,getters:true}
-			Issues.populate hw.issues,{path:"tags"},(err,issues)->
+			# populate the tags of issues
+			tagHelper.deepPopulate "Issues","issue",hw, (err,hw)->
 				return next err if err?
-				issues = issues.map (issue) ->
-					issue.hw = hw
-					issue
-				hw.issues = issues
-				req.hw = hwTransform hw
+				req.hw = hw
 				next()
 
 	controller.index = [

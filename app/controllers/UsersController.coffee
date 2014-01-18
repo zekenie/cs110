@@ -1,31 +1,19 @@
-module.exports = (app,config,Users)->
+module.exports = (app,config,Users,tagHelper)->
 	controller = {}
 	controller.load = (req,res,next,id)->
-		Users.findById id, (err,user)->
+		Users.findById(id).populate('issues issueContributions').exec (err,user)->
 			return next err if err?
 			return res.send 404 if not user?
-			req.reqUser = user
-			next()
+			user = user.toObject {getters:true, virtuals:true}
+			tagHelper.deepPopulate 'Issues','issue',user,(err,user)->
+				return next err if err?
+				req.reqUser = user
+				next()
 
 	controller.index = [
-		((req,res,next)->
+		(req,res,next)->
 			res.render "index"
 
-		)
-	]
-
-	controller.new = [
-		((req,res,next)->
-			res.render "new"
-
-		)
-	]
-
-	controller.create = [
-		((req,res,next)->
-
-			res.json {}
-		)
 	]
 
 	controller.delete = [

@@ -25,9 +25,15 @@ module.exports = (app,DaysController,HwsController,UsersController,TermsControll
 
 	app.get '/',DaysController.index
 
+	app.get '/days/:dayId',DaysController.view
+
+	app.get '/days/:dayId/edit', DaysController.edit
+
 	app.get '/days/new',DaysController.new
 
 	app.post '/days',DaysController.create
+
+	app.del '/days/:dayId', DaysController.delete
 
 	app.param 'dayId',DaysController.load
 
@@ -50,10 +56,6 @@ module.exports = (app,DaysController,HwsController,UsersController,TermsControll
 	#--- Users ---#
 
 	app.get '/users',UsersController.index
-
-	app.get '/users/new',UsersController.new
-
-	app.post '/users',UsersController.create
 
 	app.del '/users/:userId',UsersController.delete
 

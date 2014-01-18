@@ -1,7 +1,21 @@
 async = require 'async'
 _ = require 'lodash'
+mongoose = require 'mongoose'
 module.exports = (Tags)->
 	fns = {}
+
+
+	fns.deepPopulate = (foreignModel,foreignSingular,doc,cb)->
+		mongoose.model(foreignModel).populate doc[foreignModel.toLowerCase()], {path:'tags'}, (err,subDocs)->
+			return cb err if err?
+			subDocs = subDocs.map (subdoc)->
+				subdoc[foreignSingular] = doc
+				subdoc
+			doc[foreignModel.toLowerCase()] = subDocs
+			cb null, doc
+
+
+
 
 	# returns fn for async parallel package
 	tagOneFn = (tag)->
@@ -17,7 +31,6 @@ module.exports = (Tags)->
 					tagObj = {name:tag}
 					tagObj[referenceName] = [self._id]
 					Tags.create tagObj, callback
-
 
 	fns.tag = (tags,cb)->
 		self = @

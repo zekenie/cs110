@@ -1,5 +1,3 @@
-async = require 'async'
-moment = require 'moment'
 module.exports = (app,config,Days)->
 	controller = {}
 	controller.load = (req,res,next,id)->
@@ -12,12 +10,15 @@ module.exports = (app,config,Days)->
 	controller.index = [
 		(req,res,next)->
 			Days.find({}).sort('meetingAt').populate('hwDue hwAssigned issues tags').exec (err,days)->
-				days = days.map (day)->
-					day = day.toObject()
-					# day.meetingAt = moment(day.meetingAt).format app.get 'dateFormat'
-					day
 				res.render "days/index",{days:days}
+	]
 
+	controller.delete = [
+		(req,res,next)->
+			return res.send 400, 'you can\'t do that with your account role' if req.user.student
+			req.day.remove (err)->
+				return next err if err?
+				res.send 200
 	]
 
 	controller.new = [
@@ -25,14 +26,40 @@ module.exports = (app,config,Days)->
 			res.render "days/new"
 	]
 
-	controller.create = [
-		#transform req.body
-		(req,res,next)->
-			req.body.links = _.compact req.body.links.split "\r\n"
-			req.tags = req.body.tags.split ','
-			delete req.body.tags
-			next()
+	formProcess = (req,res,next)->
+		return res.send 400, 'you can\'t do that with your account role' if req.user.student
+		req.body.links = _.compact req.body.links.split "\r\n"
+		req.tags = req.body.tags.split ','
+		delete req.body.tags
+		next()
 
+	controller.edit = [
+		(req,res,next)->
+			return res.send 400, 'you can\'t do that with your account role' if req.user.student
+
+		(req,res,next)->
+			res.render 'days/edit', {day:req.day}
+	]
+
+	controller.view = [
+		(req,res,next)->
+			res.render 'days/view', {day:req.day}
+	]
+
+	controller.update = [
+		formProcess,
+		(req,res,next)->
+			for k,v of req.body
+				req.day[k] = v
+			req.day.tag req.tags, (err,day)->
+				return next err if err?
+				day.save (err,day)->
+					return next err if err?
+					res.redirect '/days/' + day.id
+	]
+
+	controller.create = [
+		formProcess,
 		(req,res,next)->
 			# return console.log req.body
 			day = new Days req.body
@@ -40,7 +67,7 @@ module.exports = (app,config,Days)->
 				return next err if err?
 				day.save (err,day)->
 					return next err if err?
-					res.json day
+					res.redirect '/'
 	]
 
 	controller

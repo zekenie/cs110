@@ -20,9 +20,9 @@ module.exports = (CommentsSchema,tagHelper,dateFormatter,mdHelper)->
 		self = @
 
 		relations = {
-			hws:'hw'
-			days:'day'
-			users:'user'
+			Hws:'hw'
+			Days:'day'
+			Users:'user'
 		}
 
 		for plural,singular of relations
