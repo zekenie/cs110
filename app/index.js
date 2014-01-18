@@ -2,4 +2,4 @@
 require('coffee-script');
 var train = require('express-train');
 
-module.exports = train(process.cwd());
+module.exports = train(__dirname);

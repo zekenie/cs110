@@ -8,7 +8,6 @@
     "mongoose":"*",
     "source-map-support":"*",
     "coffee-script":"*",
-    "twilio":"*",
     "lodash":"*",
     "async":"*",
     "moment":"*",
@@ -16,7 +15,6 @@
     "passport":"*",
     "passport-facebook":"*",
     "connect-mongodb":"*",
-    "twilio-router":"*",
     "bower":"*"
   },
   "scripts":{
