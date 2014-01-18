@@ -19,7 +19,7 @@
   },
   "scripts":{
     "postinstall":"./node_modules/bower/bin/bower install",
-    "start": "train run"
+    "start": "node app.js"
   }
 
 }
