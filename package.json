@@ -19,7 +19,6 @@
     "twilio-router":"*",
     "bower":"*"
   },
-  "main": "./app/index.js",
   "scripts":{
     "postinstall":"./node_modules/bower/bin/bower install",
     "start": "train run"
