@@ -4,6 +4,11 @@
         "key":"myke3ey",
         "secret": "myse5cret"
     },
+    "fb":{
+    	"clientId":"{{FB_CLIENT_ID}}",
+    	"clientSecret":"{{FB_CLIENT_SECRET}}",
+    	"callbackUrl":"http://cs110.me/fb/cb"
+    },
     "mongoUri":"{{MONGOLAB_URI}}",
     "request_timeout":2200,
     "port":"{{PORT}}",
