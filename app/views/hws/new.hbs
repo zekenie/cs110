@@ -23,7 +23,7 @@
 		<label for="dayAssigned">Day Assigned</label>
 		<select class="form-control" name="dayAssigned">
 			{{#each daysHash}}
-				<option value="{{@key}}">{{this}}</option>
+				<option value="{{id}}">{{d}}</option>
 			{{/each}}
 		</select>
 	</div>
@@ -31,7 +31,7 @@
 		<label for="dayDue">Day Due</label>
 		<select class="form-control" name="dayDue">
 			{{#each daysHash}}
-				<option value="{{@key}}">{{this}}</option>
+				<option value="{{id}}">{{d}}</option>
 			{{/each}}
 		</select>
 	</div>

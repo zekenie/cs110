@@ -27,10 +27,10 @@ module.exports = (tagHelper,dateFormatter)->
 	DaysSchema.static 'getDaysList', (query,cb)->
 		@find query,(err,days)->
 			return cb err if err?
-			hash = {}
+			arr = []
 			for day in days
-				hash[day.id] = day.meetingAt
-			cb null, hash
+				arr.push {id:day.id,d:day.meetingAt}
+			cb null, arr
 
 
 	mongoose.model 'Days', DaysSchema
