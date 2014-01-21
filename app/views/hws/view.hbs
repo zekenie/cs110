@@ -1,7 +1,7 @@
 {{!< ../layouts/default}}<br/>
 <pre>{{> hwSummary}}</pre>
 
-<p>{{description}}</p>
+<p>{{{description}}}</p>
 
 <div class="page-header">
 	<h3>
@@ -18,7 +18,7 @@
 			{{/with}}
 		</span>
 		<div class="media-body">
-			{{{> issueSummary}}}
+			{{> issueSummary}}
 		</div>
 	</div>
 	{{/each}}
