@@ -15,7 +15,8 @@
     "passport":"*",
     "passport-facebook":"*",
     "connect-mongodb":"*",
-    "bower":"*"
+    "bower":"*",
+    "diff":"*"
   },
   "scripts":{
     "postinstall":"./node_modules/bower/bin/bower install",

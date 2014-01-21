@@ -57,5 +57,9 @@ module.exports = (Tags)->
 				tagDoc[self.constructor.modelName.toLowerCase()].pull self._id
 				tagDoc.save cb
 
+	# # function to call before removal of a doc
+	# fns.preRemove = (next)->
+
+
 	fns
 
