@@ -25,7 +25,7 @@ module.exports = (tagHelper,dateFormatter)->
 	DaysSchema.plugin dateFormatter.addon
 
 	DaysSchema.static 'getDaysList', (query,cb)->
-		@find(query).sort({meetingAt:-1}).exec (err,days)->
+		@find(query).sort({meetingAt:1}).exec (err,days)->
 			return cb err if err?
 			arr = []
 			for day in days
