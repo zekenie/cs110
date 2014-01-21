@@ -59,7 +59,7 @@ module.exports = (app,config,Users,Hws,Hw_submissions,Days,Issues,dateFormatter,
 				return next err if err?
 				hw.save (err,hw)->
 					return next err if err?
-					res.json hw
+					res.redirect '/hws'
 	]
 
 	controller.view = [

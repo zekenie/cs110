@@ -31,9 +31,27 @@
 					</div>
 					<div class="col-md-4">
 						<strong>Assigned</strong>
+						{{#if hwAssigned.length}}
+							<ul class="list-group">
+								{{#each hwAssigned}}
+									<li class="list-group-item"><a href="/hws/{{id}}">{{name}}</a></li>
+								{{/each}}
+							</ul>
+						{{else}}
+							<p>No HW assigned.</p>
+						{{/if}}
 					</div>
-					<div clas="col-md-4">
+					<div class="col-md-4">
 						<strong>Due</strong>
+						{{#if hwDue.length}}
+							<ul class="list-group">
+								{{#each hwDue}}
+									<li class="list-group-item"><a href="/hws/{{id}}">{{name}}</a></li>
+								{{/each}}
+							</ul>
+						{{else}}
+							<p>No HW due.</p>
+						{{/if}}
 					</div>
 				</div>
 				{{> tags}}

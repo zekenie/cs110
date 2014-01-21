@@ -6,8 +6,8 @@ module.exports = (dateFormatter,tagHelper,mdHelper)->
 	HwsSchema = new Schema {
 		name: {type:String}
 		description:{type:String,get:mdHelper.get}
-		dateAssigned: {type:Date}
-		dateDue: {type:Date}
+		dateAssigned: {type:Date,get:dateFormatter.get}
+		dateDue: {type:Date,get:dateFormatter.get}
 		dayAssigned: {type:Schema.Types.ObjectId, ref:"Days"}
 		dayDue: {type:Schema.Types.ObjectId, ref:"Days"}
 		issues: [{type:Schema.Types.ObjectId, ref:"Issues"}]
@@ -15,6 +15,18 @@ module.exports = (dateFormatter,tagHelper,mdHelper)->
 		hw_submissions: [{type:Schema.Types.ObjectId, ref:"Hw_submissions"}]
 		checklist: [{type:String}]
 	}
+
+	# assoc hws
+	HwsSchema.pre 'save',(next)->
+		console.log '************'
+		console.log @
+		return next() if not @isNew
+		@populate 'dayAssigned dayDue', (err,hw)->
+			hw.dayAssigned.hwAssigned.addToSet hw.id
+			hw.dayAssigned.save()
+			hw.dayDue.hwDue.addToSet hw.id
+			hw.dayDue.save()
+			next()
 
 	HwsSchema.pre 'save',(next)->
 		self = @
