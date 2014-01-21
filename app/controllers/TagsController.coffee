@@ -2,7 +2,7 @@ _ = require 'lodash'
 module.exports = (app,config,Tags)->
 	controller = {}
 	controller.load = (req,res,next,id)->
-		Tags.findById(id).populate('days hw terms issues').exec (err,tag)->
+		Tags.findById(id).populate('days hws terms issues').exec (err,tag)->
 			return next err if err?
 			return res.send 404 if not tag?
 			req.tag = tag
