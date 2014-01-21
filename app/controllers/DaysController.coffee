@@ -1,3 +1,5 @@
+_ = require 'lodash'
+
 module.exports = (app,config,Days)->
 	controller = {}
 	controller.load = (req,res,next,id)->
