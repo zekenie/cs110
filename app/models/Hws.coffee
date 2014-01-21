@@ -4,7 +4,7 @@ moment = require 'moment'
 
 module.exports = (dateFormatter,tagHelper,mdHelper)->
 	HwsSchema = new Schema {
-		name: {type:String}
+		name: {type:String,set:(str)->str.trim()}
 		description:{type:String,get:mdHelper.get}
 		dateAssigned: {type:Date,get:dateFormatter.get}
 		dateDue: {type:Date,get:dateFormatter.get}
