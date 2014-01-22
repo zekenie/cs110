@@ -4,8 +4,14 @@
 	<h1>All Users</h1>
 </div>
 
-<ul>
+<ul class="media-list">
 	{{#each users}}
-		<li><a href="/users/{{id}}">{{name}}</a></li>
+		<li class="media">
+			<span class="pull-left">{{> avatar}}</span>
+			<div class="media-body">
+				<a href="/users/{{id}}">{{name}}</a>
+				<p>{{role}}</p>
+			</div>
+		</li>
 	{{/each}}
 </ul>
