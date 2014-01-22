@@ -1,0 +1,11 @@
+{{!< ../layouts/default}}
+
+<div class="page-header">
+	<h1>All Users</h1>
+</div>
+
+<ul>
+	{{#each users}}
+		<li><a href="/users/{{id}}">{{name}}</a></li>
+	{{/each}}
+</ul>

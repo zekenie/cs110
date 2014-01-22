@@ -12,15 +12,18 @@ module.exports = (app,config,Users,tagHelper)->
 
 	controller.index = [
 		(req,res,next)->
-			res.render "index"
+			return next() if req.user.instructorOrTa
+			res.send 400
+		(req,res,next)->
+			Users.find {}, (err,users)->
+				return next err if err?
+				res.render "users/index", {users:users}
 
 	]
 
 	controller.delete = [
-		((req,res,next)->
-
+		(req,res,next)->
 			res.json {}
-		)
 	]
 
 	controller.view = [
