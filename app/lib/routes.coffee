@@ -66,11 +66,15 @@ module.exports = (app,DaysController,HwsController,UsersController,TermsControll
 
 	#--- Terms ---#
 
-	app.get '/terms/:termId',TermsController.view
-
 	app.get '/terms/new',TermsController.new
 
+	app.get '/terms/:termId/edit',TermsController.edit
+
+	app.get '/terms/:termId',TermsController.view
+
 	app.post '/terms',TermsController.create
+
+	app.get '/terms',TermsController.index
 
 	app.put '/terms/:termId',TermsController.update
 

@@ -1,0 +1,15 @@
+{{!< ../layouts/default}}
+<div class="page-header">
+	<h1>
+		{{term.name}}
+		<a href="/terms/{{term.id}}/edit" class="pull-right btn btn-success">Edit</a>
+	</h1>
+</div>
+
+<p>
+	{{#if term.description}}
+		{{{descriptionMd}}}
+	{{else}}
+		No Description.
+	{{/if}}
+</p>

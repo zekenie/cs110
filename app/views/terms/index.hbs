@@ -1,0 +1,9 @@
+{{!< ../layouts/default}}
+
+<div class="page-header">
+	<h1>Terms Wiki
+		<a class="btn btn-success pull-right" href="/terms/new">New Term</a>
+	</h1>
+</div>
+
+<pre><code>[{{#each terms}}{{#if @index}},{{/if}}"<a href="/terms/{{id}}">{{name}}</a>"{{/each}}]</code></pre>

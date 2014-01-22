@@ -2,7 +2,7 @@ mongoose = require 'mongoose'
 jsdiff = require 'diff'
 Schema = mongoose.Schema
 
-module.exports = (dateFormatter,tagHelper)->
+module.exports = (dateFormatter,tagHelper,mdHelper)->
 
 	ContributionsScema = new Schema {
 		user: {type:Schema.Types.ObjectId, ref:"Users"}
@@ -10,11 +10,18 @@ module.exports = (dateFormatter,tagHelper)->
 	}
 
 	TermsSchema = new Schema {
-		name: {type:String,set:(str)->str.trim()}
+		name: {
+			type:String
+			set:(str)->
+				str.trim().toLowerCase()
+		}
 		tags: [{type:Schema.Types.ObjectId, ref:"Tags"}]
 		description: {type:String}
 		contributions:[ContributionsScema]
 	}
+
+	TermsSchema.methods.getDescriptionMd = ->
+		mdHelper.get @description
 
 	TermsSchema.methods.changeDescription = (user,change)->
 		diff = jsdiff.diffChars @description, change
