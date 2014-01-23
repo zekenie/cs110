@@ -3,7 +3,7 @@ _ = require 'lodash'
 module.exports = (app,config,Days)->
 	controller = {}
 	controller.load = (req,res,next,id)->
-		Days.findById id, (err,day)->
+		Days.findById(id).populate("hwAssigned hwDue tags").exec (err,day)->
 			return next err if err?
 			return res.send 404 if not day?
 			req.day = day

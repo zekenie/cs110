@@ -1,0 +1,45 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		{{meetingAt}}
+		{{#if slided}}<small class="pull-right"><a href="{{slides}}">Slides</a></small>{{/if}}
+	</div>
+	<div class="panel-body">
+		<div class="row">
+			<div class="col-md-4">
+				<p>{{summary}}</p>
+				{{#if links.length}}
+					<ul class="list-group">
+						{{#each links}}
+							<li class="list-group-item"><a href="{{this}}" target="_blank">{{this}}</a></li>
+						{{/each}}
+					</ul>
+				{{/if}}
+			</div>
+			<div class="col-md-4">
+				<strong>Assigned</strong>
+				{{#if hwAssigned.length}}
+					<ul class="list-group">
+						{{#each hwAssigned}}
+							<li class="list-group-item"><a href="/hws/{{id}}">{{name}}</a></li>
+						{{/each}}
+					</ul>
+				{{else}}
+					<p>No HW assigned.</p>
+				{{/if}}
+			</div>
+			<div class="col-md-4">
+				<strong>Due</strong>
+				{{#if hwDue.length}}
+					<ul class="list-group">
+						{{#each hwDue}}
+							<li class="list-group-item"><a href="/hws/{{id}}">{{name}}</a></li>
+						{{/each}}
+					</ul>
+				{{else}}
+					<p>No HW due.</p>
+				{{/if}}
+			</div>
+		</div>
+		{{> tags}}
+	</div>
+</div>
