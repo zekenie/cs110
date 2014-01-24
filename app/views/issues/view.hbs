@@ -1,5 +1,16 @@
 {{!< ../layouts/default}}
 <br/>
+{{#if mine}}
+	{{#if open}}
+		<div>
+			<form method="post">
+				<input type="hidden" name="_method" value="put">
+				<input type="hidden" name="open" value="false">
+				<button type="submit" class="btn btn-danger pull-right">Close</button>
+			</form>
+		</div><br><br>
+	{{/if}}
+{{/if}}
 <div class="media">
 	<span class="pull-left">
 		{{#with user}}

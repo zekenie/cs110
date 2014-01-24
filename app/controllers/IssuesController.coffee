@@ -7,6 +7,7 @@ module.exports = (app,config,Issues)->
 		Issues.findById(id).populate('user day hw tags assignedTo comments.user').exec (err,issue)->
 			return next err if err?
 			return res.send 404 if not issue?
+			issue.mine = issue.user.equals req.user
 			req.issue = issue
 			next()
 
@@ -49,10 +50,11 @@ module.exports = (app,config,Issues)->
 	]
 
 	controller.update = [
-		((req,res,next)->
-
-			res.json {}
-		)
+		(req,res,next)->
+			for k,v of req.body
+				req.issue[k] = v
+			req.issue.save (err,issue)->
+				res.redirect '/issues/#{issue.id}'
 	]
 
 	controller.comment = [
