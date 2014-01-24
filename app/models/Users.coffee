@@ -38,6 +38,7 @@ module.exports = (dateFormatter)->
 
 
 
+
 	UsersSchema.virtual('name').get ->
 		"#{@first} #{@last}"
 

@@ -1,0 +1,8 @@
+<ul class="list-group">
+	{{#each this}}
+		<li class="list-group-item">
+			<a href="/hws/{{id}}">{{name}}</a>
+			<span class="instructorOrTa">({{hw_submissions.length}})</span>
+		</li>
+	{{/each}}
+</ul>

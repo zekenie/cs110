@@ -1,4 +1,5 @@
 _ = require 'lodash'
+mongoose = require 'mongoose'
 
 module.exports = (app,config,Days)->
 	controller = {}
@@ -9,9 +10,17 @@ module.exports = (app,config,Days)->
 			req.day = day
 			next()
 
+	countStudents = (req,res,next)->
+		mongoose.model('Users').count {role:'student'}, (err,studentCount)->
+			return next err if err?
+			app.locals.studentCount = studentCount
+			next()
+
 	controller.index = [
+		countStudents
 		(req,res,next)->
 			Days.find({}).sort('meetingAt').populate('hwDue hwAssigned issues tags').exec (err,days)->
+
 				res.render "days/index",{days:days}
 	]
 
@@ -44,6 +53,7 @@ module.exports = (app,config,Days)->
 	]
 
 	controller.view = [
+		countStudents
 		(req,res,next)->
 			res.render 'days/view', {day:req.day}
 	]

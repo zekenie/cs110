@@ -52,8 +52,8 @@ module.exports = (dateFormatter,tagHelper,mdHelper)->
 	HwsSchema.methods.removeTag = (tag,cb)->
 		tagHelper.removeTag.call @, tag,cb
 
-	HwsSchema.methods.getCompleteStudents = (cb)->
-		cb()
+	HwsSchema.methods.getCompleteStudents = (err,cb)->
+		mongoose.model('hw_submissions').find({hw:@id}).populate('user').exec cb
 
 	HwsSchema.methods.getIncompleteStudents = (cb)->
 		cb()
