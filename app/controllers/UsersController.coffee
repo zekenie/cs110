@@ -4,7 +4,8 @@ module.exports = (app,config,Users,tagHelper)->
 		Users.findById(id).populate('issues issueContributions').exec (err,user)->
 			return next err if err?
 			return res.send 404 if not user?
-			user = user.toObject {getters:true, virtuals:true}
+			# user = user.toObject {getters:true, virtuals:true}
+			req.user.mine = req.user.equals user
 			tagHelper.deepPopulate 'Issues','issue',user,(err,user)->
 				return next err if err?
 				req.reqUser = user
@@ -19,6 +20,18 @@ module.exports = (app,config,Users,tagHelper)->
 				return next err if err?
 				res.render "users/index", {users:users}
 
+	]
+
+	controller.update = [
+		(req,res,next)->
+			return next() if req.user.instructorOrTa or req.user.mine
+			res.send 400
+		(req,res,next)->
+			for k,v of req.body
+				req.reqUser[k] = v
+			req.reqUser.save (err,user)->
+				return next err if err?
+				res.redirect "/users/#{user.id}"
 	]
 
 	controller.delete = [

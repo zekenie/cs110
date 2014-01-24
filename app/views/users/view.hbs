@@ -7,6 +7,21 @@
 	</h2>
 </div>
 
+{{#if loggedInUser.mine}}
+	<form class="form-inline" role="form" method="post" action="/users/{{id}}">
+		<input type="hidden" name="_method" value="put">
+		<div class="form-group">
+			<label class="sr-only" for="email">Notification Email</label>
+			<input type="email" class="form-control" name="email" placeholder="Notification Email" value="{{email}}">
+		</div>
+		<div class="form-group">
+			<label class="sr-only" for="phone">Notification Phone</label>
+			<input type="tel" class="form-control" id="phone" name="phone" placeholder="Notification Phone" value="{{phone}}">
+		</div>
+		<button type="submit" class="btn btn-default">Update</button>
+	</form>
+{{/if}}
+
 <div class="row">
 	<div class="col-md-6">
 		<div class="page-header">
@@ -23,3 +38,9 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	$("#phone").on('keyup',function() {
+		this.value = this.value.replace(/[^0-9.]/g, "");
+	});
+</script>

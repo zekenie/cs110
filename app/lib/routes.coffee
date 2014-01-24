@@ -58,6 +58,8 @@ module.exports = (app,DaysController,HwsController,UsersController,TermsControll
 
 	app.get '/users',UsersController.index
 
+	app.put '/users/:userId',UsersController.update
+
 	app.del '/users/:userId',UsersController.delete
 
 	app.get '/users/:userId',UsersController.view
