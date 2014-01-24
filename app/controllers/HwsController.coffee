@@ -21,7 +21,7 @@ module.exports = (app,config,Users,Hws,Hw_submissions,Days,Issues,dateFormatter,
 
 	controller.index = [
 		(req,res,next)->
-			Hws.find({}).populate('tags').exec (err,hws)->
+			Hws.find({}).populate('tags').sort('dateDue').exec (err,hws)->
 				return next err if err?
 				hws = hws.map hwTransform
 				res.render "hws/index",{hws:hws}
