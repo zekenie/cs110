@@ -89,7 +89,7 @@
     <a class="btn" id="simple-menu" href="#sidr">
         <span class="glyphicon glyphicon-align-justify"></span>
     </a>
-    <div id="sidr">
+    <div class="sidr">
         <ul>
             <li><a href="/">Schedule</a></li>
             <li><a href="/issues">Issues</a></li>
@@ -118,11 +118,14 @@
     {{/if}}
 
     $(".avatar").tooltip({
-            placement:"bottom"
-        });
-        $(document).ready(function() {
-          $('#simple-menu').sidr();
-        });
+        placement:"bottom"
+    });
+    $(document).ready(function() {
+      $('#simple-menu').sidr({
+        name:"nav",
+        source:".sidr"
+      });
+    });
 
     </script>
     <script src="http://www.berriart.com/sidr/javascripts/min.js"></script>
