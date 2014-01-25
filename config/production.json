@@ -12,5 +12,9 @@
     "mongoUri":"{{MONGOLAB_URI}}",
     "request_timeout":2200,
     "port":"{{PORT}}",
-    "character_encoding":"utf-8"
+    "character_encoding":"utf-8",
+    "twilio":{
+        "sid":"{{TWILIO_SID}}",
+        "authToken":"{{TWILIO_AUTH_TOKEN}}"
+    }
 }

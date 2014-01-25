@@ -16,7 +16,9 @@
     "passport-facebook":"*",
     "connect-mongodb":"*",
     "bower":"*",
-    "diff":"*"
+    "diff":"*",
+    "newrelic":"*",
+    "twilio":"*"
   },
   "scripts":{
     "postinstall":"./node_modules/bower/bin/bower install",
