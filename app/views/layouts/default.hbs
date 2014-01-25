@@ -105,6 +105,9 @@
 	<div class="container">
         <h1>CS-110: Hacking Class</h1>
 		<div id="main">
+            {{#each messages}}
+              <div style="margin-top: 40px; margin-bottom:0px;" class="alert alert-{{status}}">{{msg}}</div>
+            {{/each}}
             {{{body}}}
         </div>
 	</div>

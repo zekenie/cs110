@@ -31,6 +31,8 @@ module.exports = (app,config,Users,tagHelper)->
 				req.reqUser[k] = v
 			req.reqUser.save (err,user)->
 				return next err if err?
+				# req.session.messages = ['Done!']
+				req.flash 'Done!'
 				res.redirect "/users/#{user.id}"
 	]
 
@@ -45,6 +47,8 @@ module.exports = (app,config,Users,tagHelper)->
 			res.send 400, "You're not authorized to see that profile."
 
 		(req,res,next)->
+			console.log app.locals
+
 			res.render "users/view",req.reqUser
 
 	]

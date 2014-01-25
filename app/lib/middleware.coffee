@@ -1,13 +1,3 @@
-# first: {type:String}
-# last: {type:String}
-# role: {type:String}
-# fbData: {type:Schema.Types.Mixed}
-# hw_submissions: [{type:Schema.Types.ObjectId, ref:"Hw_submissions"}]
-# issues: [{type:Schema.Types.ObjectId, ref:"Issues"}]
-# email: {type:String}
-# phone: {type:String}
-# createdAt: {type:Date}
-
 express = require "express"
 mongoose = require 'mongoose'
 MongoStore = require 'connect-mongodb'
@@ -36,6 +26,11 @@ module.exports = (app,config,Users) ->
     app.use express.static( app.get "public" )
     app.use express.cookieParser()
     app.use session_middleware
+    app.use (req,res,next)->
+        req.flash = (msg,status)->
+            status = status or 'info'
+            req.session.messages.push {msg:msg,status:status}
+        next()
     app.use express.urlencoded()
     app.use express.json()
     app.use express.methodOverride()
@@ -43,6 +38,11 @@ module.exports = (app,config,Users) ->
     app.use passport.initialize()
 
     app.use passport.session()
+
+    app.use (req,res,next)->
+        res.locals.messages = req.session.messages
+        req.session.messages = []
+        next()
 
     app.use app.router
     app.use (req, res, next) ->
