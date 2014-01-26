@@ -18,7 +18,8 @@
     "bower":"*",
     "diff":"*",
     "newrelic":"*",
-    "twilio":"*"
+    "twilio":"*",
+    "postmark":"*"
   },
   "scripts":{
     "postinstall":"./node_modules/bower/bin/bower install",

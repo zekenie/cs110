@@ -1,11 +1,10 @@
 mongoose = require 'mongoose'
-pagedown = require 'pagedown'
 Schema = mongoose.Schema
 
-module.exports = (dateFormatter)->
+module.exports = (dateFormatter,mdHelper)->
 	schema = new Schema {
 		user: {type:Schema.Types.ObjectId, ref:"Users"}
-		comment: {type:String,get:(comment)-> pagedown.getSanitizingConverter().makeHtml comment }
+		comment: {type:String,get:mdHelper.get }
 	}
 
 	schema.plugin dateFormatter.addon

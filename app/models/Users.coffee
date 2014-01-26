@@ -1,7 +1,10 @@
 mongoose = require 'mongoose'
 Schema = mongoose.Schema
 
-module.exports = (dateFormatter)->
+module.exports = (dateFormatter,config)->
+	twilio = require('twilio') config.twilio.sid, config.twilio.authToken
+	postmark = require('postmark') config.postmark
+
 	UsersSchema = new Schema {
 		first: {type:String}
 		last: {type:String}
@@ -14,6 +17,23 @@ module.exports = (dateFormatter)->
 		phone: {type:String}
 	}
 
+
+	UsersSchema.methods.sms = (msg,cb)->
+		return cb null, {message:'No phone number'} unless @phone?
+		twilio.sendMessage {
+			to:@phone
+			from:config.twilio.phone,
+			body: msg
+		}, cb
+
+	UsersSchema.methods.sendEmail = (subject,msg,cb)->
+		return cb null, {message:'No email'} unless @email?
+		postmark.send {
+			From:"zanCS@hampshire.edu"
+			To:@email
+			Subject:subject
+			TextBody:msg
+		}, cb
 
 
 	UsersSchema.methods.getHwSubmissions = (cb)->
