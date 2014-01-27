@@ -54,6 +54,7 @@ module.exports = (dateFormatter,config,NotificationBlacklists)->
 
 	UsersSchema.methods.notify = (text,table,id,cb)->
 		path = "#{table}/#{id}"
+		self = @
 		NotificationBlacklists.findOne {
 			user:@id,
 			table:table,
@@ -61,13 +62,13 @@ module.exports = (dateFormatter,config,NotificationBlacklists)->
 		}, (err,notificationBlacklist) ->
 			return cb err if err?
 			return cb null, {message:'User on blacklist'} if notificationBlacklist?
-			@notifications = [] unless @notifications?
-			@notifications.push {
+			self.notifications = [] unless self.notifications?
+			self.notifications.push {
 				text:text
 				createdAt:new Date()
 				path:path
 			}
-			@save (err,user)->
+			self.save (err,user)->
 				return cb err if err?
 				user.sms text, (err,twilioStatus)->
 					return cb err if err?
