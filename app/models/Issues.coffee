@@ -1,8 +1,10 @@
 mongoose = require 'mongoose'
 pagedown = require 'pagedown'
 Schema = mongoose.Schema
+_ = require 'lodash'
+async = require 'async'
 
-module.exports = (CommentsSchema,tagHelper,dateFormatter,mdHelper)->
+module.exports = (CommentsSchema,tagHelper,dateFormatter,mdHelper,Users)->
 	IssuesSchema = new Schema {
 		title: {type:String}
 		user: {type:Schema.Types.ObjectId, ref:"Users"}
@@ -33,6 +35,24 @@ module.exports = (CommentsSchema,tagHelper,dateFormatter,mdHelper)->
 					doc.save()
 
 		next()
+
+	IssuesSchema.methods.notify = (omit,cb)->
+		self = @
+		toNotify = [@user.id or @user.toString()]
+		omit = omit.toString()
+		for comment in @comments
+			toNotify.push comment.user.id.toString() or comment.user.toString()
+		# console.log omit
+		# toNotify = _.uniq toNotify
+		# console.log toNotify
+		# toNotify = _.without omit if omit?
+		console.log toNotify
+		toRun = []
+		for id in toNotify
+			console.log id
+			toRun.push (callback)->
+				Users.findByIdAndNotify id, "Someone has commented on '#{self.title}'","Issues",self.id,callback
+		async.series toRun, cb
 
 	IssuesSchema.methods.tag = (tags,cb)->
 		tagHelper.tag.call @, tags,cb

@@ -106,12 +106,22 @@
         <h1>CS-110: Hacking Class</h1>
 		<div id="main">
             {{#each messages}}
-              <div style="margin-top: 40px; margin-bottom:0px;" class="alert alert-{{status}}">{{msg}}</div>
+              <div style="margin-top: 20px; margin-bottom:0px;" class="alert alert-{{status}}">{{msg}}</div>
             {{/each}}
+            {{#if loggedInUser.unreadNotifications.length}}
+              <div style="margin-top: 20px; margin-bottom:0px;" class="alert alert-warning"><a href="/notifications"><strong>You have {{loggedInUser.unreadNotifications.length}} unread notifications.</strong></a></div>
+            {{/if}}
             {{{body}}}
         </div>
 	</div>
     <script>
+
+    {{#if loggedInUser.unreadNotifications.length}}
+      var favicon=new Favico({
+          animation:'slide'
+      });
+      favicon.badge({{loggedInUser.unreadNotifications.length}});
+    {{/if}}
 
     {{#if loggedInUser.student}}
       $(".instructorOrTa").hide();

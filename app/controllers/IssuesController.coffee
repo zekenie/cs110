@@ -63,11 +63,15 @@ module.exports = (app,config,Issues)->
 			req.body.user = req.user._id
 			req.issue.comments.push req.body
 			req.issue.save (err,issue)->
-				res.redirect '/issues/' + issue.id
-				# if this isn't the users issues, add it to their issue contribution
-				if req.user._id isnt req.issue.user._id
-					req.user.issueContributions.push req.issue._id
-					req.user.save()
+				return next err if err?
+				issue.notify req.user._id, (err,notifyRes)->
+					return next err if err?
+					res.redirect '/issues/' + issue.id
+
+					# if this isn't the users issues, add it to their issue contribution
+					if req.user._id isnt req.issue.user._id
+						req.user.issueContributions.push req.issue._id
+						req.user.save()
 	]
 
 	controller

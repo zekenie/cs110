@@ -1,0 +1,23 @@
+{{!< ../layouts/default}}
+<div class="page-header">
+	<h1>Notifications</h1>
+</div>
+{{#if user.notifications.length}}
+	<div class="list-group">
+		{{#each user.notifications}}
+			<a href="{{path}}" class="list-group-item">
+				<h4>{{text}}</h4>
+				{{#unless seen}}<span class="pull-right label label-primary">NEW</span>{{/unless}}
+				<p>{{createdAt}}</p>
+			</a>
+		{{/each}}
+	</div>
+{{/if}}
+
+<script>
+	//this isn't ideal, but it has to be this way for annoying reasons to do with async rendering of templates
+	$.ajax({
+		url:'/clearNotifications',
+		method:'POST'
+	});
+</script>

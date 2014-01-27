@@ -1,9 +1,22 @@
 mongoose = require 'mongoose'
 Schema = mongoose.Schema
 
-module.exports = (dateFormatter,config)->
+module.exports = (dateFormatter,config,NotificationBlacklists)->
 	twilio = require('twilio') config.twilio.sid, config.twilio.authToken
 	postmark = require('postmark') config.postmark
+
+	NotificationsSchema = new Schema {
+		text:String
+		seen:{type:Boolean,default:false}
+		seenAt:Date
+		path:String
+		createdAt:{type:Date,get:dateFormatter.get}
+	}
+
+	SessionsSchema = new Schema {
+		userAgent:{}
+		ip:String
+	}
 
 	UsersSchema = new Schema {
 		first: {type:String}
@@ -15,8 +28,12 @@ module.exports = (dateFormatter,config)->
 		issueContributions: [{type:Schema.Types.ObjectId, ref:"Issues"}]
 		email: {type:String}
 		phone: {type:String}
+		notifications:[NotificationsSchema]
 	}
 
+	UsersSchema.virtual('unreadNotifications').get ->
+		@notifications.filter (notification)->
+			not notification.seen
 
 	UsersSchema.methods.sms = (msg,cb)->
 		return cb null, {message:'No phone number'} unless @phone?
@@ -34,6 +51,43 @@ module.exports = (dateFormatter,config)->
 			Subject:subject
 			TextBody:msg
 		}, cb
+
+	UsersSchema.methods.notify = (text,table,id,cb)->
+		path = "#{table}/#{id}"
+		NotificationBlacklists.findOne {
+			user:@id,
+			table:table,
+			foreignId:id
+		}, (err,notificationBlacklist) ->
+			return cb err if err?
+			return cb null, {message:'User on blacklist'} if notificationBlacklist?
+			@notifications.push {
+				text:text
+				createdAt:new Date()
+				path:path
+			}
+			@save (err,user)->
+				return cb err if err?
+				user.sms text, (err,twilioStatus)->
+					return cb err if err?
+					user.sendEmail "CS110 Notification", text + "\n" + path, (err,emailStatus)->
+						cb err, {email:emailStatus, twilio:twilioStatus, user:user}
+
+	UsersSchema.statics.findByIdAndNotify = (idOrDoc,text,table,id,cb)->
+		console.log arguments
+		# call the notify method, if a doc is passed
+		return idOrDoc.notify text,table,id,cb if idOrDoc.notify?
+		if idOrDoc.match(/^[0-9a-fA-F]{24}$/)
+			@findById idOrDoc, (err,user)->
+				return cb err if err?
+				user.notify text,table,id,cb
+		else
+			cb null, {message:'strangeId'}
+
+	UsersSchema.methods.viewNotifications = (cb)->
+		for notification in @notifications
+			notification.seen = true
+		@save cb
 
 
 	UsersSchema.methods.getHwSubmissions = (cb)->
@@ -75,6 +129,8 @@ module.exports = (dateFormatter,config)->
 		@role is 'ta'
 
 	UsersSchema.plugin dateFormatter.addon
+	SessionsSchema.plugin dateFormatter.addon
+
 
 
 	mongoose.model 'Users', UsersSchema

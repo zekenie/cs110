@@ -21,6 +21,8 @@ module.exports = (app,config,Users) ->
     mongoose.connect config.mongoUri
 
     error_middleware = express.errorHandler errorConfig
+    app.use express.favicon(process.cwd() + "/app/public/favicon.ico")
+
     app.use express.logger()
 
     app.use express.static( app.get "public" )

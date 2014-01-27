@@ -6,7 +6,8 @@
     "select2":"*",
     "bootstrap-markdown":"*",
     "markdown":"*",
-    "to-markdown":"*"
+    "to-markdown":"*",
+    "favico.js":"*"
   },
   "ignore": [
     "**/.*",

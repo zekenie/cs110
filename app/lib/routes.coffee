@@ -1,5 +1,5 @@
 passport = require 'passport'
-module.exports = (app,DaysController,HwsController,UsersController,TermsController,IssuesController,TagsController)->
+module.exports = (app,DaysController,HwsController,UsersController,TermsController,IssuesController,TagsController,NotificationBlacklistsController)->
 
 	auth = (req,res,next)->
 		if req.isAuthenticated()
@@ -64,7 +64,19 @@ module.exports = (app,DaysController,HwsController,UsersController,TermsControll
 
 	app.get '/users/:userId',UsersController.view
 
+	app.get '/notifications',UsersController.notifications
+
+	app.post '/clearNotifications',UsersController.clearNotifications
+
 	app.param 'userId',UsersController.load
+
+	#--- Notification Blacklist ---#
+
+	app.post '/notificationBlacklists', NotificationBlacklistsController.create
+
+	app.del '/notificationBlacklists/:notificationBlacklistId', NotificationBlacklistsController.delete
+
+	app.param 'notificationBlacklistId',NotificationBlacklistsController.load
 
 	#--- Terms ---#
 
@@ -81,6 +93,7 @@ module.exports = (app,DaysController,HwsController,UsersController,TermsControll
 	app.put '/terms/:termId',TermsController.update
 
 	app.param 'termId',TermsController.load
+
 
 	#--- Issues ---#
 

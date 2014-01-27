@@ -4,7 +4,6 @@ module.exports = (app,config,Users,tagHelper)->
 		Users.findById(id).populate('issues issueContributions').exec (err,user)->
 			return next err if err?
 			return res.send 404 if not user?
-			# user = user.toObject {getters:true, virtuals:true}
 			req.user.mine = req.user.equals user
 			tagHelper.deepPopulate 'Issues','issue',user,(err,user)->
 				return next err if err?
@@ -21,6 +20,18 @@ module.exports = (app,config,Users,tagHelper)->
 				res.render "users/index", {users:users}
 
 	]
+
+	controller.notifications = [
+		(req,res,next)->
+			req.user.notifications.reverse()
+			res.render 'users/notifications', {user:req.user}
+	]
+
+	controller.clearNotifications = (req,res,next)->
+		req.user.viewNotifications (err)->
+			return next err if err?
+			res.send 200
+
 
 	controller.update = [
 		(req,res,next)->
