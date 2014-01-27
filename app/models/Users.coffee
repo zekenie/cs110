@@ -61,6 +61,7 @@ module.exports = (dateFormatter,config,NotificationBlacklists)->
 		}, (err,notificationBlacklist) ->
 			return cb err if err?
 			return cb null, {message:'User on blacklist'} if notificationBlacklist?
+			@notifications = [] unless @notifications?
 			@notifications.push {
 				text:text
 				createdAt:new Date()
