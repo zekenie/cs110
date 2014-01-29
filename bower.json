@@ -7,7 +7,8 @@
     "bootstrap-markdown":"*",
     "markdown":"*",
     "to-markdown":"*",
-    "favico.js":"*"
+    "favico.js":"*",
+    "jpanelmenu":"*"
   },
   "ignore": [
     "**/.*",
