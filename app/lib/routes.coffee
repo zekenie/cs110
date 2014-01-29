@@ -1,5 +1,5 @@
 passport = require 'passport'
-module.exports = (app,DaysController,HwsController,UsersController,TermsController,IssuesController,TagsController,NotificationBlacklistsController)->
+module.exports = (app,DaysController,HwsController,UsersController,TermsController,IssuesController,TagsController,NotificationBlacklistsController,QuestionsController)->
 
 	auth = (req,res,next)->
 		if req.isAuthenticated()
@@ -118,3 +118,9 @@ module.exports = (app,DaysController,HwsController,UsersController,TermsControll
 	app.get '/tags/:tagId',TagsController.view
 
 	app.param 'tagId',TagsController.load
+
+	#--- Questions ---#
+
+	app.get '/Questions',QuestionsController.index
+
+	app.post '/sendQuestion',QuestionsController.recieve
