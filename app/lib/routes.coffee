@@ -56,6 +56,8 @@ module.exports = (app,DaysController,HwsController,UsersController,TermsControll
 
 	#--- Users ---#
 
+	app.get '/users/random', UsersController.random
+
 	app.get '/users',UsersController.index
 
 	app.put '/users/:userId',UsersController.update

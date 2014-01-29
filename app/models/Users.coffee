@@ -75,6 +75,7 @@ module.exports = (dateFormatter,config,NotificationBlacklists)->
 					user.sendEmail "CS110 Notification", text + "\n" + path, (err,emailStatus)->
 						cb err, {email:emailStatus, twilio:twilioStatus, user:user}
 
+
 	UsersSchema.statics.findByIdAndNotify = (idOrDoc,text,table,id,cb)->
 		if not cb?
 			cb = -> console.log '**********************'
@@ -82,6 +83,12 @@ module.exports = (dateFormatter,config,NotificationBlacklists)->
 		@findById idOrDoc, (err,user)->
 			return cb err if err?
 			user.notify text,table,id,cb
+
+	UsersSchema.statics.random = (cb)->
+		self = @
+		@count {}, (err,num)->
+			num = Math.floor(Math.random()*num)
+			self.findOne({}).skip(num).exec cb
 
 	UsersSchema.methods.viewNotifications = (cb)->
 		for notification in @notifications
