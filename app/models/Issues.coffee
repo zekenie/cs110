@@ -38,21 +38,18 @@ module.exports = (CommentsSchema,tagHelper,dateFormatter,mdHelper,Users)->
 
 	IssuesSchema.methods.notify = (omit,cb)->
 		self = @
-		toNotify = [@user.id or @user.toString()]
-		omit = omit.toString()
-		for comment in @comments
-			toNotify.push comment.user.id.toString() or comment.user.toString()
-		# console.log omit
-		# toNotify = _.uniq toNotify
-		# console.log toNotify
-		# toNotify = _.without omit if omit?
-		console.log toNotify
-		toRun = []
-		for id in toNotify
-			console.log id
-			toRun.push (callback)->
-				Users.findByIdAndNotify id, "Someone has commented on '#{self.title}'","Issues",self.id,callback
-		async.series toRun, cb
+		str = "Someone has commented on '#{@title}'"
+		user = @user.id or @user
+		user = user.toString()
+		alreadyNotified = [user,omit.toString()]
+		# idOrDoc,text,table,id,cb
+		Users.findByIdAndNotify user,str,'Issues',@id, (err,status)->
+			for comment in self.comments
+				if not _.contains alreadyNotified, comment.user.toString()
+					alreadyNotified.push comment.user.toString()
+					Users.findByIdAndNotify comment.user.toString(),str,'Issues',self.id
+			cb(err,status)
+
 
 	IssuesSchema.methods.tag = (tags,cb)->
 		tagHelper.tag.call @, tags,cb

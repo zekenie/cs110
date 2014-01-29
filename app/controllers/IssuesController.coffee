@@ -13,7 +13,6 @@ module.exports = (app,config,Issues)->
 
 	controller.index = [
 		(req,res,next)->
-			console.log req.query
 			req.query.open = req.query.open or true
 			Issues.find(req.query).populate('user day hw tags assignedTo').exec (err,issues)->
 				return next err if err?

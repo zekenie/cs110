@@ -1,12 +1,11 @@
 <html>
 <head>
     <title>{{title}}</title>
-<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
     {{> css}}
     <style>
     	html{height:100%;}
         body{
-
           height:100%;
           background: #f7fbfc;
           background: -moz-radial-gradient(center, ellipse cover,  #f7fbfc 0%, #add9e4 100%);
@@ -16,12 +15,10 @@
           background: -ms-radial-gradient(center, ellipse cover,  #f7fbfc 0%,#add9e4 100%);
           background: radial-gradient(ellipse at center,  #f7fbfc 0%,#add9e4 100%);
           filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7fbfc', endColorstr='#add9e4',GradientType=1 );
-
         }
         .jPanelMenu-panel{
           background:none!important;
         }
-
         .menu-trigger{
           color:black;
           font-size:1.4em;
@@ -46,10 +43,7 @@
           -moz-transform: rotate(45deg);
           -webkit-transform: rotate(45deg);
           /* shadow */
-
-
         }
-
         .instructor{
             background-color: #aa0000;
         }
@@ -61,7 +55,6 @@
         .student{
             background-color: #5cb85c;
         }
-
         .ribbon a {
             width:170px;
           /*border: 1px solid #faa;*/
@@ -81,12 +74,9 @@
         .error{
           color:red;
         }
-
-
     </style>
     <link rel="stylesheet" href="/jPM-skin.css">
     {{> scripts}}
-
 </head>
 <body>
     <div class="ribbon {{loggedInUser.role}}">
@@ -138,14 +128,6 @@
     $(".avatar").tooltip({
         placement:"bottom"
     });
-    // $(document).ready(function() {
-      // $('#simple-menu').sidr({
-      //   name:"nav",
-      //   source:".sidr"
-      // });
-    // });
-
     </script>
-    <!-- // <script src="http://www.berriart.com/sidr/javascripts/min.js"></script> -->
 </body>
 </html>

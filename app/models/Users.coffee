@@ -76,15 +76,12 @@ module.exports = (dateFormatter,config,NotificationBlacklists)->
 						cb err, {email:emailStatus, twilio:twilioStatus, user:user}
 
 	UsersSchema.statics.findByIdAndNotify = (idOrDoc,text,table,id,cb)->
-		console.log arguments
-		# call the notify method, if a doc is passed
+		if not cb?
+			cb = -> console.log '**********************'
 		return idOrDoc.notify text,table,id,cb if idOrDoc.notify?
-		if idOrDoc.match(/^[0-9a-fA-F]{24}$/)
-			@findById idOrDoc, (err,user)->
-				return cb err if err?
-				user.notify text,table,id,cb
-		else
-			cb null, {message:'strangeId'}
+		@findById idOrDoc, (err,user)->
+			return cb err if err?
+			user.notify text,table,id,cb
 
 	UsersSchema.methods.viewNotifications = (cb)->
 		for notification in @notifications
