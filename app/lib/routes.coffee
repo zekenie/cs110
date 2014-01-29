@@ -123,4 +123,3 @@ module.exports = (app,DaysController,HwsController,UsersController,TermsControll
 
 	app.get '/Questions',QuestionsController.index
 
-	app.post '/sendQuestion',QuestionsController.recieve

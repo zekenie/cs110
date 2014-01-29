@@ -8,19 +8,29 @@ module.exports = (app,config,server)->
         socket.emit 'getQuestions', questions
         socket.on 'addQuestion', (question)->
             questions.push(question)
-            socket.emit 'getQuestions', questions
-            socket.broadcast.emit 'getQuestions', questions
             console.log 'server has these questions: ' + questions
+            socket.broadcast.emit 'getQuestions', questions
+
+    deleteQuestion = ()->
+        questions.splice 0, 1
+        console.log 'questions now: ' + questions
+        io.sockets.emit 'deleteQuestion', questions
+        console.log 'delete'
+
+    setInterval(()->
+            if questions.length > 0
+                deleteQuestion()
+            else 
+                console.log('all deleted')
+        , 10000)
+
+
+
 
     controller.index = [
         (req, res)->
             res.render "Questions",{title:"hello"}
-    ]
-    controller.recieve = [
-        (req, res)->
-            
-    ]
 
-    controller.get = []
+    ]
     controller
 
