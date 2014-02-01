@@ -1,22 +1,11 @@
 $(function(){
     var socket = io.connect();
-    var self = this;
     var questions = [];
-    var goodreverse = function(a) {
-        var temp = [];
-        var len = a.length;
-        for (var i = (len - 1); i !== 0; i--) {
-            temp.push(a[i]);
-        }
-        return temp;
-    }
     var generateQuestions = function(){
         $('#questionsdisplay').html('');
         console.log('genreating questions: '+ questions);
-        correctDisplay = goodreverse(questions)
-        correctDisplay.forEach(function(entry){
-            $('#questionsdisplay').append('<pre>' + entry + '</pre>' + '<br>');
-        
+        questions.forEach(function(entry){
+            $('#questionsdisplay').prepend('<pre>' + entry + '</pre>');
         });
     }
     var addQuestion =function(question){

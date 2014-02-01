@@ -18,10 +18,7 @@ module.exports = (app,config,server)->
         console.log 'delete'
 
     setInterval(()->
-            if questions.length > 0
-                deleteQuestion()
-            else 
-                console.log('all deleted')
+            deleteQuestion()
         , 10000)
 
 
