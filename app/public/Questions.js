@@ -3,7 +3,6 @@ $(function(){
     var questions = [];
     var generateQuestions = function(){
         $('#questionsdisplay').html('');
-        console.log('genreating questions: '+ questions);
         questions.forEach(function(entry){
             $('#questionsdisplay').prepend('<pre>' + entry + '</pre>');
         });
