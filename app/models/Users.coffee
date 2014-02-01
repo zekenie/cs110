@@ -1,5 +1,7 @@
 mongoose = require 'mongoose'
 Schema = mongoose.Schema
+async = require 'async'
+_ = require 'lodash'
 
 module.exports = (dateFormatter,config,NotificationBlacklists)->
 	twilio = require('twilio') config.twilio.sid, config.twilio.authToken
@@ -53,7 +55,10 @@ module.exports = (dateFormatter,config,NotificationBlacklists)->
 		}, cb
 
 	UsersSchema.methods.notify = (text,table,id,cb)->
+		if not cb?
+			cb = -> console.log '**********************'
 		path = "#{table}/#{id}"
+		self = @
 		NotificationBlacklists.findOne {
 			user:@id,
 			table:table,
@@ -61,28 +66,50 @@ module.exports = (dateFormatter,config,NotificationBlacklists)->
 		}, (err,notificationBlacklist) ->
 			return cb err if err?
 			return cb null, {message:'User on blacklist'} if notificationBlacklist?
-			@notifications.push {
+			self.notifications = [] unless self.notifications?
+			self.notifications.push {
 				text:text
 				createdAt:new Date()
 				path:path
 			}
-			@save (err,user)->
+			self.save (err,user)->
 				return cb err if err?
 				user.sms text, (err,twilioStatus)->
 					return cb err if err?
 					user.sendEmail "CS110 Notification", text + "\n" + path, (err,emailStatus)->
 						cb err, {email:emailStatus, twilio:twilioStatus, user:user}
 
+
 	UsersSchema.statics.findByIdAndNotify = (idOrDoc,text,table,id,cb)->
-		console.log arguments
-		# call the notify method, if a doc is passed
+		if not cb?
+			cb = -> console.log '**********************'
 		return idOrDoc.notify text,table,id,cb if idOrDoc.notify?
-		if idOrDoc.match(/^[0-9a-fA-F]{24}$/)
-			@findById idOrDoc, (err,user)->
-				return cb err if err?
-				user.notify text,table,id,cb
-		else
-			cb null, {message:'strangeId'}
+		@findById idOrDoc, (err,user)->
+			return cb err if err?
+			user.notify text,table,id,cb
+
+	UsersSchema.statics.notifyMany = (query,text,table,id,cb)->
+		notificationWrappers = []
+		@find query, (err,users)->
+			return cb err if err?
+			return cb null,{message:'no records found'} unless users?
+			cb err,users
+			_.invoke users,'notify',text,table,id
+
+	UsersSchema.statics.notifyByIds = (ids,text,table,id,cb)->
+		console.log ids
+		ids = ids.map (_id) -> _id.toString()
+		ids = _.uniq ids
+		notificationWrappers = []
+		@notifyMany {'_id':{$in:ids}},text,table,id,cb
+
+
+
+	UsersSchema.statics.random = (cb)->
+		self = @
+		@count {}, (err,num)->
+			num = Math.floor(Math.random()*num)
+			self.findOne({}).skip(num).exec cb
 
 	UsersSchema.methods.viewNotifications = (cb)->
 		for notification in @notifications

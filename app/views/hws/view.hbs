@@ -28,10 +28,9 @@
 
 {{#if loggedInUser.student}}
 	{{#if loggedInUser.submission}}
-		<div class="page-header">
-			<h3>Your submission</h3>
-		</div>
-		<p>{{{loggedInUser.submission.text}}}</p>
+		{{#with loggedInUser.submission}}
+			{{> hwSubmission}}
+		{{/with}}
 	{{else}}
 		<div class="page-header">
 			<h3>Submit</h3>

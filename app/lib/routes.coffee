@@ -1,5 +1,9 @@
 passport = require 'passport'
+<<<<<<< HEAD
 module.exports = (app,DaysController,HwsController,UsersController,TermsController,IssuesController,TagsController,NotificationBlacklistsController,QuestionsController)->
+=======
+module.exports = (app,DaysController,HwsController,Hw_submissionsController,UsersController,TermsController,IssuesController,TagsController,NotificationBlacklistsController)->
+>>>>>>> be593381cf2ab3857e6d57d71bfa87de88ecbf7f
 
 	auth = (req,res,next)->
 		if req.isAuthenticated()
@@ -54,7 +58,17 @@ module.exports = (app,DaysController,HwsController,UsersController,TermsControll
 
 	app.param 'hwId',HwsController.load
 
+	#--- Hw_submissions ---#
+
+	app.get 'hw_submissions/:hw_submissionId', Hw_submissionsController.view
+
+	app.post 'hw_submissions/:hw_submissionId', Hw_submissionsController.comment
+
+	app.param 'hw_submissionId', Hw_submissionsController.load
+
 	#--- Users ---#
+
+	app.get '/users/random', UsersController.random
 
 	app.get '/users',UsersController.index
 

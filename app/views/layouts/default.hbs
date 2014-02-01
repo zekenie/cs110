@@ -1,12 +1,11 @@
 <html>
 <head>
     <title>{{title}}</title>
-<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
     {{> css}}
     <style>
     	html{height:100%;}
         body{
-
           height:100%;
           background: #f7fbfc;
           background: -moz-radial-gradient(center, ellipse cover,  #f7fbfc 0%, #add9e4 100%);
@@ -16,10 +15,11 @@
           background: -ms-radial-gradient(center, ellipse cover,  #f7fbfc 0%,#add9e4 100%);
           background: radial-gradient(ellipse at center,  #f7fbfc 0%,#add9e4 100%);
           filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7fbfc', endColorstr='#add9e4',GradientType=1 );
-
         }
-
-        #simple-menu {
+        .jPanelMenu-panel{
+          background:none!important;
+        }
+        .menu-trigger{
           color:black;
           font-size:1.4em;
           position:fixed;
@@ -43,10 +43,7 @@
           -moz-transform: rotate(45deg);
           -webkit-transform: rotate(45deg);
           /* shadow */
-
-
         }
-
         .instructor{
             background-color: #aa0000;
         }
@@ -58,7 +55,6 @@
         .student{
             background-color: #5cb85c;
         }
-
         .ribbon a {
             width:170px;
           /*border: 1px solid #faa;*/
@@ -79,18 +75,18 @@
           color:red;
         }
     </style>
+    <link rel="stylesheet" href="/jPM-skin.css">
     {{> scripts}}
-
 </head>
 <body>
     <div class="ribbon {{loggedInUser.role}}">
         <a href="/users/{{loggedInUser.id}}" rel="me">{{loggedInUser.name}}</a>
     </div>
-    <a class="btn" id="simple-menu" href="#sidr">
+    <a href="#menu" class="btn menu-trigger">
         <span class="glyphicon glyphicon-align-justify"></span>
     </a>
-    <div class="sidr">
-        <ul>
+    <nav id="menu" style="display:none">
+      <ul style="padding-left:0">
             <li><a href="/">Schedule</a></li>
             <li><a href="/issues">Issues</a></li>
             <li><a href="/terms">Terms Wiki</a></li>
@@ -100,7 +96,8 @@
             <li><a href="/users/{{loggedInUser.id}}">{{loggedInUser.name}}</a></li>
             <li><a href="/logout">Logout</a></li>
         </ul>
-    </div>
+    </nav>
+
     <br/><br/>
 	<div class="container">
         <h1>CS-110: Hacking Class</h1>
@@ -115,7 +112,8 @@
         </div>
 	</div>
     <script>
-
+    var jPM = $.jPanelMenu();
+    jPM.on();
     {{#if loggedInUser.unreadNotifications.length}}
       var favicon=new Favico({
           animation:'slide'
@@ -130,14 +128,6 @@
     $(".avatar").tooltip({
         placement:"bottom"
     });
-    $(document).ready(function() {
-      $('#simple-menu').sidr({
-        name:"nav",
-        source:".sidr"
-      });
-    });
-
     </script>
-    <script src="http://www.berriart.com/sidr/javascripts/min.js"></script>
 </body>
 </html>

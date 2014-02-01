@@ -13,7 +13,6 @@ module.exports = (app,config,Issues)->
 
 	controller.index = [
 		(req,res,next)->
-			console.log req.query
 			req.query.open = req.query.open or true
 			Issues.find(req.query).populate('user day hw tags assignedTo').exec (err,issues)->
 				return next err if err?
@@ -61,17 +60,13 @@ module.exports = (app,config,Issues)->
 	controller.comment = [
 		(req,res,next)->
 			req.body.user = req.user._id
-			req.issue.comments.push req.body
-			req.issue.save (err,issue)->
+			req.issue.comment req.body, (err,notificationRes)->
 				return next err if err?
-				issue.notify req.user._id, (err,notifyRes)->
-					return next err if err?
-					res.redirect '/issues/' + issue.id
-
-					# if this isn't the users issues, add it to their issue contribution
-					if req.user._id isnt req.issue.user._id
-						req.user.issueContributions.push req.issue._id
-						req.user.save()
+				res.redirect '/issues/' + req.issue.id
+				# if this isn't the users issues, add it to their issue contribution
+				if req.user._id isnt req.issue.user._id
+					req.user.issueContributions.push req.issue._id
+					req.user.save()
 	]
 
 	controller

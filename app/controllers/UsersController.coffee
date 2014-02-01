@@ -27,6 +27,11 @@ module.exports = (app,config,Users,tagHelper)->
 			res.render 'users/notifications', {user:req.user}
 	]
 
+	controller.random = (req,res,next)->
+		Users.random (err,user)->
+			return next err if err?
+			res.redirect "/users/#{user.id}"
+
 	controller.clearNotifications = (req,res,next)->
 		req.user.viewNotifications (err)->
 			return next err if err?
