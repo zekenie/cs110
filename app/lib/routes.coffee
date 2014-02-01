@@ -1,9 +1,5 @@
 passport = require 'passport'
-<<<<<<< HEAD
-module.exports = (app,DaysController,HwsController,UsersController,TermsController,IssuesController,TagsController,NotificationBlacklistsController,QuestionsController)->
-=======
-module.exports = (app,DaysController,HwsController,Hw_submissionsController,UsersController,TermsController,IssuesController,TagsController,NotificationBlacklistsController)->
->>>>>>> be593381cf2ab3857e6d57d71bfa87de88ecbf7f
+module.exports = (app,DaysController,HwsController, Hw_submissionsController, UsersController,TermsController,IssuesController,TagsController,NotificationBlacklistsController,QuestionsController)->
 
 	auth = (req,res,next)->
 		if req.isAuthenticated()
