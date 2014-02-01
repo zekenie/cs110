@@ -1,14 +1,17 @@
 $(function(){
     var socket = io.connect();
     var questions = [];
+    var $questionsdisplay = $('#questionsdisplay');
+    var $questionform = $('#questionform');
+    var $questioninput = $('#questioninput');
     var generateQuestions = function(){
-        $('#questionsdisplay').html('');
+        $questionsdisplay.html('');
         questions.forEach(function(entry){
-            $('#questionsdisplay').prepend('<pre>' + entry + '</pre>');
+            $questionsdisplay.prepend('<pre>' + entry + '</pre>');
         });
     }
     var addQuestion =function(question){
-        $('#questionsdisplay').prepend('<pre>'+question+'</pre>');
+        $questionsdisplay.prepend('<pre>'+question+'</pre>');
     }
     socket.on('deleteQuestion', function (newQuestions){
         questions = newQuestions;
@@ -21,10 +24,9 @@ $(function(){
             generateQuestions();
         }
     });
-    $('#questionform').submit(function(event){
+    $questionform.submit(function(event){
         event.preventDefault();
-
-        var text = $('#questioninput').val()
+        var text = $questioninput.val();
         if(text !== ""){
             console.log("text: " + text);
             //Horribly formatted regex, to allow people to submit HTML ;

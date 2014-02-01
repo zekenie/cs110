@@ -13,16 +13,14 @@ module.exports = (app,config,server)->
         questions.splice 0, 1
         io.sockets.emit 'deleteQuestion', questions
 
-    setInterval(()->
-            deleteQuestion()
-        , 10000)
+    setInterval(deleteQuestion, 10000)
 
 
 
 
     controller.index = [
         (req, res)->
-            res.render "Questions",{title:"hello"}
+            res.render "Questions",{title:"Immediate Questions"}
 
     ]
     controller
