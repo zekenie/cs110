@@ -1,5 +1,7 @@
 mongoose = require 'mongoose'
 Schema = mongoose.Schema
+async = require 'async'
+_ = require 'lodash'
 
 module.exports = (dateFormatter,config,NotificationBlacklists)->
 	twilio = require('twilio') config.twilio.sid, config.twilio.authToken
@@ -53,6 +55,8 @@ module.exports = (dateFormatter,config,NotificationBlacklists)->
 		}, cb
 
 	UsersSchema.methods.notify = (text,table,id,cb)->
+		if not cb?
+			cb = -> console.log '**********************'
 		path = "#{table}/#{id}"
 		self = @
 		NotificationBlacklists.findOne {
@@ -83,6 +87,23 @@ module.exports = (dateFormatter,config,NotificationBlacklists)->
 		@findById idOrDoc, (err,user)->
 			return cb err if err?
 			user.notify text,table,id,cb
+
+	UsersSchema.statics.notifyMany = (query,text,table,id,cb)->
+		notificationWrappers = []
+		@find query, (err,users)->
+			return cb err if err?
+			return cb null,{message:'no records found'} unless users?
+			cb err,users
+			_.invoke users,'notify',text,table,id
+
+	UsersSchema.statics.notifyByIds = (ids,text,table,id,cb)->
+		console.log ids
+		ids = ids.map (_id) -> _id.toString()
+		ids = _.uniq ids
+		notificationWrappers = []
+		@notifyMany {'_id':{$in:ids}},text,table,id,cb
+
+
 
 	UsersSchema.statics.random = (cb)->
 		self = @

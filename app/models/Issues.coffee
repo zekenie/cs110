@@ -4,7 +4,7 @@ Schema = mongoose.Schema
 _ = require 'lodash'
 async = require 'async'
 
-module.exports = (CommentsSchema,tagHelper,dateFormatter,mdHelper,Users)->
+module.exports = (CommentsSchema,commentHelper,tagHelper,dateFormatter,mdHelper,Users)->
 	IssuesSchema = new Schema {
 		title: {type:String}
 		user: {type:Schema.Types.ObjectId, ref:"Users"}
@@ -36,19 +36,26 @@ module.exports = (CommentsSchema,tagHelper,dateFormatter,mdHelper,Users)->
 
 		next()
 
-	IssuesSchema.methods.notify = (omit,cb)->
-		self = @
-		str = "Someone has commented on '#{@title}'"
-		user = @user.id or @user
-		user = user.toString()
-		alreadyNotified = [user,omit.toString()]
-		# idOrDoc,text,table,id,cb
-		Users.findByIdAndNotify user,str,'Issues',@id, (err,status)->
-			for comment in self.comments
-				if not _.contains alreadyNotified, comment.user.toString()
-					alreadyNotified.push comment.user.toString()
-					Users.findByIdAndNotify comment.user.toString(),str,'Issues',self.id
-			cb(err,status)
+	IssuesSchema.virtual('commentNotification').get ->
+		"Someone has commented on the issue '#{@title}'"
+
+	# IssuesSchema.methods.notify = (omit,cb)->
+	# 	self = @
+	# 	user = @user.id or @user
+	# 	user = user.toString()
+	# 	alreadyNotified = [user,omit.toString()]
+	# 	Users.findByIdAndNotify user,@commentNotification,'Issues',@id, (err,status)->
+	# 		for comment in self.comments
+	# 			if not _.contains alreadyNotified, comment.user.toString()
+	# 				alreadyNotified.push comment.user.toString()
+	# 				Users.findByIdAndNotify comment.user.toString(),@commentNotification,'Issues',self.id
+	# 		cb(err,status)
+
+	# IssuesSchema.methods.comment = (comment,cb)->
+	# 	@comments.push comment
+	# 	@save (err,issue)->
+	# 		return cb err if err?
+	# 		issue.notify comment.user, cb
 
 
 	IssuesSchema.methods.tag = (tags,cb)->
@@ -58,6 +65,7 @@ module.exports = (CommentsSchema,tagHelper,dateFormatter,mdHelper,Users)->
 		tagHelper.removeTag.call @, tag,cb
 
 	IssuesSchema.plugin dateFormatter.addon
+	IssuesSchema.plugin commentHelper
 
 
 

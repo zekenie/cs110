@@ -1,7 +1,7 @@
 mongoose = require 'mongoose'
 Schema = mongoose.Schema
 
-module.exports = (dateFormatter,CommentsSchema,mdHelper)->
+module.exports = (dateFormatter,CommentsSchema,commentHelper,mdHelper)->
 	Hw_submissionsSchema = new Schema {
 		user: {type:Schema.Types.ObjectId, ref:"Users"}
 		text:{type:String,get:mdHelper.get}
@@ -21,7 +21,10 @@ module.exports = (dateFormatter,CommentsSchema,mdHelper)->
 		mongoose.model('Issues').find {user:@user,hw:@hw},cb
 		cb()
 
-	Hw_submissionsSchema.plugin dateFormatter.addon
+	Hw_submissionsSchema.virtual('commentNotification').get ->
+		"There's been a comment on a homework thread!"
 
+	Hw_submissionsSchema.plugin dateFormatter.addon
+	Hw_submissionsSchema.plugin commentHelper
 
 	mongoose.model 'Hw_submissions', Hw_submissionsSchema

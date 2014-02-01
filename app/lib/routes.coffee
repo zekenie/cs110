@@ -1,5 +1,5 @@
 passport = require 'passport'
-module.exports = (app,DaysController,HwsController,UsersController,TermsController,IssuesController,TagsController,NotificationBlacklistsController)->
+module.exports = (app,DaysController,HwsController,Hw_submissionsController,UsersController,TermsController,IssuesController,TagsController,NotificationBlacklistsController)->
 
 	auth = (req,res,next)->
 		if req.isAuthenticated()
@@ -53,6 +53,14 @@ module.exports = (app,DaysController,HwsController,UsersController,TermsControll
 	app.put '/hws/:hwId',HwsController.update
 
 	app.param 'hwId',HwsController.load
+
+	#--- Hw_submissions ---#
+
+	app.get 'hw_submissions/:hw_submissionId', Hw_submissionsController.view
+
+	app.post 'hw_submissions/:hw_submissionId', Hw_submissionsController.comment
+
+	app.param 'hw_submissionId', Hw_submissionsController.load
 
 	#--- Users ---#
 
