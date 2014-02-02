@@ -33,7 +33,7 @@ module.exports = (app,config,Users,Hws,Hw_submissions,Days,Issues,dateFormatter,
 			return next() if req.user.instructor
 			res.send 400, 'You\'re not authorized to make homework assignments'
 		(req,res,next)->
-			Days.getDaysList {}, (err,daysHash)->
+			Days.getDaysList {meetingAt:{$gt:new Date()}}, (err,daysHash)->
 				res.render "hws/new",{daysHash:daysHash}
 	]
 
