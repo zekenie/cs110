@@ -69,7 +69,7 @@
 					<span class="pull-left">{{> avatar}}</span>
 					<div class="media-body">
 						{{#if submission}}
-							<a href="/hw_submissions/{{submission.id}}">Go to submission</a>
+							<a href="/hw_submissions/{{submission.id}}">Go to submission</a> ({{submission.comments.length}} comments)
 						{{else}}
 							<p class="error">No submission</p>
 						{{/if}}
