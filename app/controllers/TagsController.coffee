@@ -18,7 +18,7 @@ module.exports = (app,config,Tags)->
 		(req,res,next)->
 			query = {}
 			query.name = new RegExp req.query.q,'i','g' if req.query.q?
-			Tags.find query, 'name createdAt', (err,tags) ->
+			Tags.find query, 'name createdAt', (err,tags)->
 				accepts = req.accepts 'html','json'
 				return res.json tags if accepts is 'json'
 				res.render 'tags/index',{tags:tags}

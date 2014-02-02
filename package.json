@@ -19,7 +19,8 @@
     "diff":"*",
     "newrelic":"*",
     "twilio":"*",
-    "postmark":"*"
+    "postmark":"*",
+    "socket.io":"*"
   },
   "scripts":{
     "postinstall":"./node_modules/bower/bin/bower install",

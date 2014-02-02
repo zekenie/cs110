@@ -1,0 +1,10 @@
+{{!< ../layouts/default}}<br/>
+
+<div class="page-header">
+	<h2>HW Submission for <a href="/hws/{{hw_submission.hw.id}}">{{hw_submission.hw.name}}</a> by <a href="/users/{{hw_submission.user.id}}">{{hw_submission.user.name}}</a></h2>
+</div>
+
+
+{{#with hw_submission}}
+	{{> hwSubmission}}
+{{/with}}
