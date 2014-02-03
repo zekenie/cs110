@@ -1,6 +1,8 @@
 $(function(){
     var socket = io.connect();
     var questions = [];
+    var firstGenerate = true;
+    var audio = new Audio("/Second Glance.wav");
     var $questionsdisplay = $('#questionsdisplay');
     var $questionform = $('#questionform');
     var $questioninput = $('#questioninput');
@@ -18,6 +20,11 @@ $(function(){
         generateQuestions();
     });
     socket.on('getQuestions', function (squestions){
+        if(!firstGenerate){
+            audio.play();
+        }else{
+            firstGenerate = false;
+        }
         console.log("questions on server: "+squestions);
         if(squestions.length > 0){
             questions = squestions;
