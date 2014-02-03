@@ -12,8 +12,8 @@ module.exports = (app,config,server)->
     deleteQuestion = ->
         questions.splice 0, 1
         io.sockets.emit 'deleteQuestion', questions
-
-    setInterval(deleteQuestion, 10000)
+    #Delay is 5 minutes
+    setInterval(deleteQuestion, 300000)
 
 
 
