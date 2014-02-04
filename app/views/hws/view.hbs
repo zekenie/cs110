@@ -28,9 +28,7 @@
 
 {{#if loggedInUser.student}}
 	{{#if loggedInUser.submission}}
-		{{#with loggedInUser.submission}}
-			{{> hwSubmission}}
-		{{/with}}
+		<h2><a href="/hw_submissions/{{loggedInUser.submission.id}}">View and comment on your submission</a></h2>
 	{{else}}
 		<div class="page-header">
 			<h3>Submit</h3>
@@ -71,7 +69,7 @@
 					<span class="pull-left">{{> avatar}}</span>
 					<div class="media-body">
 						{{#if submission}}
-							{{{submission.text}}}
+							<a href="/hw_submissions/{{submission.id}}">Go to submission</a> ({{submission.comments.length}} comments)
 						{{else}}
 							<p class="error">No submission</p>
 						{{/if}}

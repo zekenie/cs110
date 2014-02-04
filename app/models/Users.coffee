@@ -79,15 +79,6 @@ module.exports = (dateFormatter,config,NotificationBlacklists)->
 					user.sendEmail "CS110 Notification", text + "\n" + path, (err,emailStatus)->
 						cb err, {email:emailStatus, twilio:twilioStatus, user:user}
 
-
-	UsersSchema.statics.findByIdAndNotify = (idOrDoc,text,table,id,cb)->
-		if not cb?
-			cb = -> console.log '**********************'
-		return idOrDoc.notify text,table,id,cb if idOrDoc.notify?
-		@findById idOrDoc, (err,user)->
-			return cb err if err?
-			user.notify text,table,id,cb
-
 	UsersSchema.statics.notifyMany = (query,text,table,id,cb)->
 		notificationWrappers = []
 		@find query, (err,users)->
@@ -102,8 +93,6 @@ module.exports = (dateFormatter,config,NotificationBlacklists)->
 		ids = _.uniq ids
 		notificationWrappers = []
 		@notifyMany {'_id':{$in:ids}},text,table,id,cb
-
-
 
 	UsersSchema.statics.random = (cb)->
 		self = @
@@ -138,8 +127,6 @@ module.exports = (dateFormatter,config,NotificationBlacklists)->
 		@getList {role:role},cb
 
 
-
-
 	UsersSchema.virtual('name').get ->
 		"#{@first} #{@last}"
 
@@ -157,7 +144,5 @@ module.exports = (dateFormatter,config,NotificationBlacklists)->
 
 	UsersSchema.plugin dateFormatter.addon
 	SessionsSchema.plugin dateFormatter.addon
-
-
 
 	mongoose.model 'Users', UsersSchema

@@ -19,7 +19,7 @@ module.exports = (app,config,Days)->
 	controller.index = [
 		countStudents
 		(req,res,next)->
-			Days.find({}).sort('meetingAt').populate('hwDue hwAssigned issues tags').exec (err,days)->
+			Days.find({}).sort({'meetingAt':-1}).populate('hwDue hwAssigned issues tags').exec (err,days)->
 
 				res.render "days/index",{days:days}
 	]
