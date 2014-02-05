@@ -1,5 +1,5 @@
 passport = require 'passport'
-module.exports = (app,DaysController,HwsController,Hw_submissionsController,UsersController,TermsController,IssuesController,TagsController,NotificationBlacklistsController,QuestionsController)->
+module.exports = (app,DaysController,HwsController, Hw_submissionsController, UsersController,TermsController,IssuesController,TagsController,NotificationBlacklistsController,QuestionsController)->
 	auth = (req,res,next)->
 		if req.isAuthenticated()
 			app.locals.loggedInUser = req.user

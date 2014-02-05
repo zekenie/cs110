@@ -14,9 +14,8 @@ module.exports = (app,config,server)->
     deleteQuestion = ->
         questions.splice 0, 1
         io.sockets.emit 'deleteQuestion', questions
-
-    setInterval deleteQuestion, 1000*60*3
-
+    #Delay is 5 minutes
+    setInterval(deleteQuestion, 300000)
     controller.index = [
         (req, res)->
             res.render "Questions",{title:"Immediate Questions"}
