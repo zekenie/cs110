@@ -2,7 +2,7 @@ $(function(){
     var socket = io.connect();
     var questions = [];
     var firstGenerate = true;
-    var audio = new Audio("/Second Glance.wav");
+    var audio = new Audio("/notification.wav");
     var $questionsdisplay = $('#questionsdisplay');
     var $questionform = $('#questionform');
     var $questioninput = $('#questioninput');
