@@ -22,6 +22,31 @@
 	</form>
 {{/if}}
 
+<div>
+	{{#each hws}}
+		<div class="panel
+		{{#if submission}}
+			{{#if submission.complete}}
+				panel-success
+			{{else}}
+				panel-default
+			{{/if}}
+		{{else}}
+			panel-danger
+		{{/if}}">
+			<div class="panel-heading"><h3 class="panel-title"><a href="/hws/{{id}}">{{name}}</a></h3></div>
+			<div class="panel-body">
+				{{#if submission}}
+					{{{submission.text}}}
+					<p><a href="/hw_submissions/{{submission.id}}">Go to submission</a></p>
+				{{else}}
+					<p class="error">No submission</p>
+				{{/if}}
+			</div>
+		</div>
+	{{/each}}
+</div>
+
 <div class="row">
 	<div class="col-md-6">
 		<div class="page-header">
@@ -36,6 +61,9 @@
 		<div class="page-header">
 			<h3>Issue Contributions</h3>
 		</div>
+		{{#each issueContributions}}
+			{{> issueSummary}}
+		{{/each}}
 	</div>
 </div>
 

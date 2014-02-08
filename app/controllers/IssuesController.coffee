@@ -65,7 +65,7 @@ module.exports = (app,config,Issues)->
 				res.redirect '/issues/' + req.issue.id
 				# if this isn't the users issues, add it to their issue contribution
 				if req.user._id isnt req.issue.user._id
-					req.user.issueContributions.push req.issue._id
+					req.user.issueContributions.addToSet req.issue._id
 					req.user.save()
 	]
 

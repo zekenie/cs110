@@ -19,4 +19,13 @@ module.exports = (Hw_submissions)->
 				res.redirect "/hw_submissions/#{req.hw_submission.id}"
 	]
 
+	controller.update = [
+		(req,res,next)->
+			for k,v of req.body
+				req.hw_submission[k] = v
+			req.hw_submission.save (err,hw_submission)->
+				return next err if err?
+				res.json hw_submission
+	]
+
 	controller

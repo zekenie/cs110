@@ -6,6 +6,8 @@ module.exports = (dateFormatter,CommentsSchema,commentHelper,mdHelper)->
 		user: {type:Schema.Types.ObjectId, ref:"Users"}
 		text:{type:String,get:mdHelper.get}
 		hw: {type:Schema.Types.ObjectId, ref:"Hws"}
+		complete:Boolean
+		grader:{type:Schema.Types.ObjectId, ref:"Users"}
 		comments: [CommentsSchema]
 	}
 

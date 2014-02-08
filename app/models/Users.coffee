@@ -54,6 +54,16 @@ module.exports = (dateFormatter,config,NotificationBlacklists)->
 			TextBody:msg
 		}, cb
 
+	UsersSchema.methods.allHws = (cb)->
+		self = @
+		mongoose.model('Hws').find {}, (err,hws)->
+			return cb err if err?
+			mongoose.model('Hw_submissions').find {user:self.id},(err,subs)->
+				return cb err if err?
+				for hw in hws
+					hw.submission = _.findWhere subs, {user:self._id}
+				cb null,hws
+
 	UsersSchema.methods.notify = (text,table,id,cb)->
 		if not cb?
 			cb = -> console.log '**********************'
@@ -88,7 +98,6 @@ module.exports = (dateFormatter,config,NotificationBlacklists)->
 			_.invoke users,'notify',text,table,id
 
 	UsersSchema.statics.notifyByIds = (ids,text,table,id,cb)->
-		console.log ids
 		ids = ids.map (_id) -> _id.toString()
 		ids = _.uniq ids
 		notificationWrappers = []

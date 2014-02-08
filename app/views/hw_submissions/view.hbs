@@ -1,10 +1,31 @@
 {{!< ../layouts/default}}<br/>
 
 <div class="page-header">
-	<h2>HW Submission for <a href="/hws/{{hw_submission.hw.id}}">{{hw_submission.hw.name}}</a> by <a href="/users/{{hw_submission.user.id}}">{{hw_submission.user.name}}</a></h2>
+	<h2>
+		HW Submission for <a href="/hws/{{hw_submission.hw.id}}">{{hw_submission.hw.name}}</a> by <a href="/users/{{hw_submission.user.id}}">{{hw_submission.user.name}}</a>
+		{{#if loggedInUser.instructorOrTa}}
+			{{#if hw_submission.incomplete}}
+				<button class="btn-success pull-right" id="markComplete">Mark Complete</button>
+			{{/if}}
+		{{/if}}
+	</h2>
 </div>
 
 
 {{#with hw_submission}}
 	{{> hwSubmission}}
 {{/with}}
+
+{{#if loggedInUser.instructorOrTa}}
+	<script>
+		$('#markComplete').on('click',function() {
+			$.ajax({
+				url:"/hw_submissions/{{hw_submission.id}}",
+				method:'put',
+				data:{complete:true}
+			}).done(function() {
+				alert('marked ;)');
+			});
+		});
+	</script>
+{{/if}}

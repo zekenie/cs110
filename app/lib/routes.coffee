@@ -59,6 +59,8 @@ module.exports = (app,DaysController,HwsController, Hw_submissionsController, Us
 
 	app.post '/hw_submissions/:hw_submissionId', Hw_submissionsController.comment
 
+	app.put '/hw_submissions/:hw_submissionId', Hw_submissionsController.update
+
 	app.param 'hw_submissionId', Hw_submissionsController.load
 
 	#--- Users ---#
