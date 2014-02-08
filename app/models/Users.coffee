@@ -61,7 +61,7 @@ module.exports = (dateFormatter,config,NotificationBlacklists)->
 			mongoose.model('Hw_submissions').find {user:self.id},(err,subs)->
 				return cb err if err?
 				for hw in hws
-					hw.submission = _.findWhere subs, {user:self._id}
+					hw.submission = _.findWhere subs, {hw:hw._id}
 				cb null,hws
 
 	UsersSchema.methods.notify = (text,table,id,cb)->
