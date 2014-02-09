@@ -60,7 +60,7 @@ var Hw = function(data,student) {
 
 Hw.prototype.getSubmissions = function() {
 	this.submission = _.findWhere(this.student.hw_submissions,{hw:this._id}) || {};
-	if(this.submission.id) {
+	if(this.submission._id) {
 		report.incomplete--;
 		if(this.submission.complete) {
 			report.complete++;
