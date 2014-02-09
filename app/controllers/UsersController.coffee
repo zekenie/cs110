@@ -25,9 +25,11 @@ module.exports = (app,config,Users,tagHelper)->
 					toCross.push (callback)->
 						user.allHws (err,hws)->
 							return callback err if err?
-							user.hws = hws
-							callback null,user
-				async.series toCross, (err,users)->
+							#return object with matcher id
+							callback null,{user:user._id,hws:hws}
+				async.series toCross, (err,hws)->
+					for user in users
+						user.hws = _.find(hws, (hwList)->hwList.user is user._id).hws
 					res.render "users/index", {users:users}
 	]
 
