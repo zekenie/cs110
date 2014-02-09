@@ -29,6 +29,7 @@ module.exports = (app,config,Users,tagHelper)->
 							#return object with matcher id
 							callback null,{user:user._id,hws:hws}
 				async.series toCross, (err,hws)->
+					console.log hws
 					for user in users
 						submissionObj = _.findWhere(hws, {user: user._id})
 						user.hws =submissionObj.hws if submissionObj?
