@@ -4,7 +4,7 @@ require('coffee-script');
 var train = require('express-train');
 
 module.exports = train(__dirname);
-setTimeout(function() {
+//setTimeout(function() {
 // 	var _ = require('lodash');
 // 	var mongoose = require('mongoose');
 // 	mongoose.model('Hw_submissions').find({},"_id user",function(err,hw_submissions) {
