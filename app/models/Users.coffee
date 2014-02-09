@@ -61,9 +61,10 @@ module.exports = (dateFormatter,config,NotificationBlacklists)->
 			self.find({role:"student"}).populate('hw_submissions').exec (err,students)->
 				return cb err if err?
 				for student in students
-					student.hws = hws.slice 0
+					student.hws = hws
+
 					for hw in student.hws
-						hw.submission = _.findWhere student.hw_submissions, {hw:hw._id}
+						hw.submission = _.find student.hw_submissions, (sub)->sub.hw.toString() is hw._id.toString()
 				console.log students
 				cb(null,students)
 
