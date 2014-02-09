@@ -100,7 +100,7 @@ $(".assignment").tooltip({
 });
 
 for(key in report) {
-	$("#" + key).css('width',((report[key] / submissionPossibilities)*100) + "%")
+	$("#" + key).css('width',((report[key] / submissionPossibilities)*100) + "%").text(report[key]);
 }
 
 </script>
