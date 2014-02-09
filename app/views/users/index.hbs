@@ -13,6 +13,12 @@
 var students = {{{students}}};
 var hws = {{{hws}}};
 
+var report = {
+	incomplete:students.length * hws.length,
+	pendingReview:0,
+	complete:0
+};
+
 var templates = {};
 
 templates.hw = '<li><a data-toggle="tooltip" class="assignment" href="<% if(submission._id) { %>/hw_submissions/<%= submission._id %><%} %>" title="<%=name%>">\
@@ -54,6 +60,14 @@ var Hw = function(data,student) {
 
 Hw.prototype.getSubmissions = function() {
 	this.submission = _.findWhere(this.student.hw_submissions,{hw:this._id}) || {};
+	if(this.submission.id) {
+		report.incomplete--;
+		if(this.submission.complete) {
+			report.complete++;
+		} else {
+			report.pendingReview++;
+		}
+	}
 	return this.submission;
 };
 

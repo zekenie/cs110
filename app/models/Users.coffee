@@ -145,6 +145,14 @@ module.exports = (dateFormatter,config,NotificationBlacklists)->
 	UsersSchema.statics.getListByRole = (role,cb)->
 		@getList {role:role},cb
 
+	UsersSchema.pre 'remove', (next)->
+		removeQuery = {user:@_id}
+		mongoose.model('Hw_submissions').remove removeQuery, (err)->
+			return next err if err?
+			mongoose.model('Issues').remove removeQuery, (err)->
+				return next err if err?
+				next()
+
 
 	UsersSchema.virtual('name').get ->
 		"#{@first} #{@last}"
