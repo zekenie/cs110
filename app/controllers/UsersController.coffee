@@ -1,4 +1,5 @@
 async = require 'async'
+_ = require 'lodash'
 
 module.exports = (app,config,Users,tagHelper)->
 	controller = {}
