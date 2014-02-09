@@ -9,9 +9,33 @@
 		<li class="media">
 			<span class="pull-left">{{> avatar}}</span>
 			<div class="media-body">
-				<a href="/users/{{id}}">{{name}}</a>
-				<p>{{role}}</p>
+				<h4 class="media-heading"><a href="/users/{{id}}">{{name}}</a></h4>
+				<ul class="pagination" style="margin-top:3px;font-size:0.8em">
+					{{#each hws}}
+						<li><a data-toggle="tooltip" class="assignment" href="{{#if submission}}/hws/{{_id}}{{else}}/hw_submissions/{{submission.id}}{{/if}}" title="{{name}}">
+							<span class="glyphicon
+							{{#if submission}}
+								{{#if submission.complete}}
+									text-success
+									glyphicon-ok-sign
+								{{else}}
+									text-warning
+									glyphicon-question-sign
+								{{/if}}
+							{{else}}
+								text-danger
+								glyphicon-remove-sign
+							{{/if}}"></span>
+						</a></li>
+					{{/each}}
+				</ul>
 			</div>
 		</li>
 	{{/each}}
 </ul>
+
+<script>
+$(".assignment").tooltip({
+    placement:"bottom"
+});
+</script>

@@ -4,14 +4,16 @@
 	<h2>
 		HW Submission for <a href="/hws/{{hw_submission.hw.id}}">{{hw_submission.hw.name}}</a> by <a href="/users/{{hw_submission.user.id}}">{{hw_submission.user.name}}</a>
 		{{#if loggedInUser.instructorOrTa}}
-			<button class="btn btn-success pull-right" id="markComplete">Mark Complete</button>
+			{{#if hw_submission.complete}}
+				<strong class="pull-right">Complete</strong>
+			{{else}}
+				<button class="btn btn-success pull-right" id="markComplete">Mark Complete</button>
+			{{/if}}
 		{{/if}}
 	</h2>
 </div>
 
-{{#if hw_submission.complete}}
-	<strong>Complete</strong>
-{{/if}}
+
 
 {{#with hw_submission}}
 	{{> hwSubmission}}

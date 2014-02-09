@@ -1,3 +1,5 @@
+async = require 'async'
+
 module.exports = (app,config,Users,tagHelper)->
 	controller = {}
 	controller.load = (req,res,next,id)->
@@ -15,9 +17,18 @@ module.exports = (app,config,Users,tagHelper)->
 			return next() if req.user.instructorOrTa
 			res.send 400
 		(req,res,next)->
-			Users.find {}, (err,users)->
+			Users.find {role:"student"}, (err,users)->
 				return next err if err?
-				res.render "users/index", {users:users}
+				toCross = []
+				# todo: move this to model
+				for user in users
+					toCross.push (callback)->
+						user.allHws (err,hws)->
+							return callback err if err?
+							user.hws = hws
+							callback null,user
+				async.parallel toCross, (err,users)->
+					res.render "users/index", {users:users}
 	]
 
 	controller.notifications = [
