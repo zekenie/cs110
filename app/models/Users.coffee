@@ -54,6 +54,19 @@ module.exports = (dateFormatter,config,NotificationBlacklists)->
 			TextBody:msg
 		}, cb
 
+	UsersSchema.statics.allStudentsWithHw = (cb)->
+		self = @
+		mongoose.model('Hws').find({},"name").sort({dateDue:-1}).exec  (err,hws)->
+			return cb err if err?
+			self.find({role:"student"}).populate('hw_submissions').exec (err,students)->
+				return cb err if err?
+				for student in students
+					student.hws = hws.slice 0
+					for hw in student.hws
+						hw.submission = _.findWhere student.hw_submissions, {hw:hw._id}
+				cb(null,students)
+
+
 	UsersSchema.methods.allHws = (cb)->
 		self = @
 		mongoose.model('Hws').find({},"name").sort({dateDue:-1}).exec  (err,hws)->
@@ -61,7 +74,7 @@ module.exports = (dateFormatter,config,NotificationBlacklists)->
 			mongoose.model('Hw_submissions').find {user:self.id},(err,subs)->
 				return cb err if err?
 				for hw in hws
-					hw.submission = _.findWhere subs, {hw:hw._id}
+					hw.submission = _.findWhere(subs, {hw:hw._id})
 				cb null,hws
 
 	UsersSchema.methods.notify = (text,table,id,cb)->

@@ -18,22 +18,26 @@ module.exports = (app,config,Users,tagHelper)->
 			return next() if req.user.instructorOrTa
 			res.send 400
 		(req,res,next)->
-			Users.find {role:"student"}, (err,users)->
+			Users.allStudentsWithHw (err,students)->
 				return next err if err?
-				toCross = []
-				# todo: move this to model
-				for user in users
-					toCross.push (callback)->
-						user.allHws (err,hws)->
-							return callback err if err?
-							#return object with matcher id
-							callback null,{user:user._id,hws:hws}
-				async.series toCross, (err,hws)->
-					console.log hws
-					for user in users
-						submissionObj = _.findWhere(hws, {user: user._id})
-						user.hws =submissionObj.hws if submissionObj?
-					res.render "users/index", {users:users}
+				res.render "users/index", {users:students}
+			# Users.find {role:"student"}, (err,users)->
+			# 	return next err if err?
+			# 	toCross = []
+			# 	# todo: move this to model
+			# 	for user in users
+			# 		toCross.push (callback)->
+			# 			user.allHws (err,hws)->
+			# 				console.log hws
+			# 				return callback err if err?
+			# 				#return object with matcher id
+			# 				callback null,{user:user._id,hws:hws}
+			# 	async.series toCross, (err,hws)->
+			# 		# console.log hws
+			# 		for user in users
+			# 			submissionObj = _.findWhere(hws, {user: user._id})
+			# 			user.hws =submissionObj.hws if submissionObj?
+			# 		res.render "users/index", {users:users}
 	]
 
 	controller.notifications = [
