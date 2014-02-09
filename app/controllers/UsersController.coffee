@@ -21,14 +21,14 @@ module.exports = (app,config,Users,tagHelper)->
 				return next err if err?
 				toCross = []
 				# todo: move this to model
-				for user in users
+				for user,i in users
 					toCross.push (callback)->
-						user.allHws (err,hws)->
+						users[i].allHws (err,hws)->
 							return callback err if err?
-							user.hws = hws
-							callback null,user
-				async.parallel toCross, (err,users)->
-					res.render "users/index", {users:users}
+							users[i].hws = hws
+							callback null,users[i]
+				async.parallel toCross, (err,_users)->
+					res.render "users/index", {users:_users}
 	]
 
 	controller.notifications = [
