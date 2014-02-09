@@ -30,7 +30,7 @@ module.exports = (app,config,Users,tagHelper)->
 							callback null,{user:user._id,hws:hws}
 				async.series toCross, (err,hws)->
 					for user in users
-						user.hws = _.find(hws, (hwList)->hwList.user is user._id).hws
+						user.hws = _.findWhere(hws, {user: user._id}).hws
 					res.render "users/index", {users:users}
 	]
 
