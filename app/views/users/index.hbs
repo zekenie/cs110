@@ -41,7 +41,7 @@ templates.hw = '<li><a data-toggle="tooltip" class="assignment" href="<% if(subm
 
 templates.student = '<li class="media">\
 						<a class="pull-left" href="/users/<%=_id%>">\
-							<img width="50" class="media-object avatar" src="<%=fbData.picture.data.url%>" alt="<%=first%>" title="<%=first%>">\
+							<img width="50" class="media-object avatar" src="http://graph.facebook.com/<%=fbData.username%>/picture" alt="<%=first%>" title="<%=first%>">\
 						</a>\
 						<div class="media-body">\
 							<h4 class="media-heading"><%=first%> <%=last%></h4>\
