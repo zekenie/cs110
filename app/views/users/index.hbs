@@ -4,15 +4,18 @@
 	<h1>All Users</h1>
 </div>
 
-<ul class="media-list">
+<div class="progress">
+	<div id="complete" class="progress-bar progress-bar-success" style=""></div>
+	<div id="pendingReview" class="progress-bar progress-bar-warning" style=""></div>
+	<div id="incomplete" class="progress-bar progress-bar-danger" style=""></div>
+</div>
 
-
-</ul>
+<ul class="media-list"></ul>
 
 <script>
 var students = {{{students}}};
 var hws = {{{hws}}};
-
+var submissionPossibilities = students.length * hws.length;
 var report = {
 	incomplete:students.length * hws.length,
 	pendingReview:0,
@@ -95,4 +98,9 @@ students = students.map(function(student) {
 $(".assignment").tooltip({
     placement:"bottom"
 });
+
+for(key in report) {
+	$("#" + key).css('width',((report[key] / submissionPossibilities)*100) + "%")
+}
+
 </script>
