@@ -64,6 +64,7 @@ module.exports = (dateFormatter,config,NotificationBlacklists)->
 					student.hws = hws.slice 0
 					for hw in student.hws
 						hw.submission = _.findWhere student.hw_submissions, {hw:hw._id}
+				console.log students
 				cb(null,students)
 
 
