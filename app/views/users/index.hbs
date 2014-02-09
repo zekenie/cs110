@@ -15,7 +15,7 @@ var hws = {{{hws}}};
 
 var templates = {};
 
-templates.hw = '<li><a data-toggle="tooltip" class="assignment" href="" title="<%=name%>">\
+templates.hw = '<li><a data-toggle="tooltip" class="assignment" href="<% if(submission._id) { %>/hw_submissions/<%= submission._id %><%} %>" title="<%=name%>">\
 					<span class="glyphicon <% if(submission._id) {\
 													if(submission.complete) { %>\
 														glyphicon-ok-sign\
