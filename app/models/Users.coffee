@@ -56,7 +56,7 @@ module.exports = (dateFormatter,config,NotificationBlacklists)->
 
 	UsersSchema.methods.allHws = (cb)->
 		self = @
-		mongoose.model('Hws').find({}).sort({dateDue:-1}).exec  (err,hws)->
+		mongoose.model('Hws').find({},"name").sort({dateDue:-1}).exec  (err,hws)->
 			return cb err if err?
 			mongoose.model('Hw_submissions').find {user:self.id},(err,subs)->
 				return cb err if err?
