@@ -58,15 +58,10 @@ module.exports = (dateFormatter,config,NotificationBlacklists)->
 		self = @
 		mongoose.model('Hws').find({},"name").sort({dateDue:-1}).exec  (err,hws)->
 			return cb err if err?
-			self.find({role:"student"}).populate('hw_submissions').exec (err,students)->
+			self.find({role:"student"},"first last fbData hw_submissions").populate('hw_submissions').exec (err,students)->
 				return cb err if err?
-				for student in students
-					student.hws = hws
 
-					for hw in student.hws
-						hw.submission = _.find student.hw_submissions, (sub)->sub.hw.toString() is hw._id.toString()
-				console.log students
-				cb(null,students)
+				cb null,{students:students,hws:hws}
 
 
 	UsersSchema.methods.allHws = (cb)->

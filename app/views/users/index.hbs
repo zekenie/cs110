@@ -5,36 +5,79 @@
 </div>
 
 <ul class="media-list">
-	{{#each users}}
-		<li class="media">
-			<span class="pull-left">{{> avatar}}</span>
-			<div class="media-body">
-				<h4 class="media-heading"><a href="/users/{{id}}">{{name}}</a></h4>
-				<ul class="pagination" style="margin-top:3px;font-size:0.8em">
-					{{#each hws}}
-						<li><a data-toggle="tooltip" class="assignment" href="{{#if submission}}/hw_submissions/{{_id}}{{else}}/hw_submissions/{{submission.id}}{{/if}}" title="{{name}}">
-							<span class="glyphicon
-							{{#if submission}}
-								{{#if submission.complete}}
-									text-success
-									glyphicon-ok-sign
-								{{else}}
-									text-warning
-									glyphicon-question-sign
-								{{/if}}
-							{{else}}
-								text-danger
-								glyphicon-remove-sign
-							{{/if}}"></span>
-						</a></li>
-					{{/each}}
-				</ul>
-			</div>
-		</li>
-	{{/each}}
+
+
 </ul>
 
 <script>
+var students = {{{students}}};
+var hws = {{{hws}}};
+
+var templates = {};
+
+templates.hw = '<li><a data-toggle="tooltip" class="assignment" href="" title="<%=name%>">\
+					<span class="glyphicon <% if(submission._id) {\
+													if(submission.complete) { %>\
+														glyphicon-ok-sign\
+														text-success\
+													<% } else { %>\
+														glyphicon-question-sign\
+														text-warning\
+													<% } \
+												} else { %>\
+													glyphicon-remove-sign\
+													text-danger\
+												<% } %>"\
+				</a></li>';
+
+templates.student = '<li class="media">\
+						<a class="pull-left" href="/users/<%=_id%>">\
+							<img width="50" class="media-object avatar" src="<%=fbData.picture.data.url%>" alt="<%=first%>" title="<%=first%>">\
+						</a>\
+						<div class="media-body">\
+							<h4 class="media-heading"><%=first%> <%=last%></h4>\
+							<ul class="hws pagination" style="margin-top:5px;"></ul>\
+						</div>\
+					</li>';
+
+
+var Hw = function(data,student) {
+	this.student = student;
+	for(key in data) {
+		this[key] = data[key];
+	}
+	this.getSubmissions();
+	this.element = $(_.template(templates.hw,this));
+	this.student.element.find(".hws").append(this.element);
+
+};
+
+Hw.prototype.getSubmissions = function() {
+	this.submission = _.findWhere(this.student.hw_submissions,{hw:this._id}) || {};
+	return this.submission;
+};
+
+var Student = function(data) {
+	for(key in data) {
+		this[key] = data[key];
+	}
+	this.element = $(_.template(templates.student,this));
+	$(".media-list").append(this.element);
+	this.processHw();
+};
+
+Student.prototype.processHw = function() {
+	this.hws = [];
+	for(var i = 0; i < hws.length; i++) {
+		this.hws[i] = new Hw(hws[i],this);
+	}
+};
+
+students = students.map(function(student) {
+	return new Student(student);
+});
+
+
 $(".assignment").tooltip({
     placement:"bottom"
 });
