@@ -25,7 +25,7 @@ module.exports = (app,config,Users,tagHelper)->
 
 	controller.notifications = [
 		(req,res,next)->
-			req.user.notifications.reverse()
+			req.user.fiveNewestNotifications
 			res.render 'users/notifications', {user:req.user}
 	]
 
