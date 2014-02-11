@@ -37,8 +37,8 @@ module.exports = (dateFormatter,config,NotificationBlacklists)->
 		@notifications.filter (notification)->
 			not notification.seen
 
-	UsersSchema.virtual('fiveNewestNotifications').get ->
-        return @notifications.reverse().splice(0,5)
+	UsersSchema.methods.newestNotifications = (n,cb)->
+        cb @notifications.reverse().splice(0,n)
 
 	UsersSchema.methods.sms = (msg,cb)->
 		return cb null, {message:'No phone number'} unless @phone?

@@ -25,8 +25,8 @@ module.exports = (app,config,Users,tagHelper)->
 
 	controller.notifications = [
 		(req,res,next)->
-			req.user.fiveNewestNotifications
-			res.render 'users/notifications', {user:req.user}
+			req.user.newestNotifications 8, (records)->
+				res.render 'users/notifications', {notifications:records}
 	]
 
 	controller.random = (req,res,next)->

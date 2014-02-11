@@ -109,7 +109,8 @@
               <div style="margin-top: 20px; margin-bottom:0px;" class="alert alert-warning"><a href="/notifications"><strong>You have {{loggedInUser.unreadNotifications.length}} unread notifications.</strong></a></div>
             {{/if}}
             {{{body}}}
-        </div>
+    </div>
+    <br/>
 	</div>
     <script>
     var jPM = $.jPanelMenu();
@@ -125,7 +126,7 @@
       $(".instructorOrTa").hide();
     {{/if}}
 
-    $(".avatar").tooltip({
+    $(".avatar,.assignment").tooltip({
         placement:"bottom"
     });
     </script>
