@@ -1,18 +1,3 @@
-{{!< ../layouts/default}}
-
-<div class="page-header">
-	<h1>All Users</h1>
-</div>
-
-<div class="progress">
-	<div id="complete" class="progress-bar progress-bar-success" style=""></div>
-	<div id="pendingReview" class="progress-bar progress-bar-warning" style=""></div>
-	<div id="incomplete" class="progress-bar progress-bar-danger" style=""></div>
-</div>
-
-<ul class="media-list"></ul>
-
-<script>
 var students = {{{students}}};
 var hws = {{{hws}}};
 var submissionPossibilities = students.length * hws.length;
@@ -102,5 +87,3 @@ $(".assignment").tooltip({
 for(key in report) {
 	$("#" + key).css('width',((report[key] / submissionPossibilities)*100) + "%").text(report[key]);
 }
-
-</script>

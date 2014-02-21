@@ -28,6 +28,7 @@ module.exports = (dateFormatter,config,NotificationBlacklists)->
 		hw_submissions: [{type:Schema.Types.ObjectId, ref:"Hw_submissions"}]
 		issues: [{type:Schema.Types.ObjectId, ref:"Issues"}]
 		issueContributions: [{type:Schema.Types.ObjectId, ref:"Issues"}]
+        assigned_ta: {type:Schema.Types.ObjectId, ref:"Users"}
 		email: {type:String}
 		phone: {type:String}
 		notifications:[NotificationsSchema]
@@ -63,7 +64,6 @@ module.exports = (dateFormatter,config,NotificationBlacklists)->
 			return cb err if err?
 			self.find({role:"student"},"first last fbData hw_submissions").populate('hw_submissions').exec (err,students)->
 				return cb err if err?
-
 				cb null,{students:students,hws:hws}
 
 
