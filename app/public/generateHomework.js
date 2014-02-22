@@ -1,5 +1,4 @@
-var students = {{{students}}};
-var hws = {{{hws}}};
+
 var submissionPossibilities = students.length * hws.length;
 var report = {
 	incomplete:students.length * hws.length,

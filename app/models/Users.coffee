@@ -28,7 +28,7 @@ module.exports = (dateFormatter,config,NotificationBlacklists)->
 		hw_submissions: [{type:Schema.Types.ObjectId, ref:"Hw_submissions"}]
 		issues: [{type:Schema.Types.ObjectId, ref:"Issues"}]
 		issueContributions: [{type:Schema.Types.ObjectId, ref:"Issues"}]
-        assigned_ta: {type:Schema.Types.ObjectId, ref:"Users"}
+		assigned_students: [{type:Schema.Types.ObjectId, ref:"Users"}]
 		email: {type:String}
 		phone: {type:String}
 		notifications:[NotificationsSchema]
@@ -58,7 +58,15 @@ module.exports = (dateFormatter,config,NotificationBlacklists)->
 			TextBody:msg
 		}, cb
 
-	UsersSchema.statics.allStudentsWithHw = (cb)->
+	UsersSchema.statics.studentsWithHw = (query={},cb)->
+		self = @
+		mongoose.model('Hws').find({},"name").sort({dateDue:-1}).exec  (err,hws)->
+			return cb err if err?
+			self.find(_.extend({role:"student"},query),"first last fbData hw_submissions").populate('hw_submissions').exec (err,students)->
+				return cb err if err?
+				cb null,{students:students,hws:hws}
+
+	UsersSchema.statics.getAssignedStudentsHw = (cb)->
 		self = @
 		mongoose.model('Hws').find({},"name").sort({dateDue:-1}).exec  (err,hws)->
 			return cb err if err?
