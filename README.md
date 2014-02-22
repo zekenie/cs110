@@ -1,5 +1,3 @@
-# Express train template
+# Hampshire College CS-110 S14
 
-This is the default template that ships with express-train, the nodejs framework based on express 3. To find out more, visit:
-
-https://github.com/autoric/express-train
+This Node.js webapp is used to manage the CS-110 intro to web development. Written with [Express Train](https://github.com/autoric/express-train).
