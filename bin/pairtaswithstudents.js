@@ -29,7 +29,6 @@ mongoose.model('Users').find({},'_id assigned_students role').exec(function(err,
     var tas = groupedClass.ta;
     var shuffledStudents = shuffle(groupedClass.student);
     var studentsPerTa = shuffledStudents.length/tas.length;
-    console.log(shuffledStudents.pop()._id);
     for(var i = 0; i < tas.length; ++i){
         tas[i].assigned_students = [];
         for(var o = 0; o<studentsPerTa; ++o){
@@ -40,9 +39,14 @@ mongoose.model('Users').find({},'_id assigned_students role').exec(function(err,
         tas[i].save(function(err,data){
             if(data){
                 console.log("saved: ", data);
+                
             }else{
                 console.log("err");
             }
         });
     }
 });
+setTimeout(function(){
+        process.exit();
+},60000*2) ;
+
