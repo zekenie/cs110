@@ -13,8 +13,6 @@ var config = {
 var mongoose = require('mongoose');
 ObjectId = mongoose.Types.ObjectId;
 var _ = require('lodash');
-//Borrowed From 
-//http://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array-in-javascript
 var today = new Date();
 if(today.getDay() === 0){
     mongoose.connect(config.mongoUri);
@@ -36,7 +34,8 @@ if(today.getDay() === 0){
                     console.log("saved: ", data);
                     
                 }else{
-                    console.log("err");
+                    console.log(err);
+                    process.exit(1);
                 }
             });
         }
@@ -44,7 +43,4 @@ if(today.getDay() === 0){
     setTimeout(function(){
             process.exit();
     },60000*2) ;
-}else{
-    process.exit();
 }
-
