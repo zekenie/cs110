@@ -18,7 +18,7 @@ module.exports = (app,config,Users,tagHelper)->
 			return next() if req.user.instructorOrTa
 			res.send 400
 		(req,res,next)->
-			Users.allStudentsWithHw (err,studentsAndHw)->
+			Users.studentsWithHw {}, (err,studentsAndHw)->
 				return next err if err?
 				res.render "users/index", {students:JSON.stringify(studentsAndHw.students),hws:JSON.stringify(studentsAndHw.hws)}
 	]
@@ -64,10 +64,15 @@ module.exports = (app,config,Users,tagHelper)->
 			res.send 400, "You're not authorized to see that profile."
 
 		(req,res,next)->
-			req.reqUser.allHws (err,hws)->
-				return next err if err?
-				req.reqUser.hws = hws
-				res.render "users/view",req.reqUser
+            if req.reqUser.instructorOrTa
+                console.log(req.reqUser.assigned_students);
+                Users.studentsWithHw {_id: {$in: req.reqUser.assigned_students}}, (err, studentsAndHw)->
+                    res.render "users/view", {students:JSON.stringify(studentsAndHw.students),hws:JSON.stringify(studentsAndHw.hws)}
+            else 
+                req.reqUser.allHws (err,hws)->
+                    return next err if err?
+                    req.reqUser.hws = hws
+                    res.render "users/view",req.reqUser
 	]
 
 	controller

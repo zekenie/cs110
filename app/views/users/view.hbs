@@ -22,6 +22,11 @@
 	</form>
 {{/if}}
 <br/>
+{{#if loggedInUser.instructorOrTa}}
+    
+    <ul class="media-list"></ul>
+{{else}}
+    
 <div>
 	{{#each hws}}
 		<div class="panel
@@ -66,9 +71,12 @@
 		{{/each}}
 	</div>
 </div>
-
+{{/if}}
 <script>
 	$("#phone").on('keyup',function() {
 		this.value = this.value.replace(/[^0-9.]/g, "");
 	});
+    var students = {{{students}}} || {};
+    var hws = {{{hws}}} || {};
 </script>
+<script src="/generateHomework.js"></script>
