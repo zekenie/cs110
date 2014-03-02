@@ -68,7 +68,6 @@ module.exports = (app,config,Users,tagHelper)->
                 Users.studentsWithHw {_id: {$in: req.reqUser.assigned_students}}, (err, studentsAndHw)->
                     req.reqUser.hws = JSON.stringify(studentsAndHw.hws)
                     req.reqUser.students = JSON.stringify(studentsAndHw.students)
-                    console.log(req.reqUser);
                     res.render "users/view", req.reqUser
             else 
                 req.reqUser.allHws (err,hws)->
