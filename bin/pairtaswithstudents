@@ -40,7 +40,7 @@ if(today.getDay() === 0){
             });
         }
     });
-    setTimeout(function(){
-            process.exit();
-    },60000*2) ;
 }
+setTimeout(function(){
+        process.exit();
+},60000*2) ;
