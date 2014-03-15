@@ -65,9 +65,10 @@ module.exports = (app,config,Users,tagHelper)->
 
 		(req,res,next)->
             if req.reqUser.instructorOrTa
-                console.log(req.reqUser.assigned_students);
                 Users.studentsWithHw {_id: {$in: req.reqUser.assigned_students}}, (err, studentsAndHw)->
-                    res.render "users/view", {students:JSON.stringify(studentsAndHw.students),hws:JSON.stringify(studentsAndHw.hws)}
+                    req.reqUser.hws = JSON.stringify(studentsAndHw.hws)
+                    req.reqUser.students = JSON.stringify(studentsAndHw.students)
+                    res.render "users/view", req.reqUser
             else 
                 req.reqUser.allHws (err,hws)->
                     return next err if err?
