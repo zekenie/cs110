@@ -62,7 +62,7 @@ module.exports = (dateFormatter,config,NotificationBlacklists)->
 		self = @
 		mongoose.model('Hws').find({},"name").sort({dateDue:-1}).exec  (err,hws)->
 			return cb err if err?
-			self.find(_.extend({role:"student"},query),"first last fbData hw_submissions").populate({path:'hw_submissions',select:'_id complete'}).exec (err,students)->
+			self.find(_.extend({role:"student"},query),"first last fbData hw_submissions").populate({path:'hw_submissions',select:'complete'}).exec (err,students)->
 				return cb err if err?
 				cb null,{students:students,hws:hws}
 
