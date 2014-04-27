@@ -2,7 +2,6 @@ pagedown = require 'pagedown'
 moment = require 'moment'
 _ = require 'lodash'
 module.exports = (app,config,Issues)->
-	# Issues = mongoose.model 'Issues'
 	controller = {}
 	controller.load = (req,res,next,id)->
 		Issues.findById(id).populate('user day hw tags assignedTo comments.user').exec (err,issue)->

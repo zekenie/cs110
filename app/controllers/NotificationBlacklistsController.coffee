@@ -1,5 +1,4 @@
 module.exports = (app,NotificationBlacklists)->
-	# NotificationBlacklists = mongoose.model 'NotificationBlacklists'
 	controller = {}
 	controller.load = (req,res,next,id)->
 		NotificationBlacklists.findById(id).exec (err,notificationBlacklist)->
