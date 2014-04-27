@@ -2,7 +2,6 @@ async = require 'async'
 _ = require 'lodash'
 
 module.exports = (app,config,tagHelper,Users)->
-	# Users = mongoose.model 'Users'
 	controller = {}
 	controller.load = (req,res,next,id)->
 		Users.findById(id).populate('issues issueContributions').exec (err,user)->
