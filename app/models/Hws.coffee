@@ -19,7 +19,6 @@ module.exports = (dateFormatter,tagHelper,mdHelper)->
 	# assoc hws
 	HwsSchema.pre 'save',(next)->
 		console.log '************'
-		console.log @
 		return next() if not @isModified 'dayAssigned' or not @isModified 'dayDue'
 		@populate 'dayAssigned dayDue', (err,hw)->
 			hw.dayAssigned.hwAssigned.addToSet hw.id

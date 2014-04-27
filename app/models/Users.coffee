@@ -32,6 +32,7 @@ module.exports = (dateFormatter,config,NotificationBlacklists,mdHelper)->
 			html: String
 			css: String
 			javascript: String
+			taSessions:Boolean
 		}
 		role: {type:String,default:"student"}
 		fbData: {type:Schema.Types.Mixed}

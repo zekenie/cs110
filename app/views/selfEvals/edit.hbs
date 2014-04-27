@@ -21,7 +21,7 @@
         <legend>Self Eval</legend>
         <p></p>
         <div class="form-group">
-            <label for="selfEval[html]">HTML</label>
+            <label for="selfEval[html]">HTML Growth</label>
             <select class="form-control" data-select="{{user.selfEval.html}}" name="selfEval[html]">
                 <option></option>
                 <option>Bad</option>
@@ -30,7 +30,7 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="selfEval[css]">CSS</label>
+            <label for="selfEval[css]">CSS Growth</label>
             <select class="form-control" data-select="{{user.selfEval.css}}" name="selfEval[css]">
                 <option></option>
                 <option>Bad</option>
@@ -39,12 +39,20 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="selfEval[js]">JS</label>
+            <label for="selfEval[js]">JS Growth</label>
             <select class="form-control" data-select="{{user.selfEval.js}}" name="selfEval[js]">
                 <option></option>
                 <option>Bad</option>
                 <option>OK</option>
                 <option>Good</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="selfEval[taSessions]">Attended TA sessions regularly?</label>
+            <select class="form-control" data-select="{{user.selfEval.taSessions}}" name="selfEval[taSessions]">
+                <option></option>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
             </select>
         </div>
         <div class="form-group">
@@ -56,7 +64,7 @@
 
     <br/>
     <div>
-    	<button type="submit" class="btn btn-primary">Create</button>
+    	<button type="submit" class="btn btn-primary">Submit</button>
     </div>
 </form>
 
