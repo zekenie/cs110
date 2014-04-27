@@ -2,6 +2,7 @@ _ = require 'lodash'
 mongoose = require 'mongoose'
 
 module.exports = (app,config,Days)->
+	# Days = mongoose.model 'Days'
 	controller = {}
 	controller.load = (req,res,next,id)->
 		Days.findById(id).populate("hwAssigned hwDue tags").exec (err,day)->

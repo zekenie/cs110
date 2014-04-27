@@ -1,7 +1,15 @@
 #!/usr/bin/env node
-require('newrelic');
-require('coffee-script');
+// require('newrelic');
+var CoffeeScript = require('coffee-script');
+CoffeeScript.register();
 var train = require('express-train');
+// var fs = require('fs');
+
+// var models_path = __dirname + '/models'
+// fs.readdirSync(models_path).forEach(function (file) {
+//   if (~file.indexOf('.coffee')) require(models_path + '/' + file)()
+// })
+
 
 module.exports = train(__dirname);
 //setTimeout(function() {

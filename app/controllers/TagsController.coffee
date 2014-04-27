@@ -1,5 +1,6 @@
 _ = require 'lodash'
 module.exports = (app,config,Tags)->
+	# Tags = mongoose.model 'Tags'
 	controller = {}
 	controller.load = (req,res,next,id)->
 		Tags.findById(id).populate('days hws terms issues').exec (err,tag)->

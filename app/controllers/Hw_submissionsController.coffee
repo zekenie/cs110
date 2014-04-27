@@ -1,4 +1,7 @@
+mongoose = require 'mongoose'
+
 module.exports = (Hw_submissions)->
+	# Hw_submissions = mongoose.model 'Hw_submissions'
 	controller = {}
 	controller.load = (req,res,next,id)->
 		Hw_submissions.findById(id).populate('user hw comments.user').exec (err,hw_submission)->

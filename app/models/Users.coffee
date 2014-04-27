@@ -3,7 +3,7 @@ Schema = mongoose.Schema
 async = require 'async'
 _ = require 'lodash'
 
-module.exports = (dateFormatter,config,NotificationBlacklists)->
+module.exports = (dateFormatter,config,NotificationBlacklists,mdHelper)->
 	twilio = require('twilio') config.twilio.sid, config.twilio.authToken
 	postmark = require('postmark') config.postmark
 
@@ -23,6 +23,16 @@ module.exports = (dateFormatter,config,NotificationBlacklists)->
 	UsersSchema = new Schema {
 		first: {type:String}
 		last: {type:String}
+		pronoun: {
+			subject:String
+			possessive:String
+		}
+		selfEval: {
+			narrative:{type:String,get:dateFormatter.get}
+			html: String
+			css: String
+			javascript: String
+		}
 		role: {type:String,default:"student"}
 		fbData: {type:Schema.Types.Mixed}
 		hw_submissions: [{type:Schema.Types.ObjectId, ref:"Hw_submissions"}]

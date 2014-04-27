@@ -1,4 +1,5 @@
 module.exports = (app,config,Terms)->
+	# Terms = mongoose.model 'Terms'
 	controller = {}
 
 	controller.load = (req,res,next,id)->
