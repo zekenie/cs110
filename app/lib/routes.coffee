@@ -83,6 +83,9 @@ module.exports = (app,DaysController,HwsController, Hw_submissionsController, Se
 
 	#--- Self eval ---#
 
+	app.get '/selfEval', (req,res)->
+		res.redirect "/users/#{req.user.id}/selfEval"
+
 	app.get '/users/:userId/selfEval', SelfEvalController.edit
 
 	app.put '/users/:userId/selfEval', SelfEvalController.update
