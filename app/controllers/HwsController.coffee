@@ -1,6 +1,10 @@
 _ = require 'lodash'
 mongoose = require 'mongoose'
-module.exports = (app,config,Users,Hws,Hw_submissions,Days,Issues,dateFormatter,tagHelper)->
+module.exports = (app,config,dateFormatter,tagHelper,Hws)->
+	Users = mongoose.model 'Users'
+	Hw_submissions = mongoose.model 'Hw_submissions'
+	Days = mongoose.model 'Days'
+	Issues = mongoose.model 'Issues'
 	controller = {}
 
 	hwTransform = (hw)->

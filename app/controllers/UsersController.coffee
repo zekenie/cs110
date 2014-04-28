@@ -1,7 +1,7 @@
 async = require 'async'
 _ = require 'lodash'
 
-module.exports = (app,config,Users,tagHelper)->
+module.exports = (app,config,tagHelper,Users)->
 	controller = {}
 	controller.load = (req,res,next,id)->
 		Users.findById(id).populate('issues issueContributions').exec (err,user)->
@@ -69,7 +69,7 @@ module.exports = (app,config,Users,tagHelper)->
                     req.reqUser.hws = JSON.stringify(studentsAndHw.hws)
                     req.reqUser.students = JSON.stringify(studentsAndHw.students)
                     res.render "users/view", req.reqUser
-            else 
+            else
                 req.reqUser.allHws (err,hws)->
                     return next err if err?
                     req.reqUser.hws = hws

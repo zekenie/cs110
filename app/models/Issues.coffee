@@ -4,7 +4,10 @@ Schema = mongoose.Schema
 _ = require 'lodash'
 async = require 'async'
 
-module.exports = (CommentsSchema,commentHelper,tagHelper,dateFormatter,mdHelper,Users)->
+
+module.exports = (CommentsSchema,commentHelper,tagHelper,dateFormatter,mdHelper)->
+	Users = mongoose.model('Users')
+
 	IssuesSchema = new Schema {
 		title: {type:String}
 		user: {type:Schema.Types.ObjectId, ref:"Users"}

@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 require('newrelic');
-require('coffee-script');
+var CoffeeScript = require('coffee-script');
+CoffeeScript.register();
 var train = require('express-train');
 
 module.exports = train(__dirname);
