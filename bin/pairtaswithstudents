@@ -24,7 +24,7 @@ var today = new Date();
         if(err) console.log('err',err);
         console.log('mongodb connected');
         require('../app/models/Users')(dateFormatter, config, require("../app/models/NotificationBlacklists.coffee")(dateFormatter, config));
-        mongoose.model('Users').find({},'_id assigned_students role').exec(function(err, data){
+        mongoose.model('Users').find({},'_id assigned_students role first audit noEval specialEval').exec(function(err, data){
             console.log('found', data.length,'users');
             var groupedClass =  _.groupBy(data,'role');
             var tas = groupedClass.ta;
