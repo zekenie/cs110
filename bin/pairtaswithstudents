@@ -29,23 +29,22 @@ var today = new Date();
             var groupedClass =  _.groupBy(data,'role');
             var tas = groupedClass.ta;
             console.log('there are',tas.length,'tas');
-            var shuffledStudents = _.shuffle(groupedClass.student).map(function(student) { return student.taEval; });
+            var shuffledStudents = _.shuffle(groupedClass.student).filter(function(student) { return student.taEval; });
             var studentsPerTa = shuffledStudents.length/tas.length;
+            console.log("there are ",shuffledStudents.length,"who are being evaluated by TAs");
             console.log('there will be',studentsPerTa,'students per ta');
             for(var i = 0; i < tas.length; ++i){
                 tas[i].assigned_students = [];
                 for(var o = 0; o<studentsPerTa; ++o){
                     if(shuffledStudents.length > 0){
                         var tempStudent = shuffledStudents.pop();
-                        if(tempStudent) {
-                            tas[i].assigned_students.addToSet(tempStudent._id);
-                        }
+                        tas[i].assigned_students.addToSet(tempStudent._id);
                     }
                 }
                 tas[i].save(function(err,data){
                     if(err) throw err;
                     if(data){
-                        console.log("saved: ", data);
+                    //    console.log("saved: ", data);
 
                     }else{
                         console.log(err);
