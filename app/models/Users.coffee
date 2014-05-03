@@ -43,11 +43,17 @@ module.exports = (dateFormatter,config,NotificationBlacklists,mdHelper)->
 		email: {type:String}
 		phone: {type:String}
 		notifications:[NotificationsSchema]
+		audit:{type:Boolean,default:false}
+		noEval:{type:Boolean,default:false}
+		specailEval:{type:Boolean,default:false}
 	}
 
 	UsersSchema.virtual('unreadNotifications').get ->
 		@notifications.filter (notification)->
 			not notification.seen
+
+	UsersSchema.virtual('taEval').get ->
+		not (@audit or @noEval or @specailEval)
 
 	UsersSchema.methods.newestNotifications = (n,cb)->
         cb @notifications.reverse().splice(0,n)
