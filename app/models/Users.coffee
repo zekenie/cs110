@@ -76,14 +76,13 @@ module.exports = (dateFormatter,config,NotificationBlacklists,mdHelper)->
 		}, cb
 
 	UsersSchema.statics.studentsWithHw = (query={},cb)->
-		self = @
-		mongoose.model('Hws').find({},"name").sort({dateDue:-1}).exec  (err,hws)->
+		mongoose.model('Hws').find({},"name").sort({dateDue:-1}).exec (err,hws)=>
 			return cb err if err?
-			self.find(_.extend({
+			@find(_.extend({
 				role:"student"
 				noEval:{$ne:true}
 				audit:{$ne:true}
-			},query),"first last fbData hw_submissions").populate({path:'hw_submissions',select:'complete id _id hw'}).exec (err,students)->
+			},query),"first last fbData hw_submissions noEval audit").populate({path:'hw_submissions',select:'complete id _id hw'}).exec (err,students)->
 				return cb err if err?
 				cb null,{students:students,hws:hws}
 

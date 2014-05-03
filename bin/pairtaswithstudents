@@ -36,7 +36,10 @@ var today = new Date();
                 tas[i].assigned_students = [];
                 for(var o = 0; o<studentsPerTa; ++o){
                     if(shuffledStudents.length > 0){
-                        tas[i].assigned_students.addToSet(shuffledStudents.pop()._id);
+                        var tempStudent = shuffledStudents.pop();
+                        if(!tempStudent) {
+                            tas[i].assigned_students.addToSet(tempStudent._id);
+                        }
                     }
                 }
                 tas[i].save(function(err,data){
