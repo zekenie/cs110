@@ -79,7 +79,11 @@ module.exports = (dateFormatter,config,NotificationBlacklists,mdHelper)->
 		self = @
 		mongoose.model('Hws').find({},"name").sort({dateDue:-1}).exec  (err,hws)->
 			return cb err if err?
-			self.find(_.extend({role:"student"},query),"first last fbData hw_submissions").populate({path:'hw_submissions',select:'complete id _id hw'}).exec (err,students)->
+			self.find(_.extend({
+				role:"student"
+				noEval:{$ne:true}
+				audit:{$ne:true}
+			},query),"first last fbData hw_submissions").populate({path:'hw_submissions',select:'complete id _id hw'}).exec (err,students)->
 				return cb err if err?
 				cb null,{students:students,hws:hws}
 
@@ -129,6 +133,7 @@ module.exports = (dateFormatter,config,NotificationBlacklists,mdHelper)->
 
 	UsersSchema.statics.studentsForTaEval = (cb)->
 		@find {
+			role:'student'
 			audit:false
 			noEval:false,
 			specailEval:false
