@@ -127,6 +127,13 @@ module.exports = (dateFormatter,config,NotificationBlacklists,mdHelper)->
 					user.sendEmail "CS110 Notification", text + "\n" + path, (err,emailStatus)->
 						cb err, {email:emailStatus, twilio:twilioStatus, user:user}
 
+	UsersSchema.statics.studentsForTaEval = (cb)->
+		@find {
+			audit:false
+			noEval:false,
+			specailEval:false
+		}, cb
+
 	UsersSchema.statics.notifyMany = (query,text,table,id,cb)->
 		notificationWrappers = []
 		@find query, (err,users)->

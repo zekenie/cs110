@@ -25,7 +25,7 @@ var today = new Date();
             var groupedClass =  _.groupBy(data,'role');
             var tas = groupedClass.ta;
             console.log('there are',tas.length,'tas');
-            var shuffledStudents = _.shuffle(groupedClass.student);
+            var shuffledStudents = _.shuffle(groupedClass.student).map(function(student) { return student.taEval; });
             var studentsPerTa = shuffledStudents.length/tas.length;
             console.log('there will be',studentsPerTa,'students per ta');
             for(var i = 0; i < tas.length; ++i){
@@ -52,4 +52,4 @@ var today = new Date();
 // }
 setTimeout(function(){
         process.exit();
-},60000*2) ;
+},45*1000) ;
