@@ -1,10 +1,14 @@
 {{!< ../layouts/default}}
-<h2>Students assigned to you</h2>
-<ul>
-	{{#each students}}
-		<li>
-			{{name}}
-			(<a href="/evals/{{id}}/final">final project eval</a>)
-		</li>
-	{{/each}}
-</ul>
+<h2>The students each TA will evaluate</h2>
+
+{{#each TAs}}
+	<strong>{{name}}</strong>
+	<ul>
+		{{#each assigned_students}}
+			<li>
+				{{name}}
+				(<a href="/evals/{{id}}/final">Final project eval</a>)
+			</li>
+		{{/each}}
+	</ul>
+{{/each}}
