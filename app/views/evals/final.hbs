@@ -19,7 +19,7 @@
 <form method="post" action="/evals/{{student.id}}/final">
 	<input name="_method" value="put" type="hidden">
 	<div class="form-group">
-		<label for="final">Title</label>
+		<label for="final">Eval for final project</label>
 		<textarea class="form-control" required name="final" id="final">{{student.eval.final}}</textarea>
 	</div>
 	<button class="btn" type="submit">Save</button>
