@@ -50,7 +50,7 @@ module.exports = (dateFormatter,config,NotificationBlacklists,mdHelper)->
 		notifications:[NotificationsSchema]
 		audit:{type:Boolean,default:false}
 		noEval:{type:Boolean,default:false}
-		specailEval:{type:Boolean,default:false}
+		specialEval:{type:Boolean,default:false}
 	}
 
 	UsersSchema.virtual('unreadNotifications').get ->
@@ -58,7 +58,7 @@ module.exports = (dateFormatter,config,NotificationBlacklists,mdHelper)->
 			not notification.seen
 
 	UsersSchema.virtual('taEval').get ->
-		not (@audit or @noEval or @specailEval)
+		not (@audit or @noEval or @specialEval)
 
 	UsersSchema.methods.newestNotifications = (n,cb)->
         cb @notifications.reverse().splice(0,n)
