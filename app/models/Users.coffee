@@ -7,7 +7,7 @@ module.exports = (dateFormatter,config,NotificationBlacklists,mdHelper)->
 	twilio = require('twilio') config.twilio.sid, config.twilio.authToken
 	postmark = require('postmark') config.postmark
 	evalSchema = {
-		narrative:{type:String,get:mdHelper.get} # the entire eval
+		narrative:String # the entire eval
 		html: String
 		css: String
 		javascript: String
@@ -140,7 +140,7 @@ module.exports = (dateFormatter,config,NotificationBlacklists,mdHelper)->
 			role:'student'
 			audit:false
 			noEval:false,
-			specailEval:false
+			specialEval:false
 		}, cb
 
 	UsersSchema.statics.notifyMany = (query,text,table,id,cb)->
