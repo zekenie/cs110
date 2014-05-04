@@ -23,7 +23,7 @@ module.exports = (app,config)->
 			instructorOrTa,
 			(req,res,next)->
 				finalProject = mongoose.model('Hw_submissions').find {
-					hw:mongoose.Types.ObjectId('535e442396983802000d8270') # not a great thing to do...
+					hw:{$oid:"535e442396983802000d8270"} # not a great thing to do...
 					user:req.reqUser._id
 				}, (err,final) ->
 					return next err if err?
