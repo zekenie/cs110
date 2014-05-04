@@ -1,3 +1,4 @@
+mongoose = require 'mongoose'
 module.exports = (app,config)->
 	controller = {}
 
