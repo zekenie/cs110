@@ -32,6 +32,7 @@ module.exports = (app,config)->
 					user:req.reqUser._id
 				}, (err,final) ->
 					return next err if err?
+					console.log 'final',final
 					res.render 'evals/final', {student: req.reqUser,final:final}
 		]
 		update: [
