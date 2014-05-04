@@ -12,7 +12,7 @@ module.exports = (dateFormatter,config,NotificationBlacklists,mdHelper)->
 		css: String
 		javascript: String
 		taSessions:Boolean
-		finalProjectDescription:String
+		final:String
 		evaluator: {type:Schema.Types.ObjectId, ref:"Users"}
 		reviewedBy: {type:Schema.Types.ObjectId, ref:"Users"}
 	}
