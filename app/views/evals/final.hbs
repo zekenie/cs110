@@ -13,9 +13,11 @@
 		</ul>
 	</p>
 </div>
-
-<p><a href="/hw_submissions/{{final.id}}" target="_blank">Link to final project submission in new tab</a></p>
-
+{{#if final}}
+	<p><a href="/hw_submissions/{{final.id}}" target="_blank">Link to final project submission in new tab</a></p>
+{{else}}
+	<p><strong class="error">No final project submitted</strong></p>
+{{/if}}
 <form method="post" action="/evals/{{student.id}}/final">
 	<input name="_method" value="put" type="hidden">
 	<div class="form-group">
