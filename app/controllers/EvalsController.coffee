@@ -12,7 +12,7 @@ module.exports = (app,config)->
 		instructorOrTa,
 		(req,res,next)->
 			mongoose.model('Users').find({role:'ta'}).populate('assigned_students').exec (err,TAs)->
-				res.render 'evals/instructorIndex', {TAs:TAs}
+				res.render 'evals/index', {TAs:TAs}
 	]
 
 	controller.final = {
