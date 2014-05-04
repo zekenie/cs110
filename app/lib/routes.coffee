@@ -1,5 +1,5 @@
 passport = require 'passport'
-module.exports = (app,DaysController,HwsController, Hw_submissionsController, SelfEvalController, UsersController,TermsController,IssuesController,TagsController,NotificationBlacklistsController,QuestionsController)->
+module.exports = (app,DaysController,HwsController, Hw_submissionsController, EvalController, SelfEvalController, UsersController,TermsController,IssuesController,TagsController,NotificationBlacklistsController,QuestionsController)->
 	auth = (req,res,next)->
 		if req.isAuthenticated()
 			app.locals.loggedInUser = req.user
@@ -89,6 +89,12 @@ module.exports = (app,DaysController,HwsController, Hw_submissionsController, Se
 	app.get '/users/:userId/selfEval', SelfEvalController.edit
 
 	app.put '/users/:userId/selfEval', SelfEvalController.update
+
+	#--- Eval ---#
+
+	app.get '/evals', EvalController.index
+
+	app.get '/evals/:userId/final', EvalController.final
 
 	#--- Notification Blacklist ---#
 
