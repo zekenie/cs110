@@ -18,9 +18,25 @@ module.exports = (app,config)->
 					res.render 'evals/instructorIndex', {TAs:TAs}
 	]
 
-	controller.final = [
-		instructorOrTa,
-		(req,res,next)->
-			res.render 'evals/final', {student: req.reqUser}
-	]
+	controller.final = {
+		edit: [
+			instructorOrTa,
+			(req,res,next)->
+				finalProject = mongoose.model('Hw_submissions').find {
+					hw:'535e442396983802000d8270' # not a great thing to do...
+					user:req.reqUser.id
+				}, (err,final) ->
+					return next err if err?
+					res.render 'evals/final', {student: req.reqUser,final:final}
+		]
+		update: [
+			instructorOrTa,
+			(req,res,next)->
+				req.reqUser.eval.final = req.body.final
+				req.reqUser.save (err,user)->
+					return next err if err?
+					req.flash "Eval updated"
+					res.redirect "/evals/#{user.id}/final"
+		]
+	}
 	controller

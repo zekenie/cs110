@@ -1,0 +1,26 @@
+{{!< ../layouts/default}}
+<h2>Final project eval for {{student.name}} <small>{{student.pronoun.subject}} / {{student.pronoun.possessive}}</small></h2>
+<div class="well">
+	<p>
+		<strong>Tips:</strong>
+		<ul>
+			<li>Carefully read any statement they gave about the work.</li>
+			<li>Take a look at any comments to make sure they don't want you to look at a different link</li>
+			<li>Look at the project from a user's perspective. Does it work? How does it feel?</li>
+			<li>Take a look behind the curtain at the source. Do you understand it? If you don't, that could be good or bad...</li>
+			<li>Talk to the student if you need to. Maybe the page doesn't load. Maybe you're having trouble understanding how their code works. Conduct the conversation on the CS110 comment feed for the submission. Not every project will need dialog with the student.</li>
+			<li>Carefully write a short paragraph about their final project here.</li>
+		</ul>
+	</p>
+</div>
+
+<p><a href="/hw_submissions/{{final.id}}" target="_blank">Link to final project submission in new tab</a></p>
+
+<form method="post" action="/evals/{{student.id}}/final">
+	<input name="_method" value="put" type="hidden">
+	<div class="form-group">
+		<label for="final">Title</label>
+		<textarea class="form-control" required name="final" id="final">{{student.eval.final}}</textarea>
+	</div>
+	<button class="btn" type="submit">Save</button>
+</form>

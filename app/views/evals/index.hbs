@@ -1,0 +1,10 @@
+{{!< ../layouts/default}}
+<h2>Students assigned to you</h2>
+<ul>
+	{{#each students}}
+		<li>
+			{{name}}
+			(<a href="/evals/{{id}}/final">final project eval</a>)
+		</li>
+	{{/each}}
+</ul>
