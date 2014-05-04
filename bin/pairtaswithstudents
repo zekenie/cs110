@@ -35,7 +35,7 @@ var today = new Date();
             console.log('there will be',studentsPerTa,'students per ta');
             for(var i = 0; i < tas.length; ++i){
                 tas[i].assigned_students = [];
-                for(var o = 0; o<studentsPerTa; ++o){
+                for(var o = 0; o<Math.floor(studentsPerTa); ++o){
                     if(shuffledStudents.length > 0){
                         var tempStudent = shuffledStudents.pop();
                         tas[i].assigned_students.addToSet(tempStudent._id);
@@ -52,6 +52,7 @@ var today = new Date();
                     }
                 });
             }
+            console.log('left over',shuffledStudents);
         });
     });
 
