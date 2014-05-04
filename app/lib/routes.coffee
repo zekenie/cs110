@@ -91,10 +91,10 @@ module.exports = (app,DaysController,HwsController, Hw_submissionsController, Ev
 	app.put '/users/:userId/selfEval', SelfEvalController.update
 
 	#--- Eval ---#
+	# console.log EvalsController
+	# app.get '/evals', EvalsController.index
 
-	app.get '/evals', EvalsController.index
-
-	app.get '/evals/:userId/final', EvalsController.final
+	# app.get '/evals/:userId/final', EvalsController.final
 
 	#--- Notification Blacklist ---#
 
