@@ -6,6 +6,16 @@ _ = require 'lodash'
 module.exports = (dateFormatter,config,NotificationBlacklists,mdHelper)->
 	twilio = require('twilio') config.twilio.sid, config.twilio.authToken
 	postmark = require('postmark') config.postmark
+	evalSchema = {
+		narrative:{type:String,get:mdHelper.get} # the entire eval
+		html: String
+		css: String
+		javascript: String
+		taSessions:Boolean
+		finalProjectDescription:String
+		evaluator: {type:Schema.Types.ObjectId, ref:"Users"}
+		reviewedBy: {type:Schema.Types.ObjectId, ref:"Users"}
+	}
 
 	NotificationsSchema = new Schema {
 		text:String
@@ -27,13 +37,8 @@ module.exports = (dateFormatter,config,NotificationBlacklists,mdHelper)->
 			subject:String
 			possessive:String
 		}
-		selfEval: {
-			narrative:{type:String,get:dateFormatter.get}
-			html: String
-			css: String
-			javascript: String
-			taSessions:Boolean
-		}
+		selfEval: evalSchema
+		eval: evalSchema
 		role: {type:String,default:"student"}
 		fbData: {type:Schema.Types.Mixed}
 		hw_submissions: [{type:Schema.Types.ObjectId, ref:"Hw_submissions"}]

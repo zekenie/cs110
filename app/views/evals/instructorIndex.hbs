@@ -1,0 +1,13 @@
+{{!< ../layouts/default}}
+<h2>The students each TA will evaluate</h2>
+
+{{#each TAs}}
+	<strong>{{name}}</strong>
+	<ul>
+		{{#each assigned_students}}
+			<li>
+				{{name}}
+			</li>
+		{{/each}}
+	</ul>
+{{/each}}
