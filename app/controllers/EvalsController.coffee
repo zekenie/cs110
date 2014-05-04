@@ -23,6 +23,10 @@ module.exports = (app,config)->
 		edit: [
 			instructorOrTa,
 			(req,res,next)->
+				console.log {
+					hw: new ObjectId("535e442396983802000d8270") # not a great thing to do...
+					user:req.reqUser._id
+				}
 				finalProject = mongoose.model('Hw_submissions').find {
 					hw: new ObjectId("535e442396983802000d8270") # not a great thing to do...
 					user:req.reqUser._id
