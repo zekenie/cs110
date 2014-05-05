@@ -80,6 +80,13 @@ module.exports = (dateFormatter,config,NotificationBlacklists,mdHelper)->
 			TextBody:msg
 		}, cb
 
+	#UsersSchema.statics.emailMany = (query,subject,msg,cb)->
+	#	@find query, (err,users)->
+	#		return cb err if err?
+	#		return cb null,{message:'no records found'} unless users?
+	#		cb err,users
+	#		_.invoke users,'sendEmail',subject,msg,console.log
+
 	UsersSchema.statics.studentsWithHw = (query={},cb)->
 		mongoose.model('Hws').find({},"name").sort({dateDue:-1}).exec (err,hws)=>
 			return cb err if err?
@@ -144,7 +151,6 @@ module.exports = (dateFormatter,config,NotificationBlacklists,mdHelper)->
 		}, cb
 
 	UsersSchema.statics.notifyMany = (query,text,table,id,cb)->
-		notificationWrappers = []
 		@find query, (err,users)->
 			return cb err if err?
 			return cb null,{message:'no records found'} unless users?
@@ -154,7 +160,6 @@ module.exports = (dateFormatter,config,NotificationBlacklists,mdHelper)->
 	UsersSchema.statics.notifyByIds = (ids,text,table,id,cb)->
 		ids = ids.map (_id) -> _id.toString()
 		ids = _.uniq ids
-		notificationWrappers = []
 		@notifyMany {'_id':{$in:ids}},text,table,id,cb
 
 	UsersSchema.statics.random = (cb)->
