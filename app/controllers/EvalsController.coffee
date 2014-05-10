@@ -18,6 +18,8 @@ module.exports = (app,config)->
 	controller.update = [
 		instructorOrTa,
 		(req,res,next)->
+			for key,val in req.body
+				delete req[key] if val is ""
 			for key in ['html','css','javascript','taSessions','final']
 				req.reqUser.eval[key] = req.body[key] if req.body[key]?
 			req.reqUser.save (err,user)->
