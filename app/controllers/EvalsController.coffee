@@ -15,26 +15,41 @@ module.exports = (app,config)->
 				res.render 'evals/index', {TAs:TAs}
 	]
 
-	controller.final = {
-		edit: [
-			instructorOrTa,
-			(req,res,next)->
-				finalProject = mongoose.model('Hw_submissions').findOne {
-					hw: new ObjectId("535e442396983802000d8270") # not a great thing to do...
-					user:req.reqUser._id
-				}, (err,final) ->
-					return next err if err?
-					console.log 'final',final
-					res.render 'evals/final', {student: req.reqUser,final:final}
-		]
-		update: [
-			instructorOrTa,
-			(req,res,next)->
-				req.reqUser.eval.final = req.body.final
-				req.reqUser.save (err,user)->
-					return next err if err?
-					req.flash "Eval updated"
-					res.redirect "/evals/#{user.id}/final"
-		]
-	}
+	controller.update = [
+		instructorOrTa,
+		(req,res,next)->
+			for key in ['html','css','javascript','taSessions','final']
+				req.reqUser.eval[key] = req.body[key] if req.body[key]?
+			req.reqUser.save (err,user)->
+				return next err if err?
+				res.redirect "/evals"
+	]
+
+	controller.skills = [
+		instructorOrTa,
+		(req,res,next)->
+			mongoose.model('Users').studentsWithHw {_id:req.reqUser._id}, (err,studentsAndHw)->
+				return next err if err?
+				res.render "evals/skills", {
+					student:req.reqUser,
+					hwHistory:{
+						students:JSON.stringify(studentsAndHw.students),
+						hws:JSON.stringify(studentsAndHw.hws)
+					}
+				}
+	]
+
+
+	controller.final = [
+		instructorOrTa,
+		(req,res,next)->
+			finalProject = mongoose.model('Hw_submissions').findOne {
+				hw: new ObjectId("535e442396983802000d8270") # not a great thing to do...
+				user:req.reqUser._id
+			}, (err,final) ->
+				return next err if err?
+				console.log 'final',final
+				res.render 'evals/final', {student: req.reqUser,final:final}
+	]
+
 	controller

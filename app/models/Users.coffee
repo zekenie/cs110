@@ -57,6 +57,9 @@ module.exports = (dateFormatter,config,NotificationBlacklists,mdHelper)->
 		@notifications.filter (notification)->
 			not notification.seen
 
+	UsersSchema.virtual('skillsEvalComplete').get ->
+		@eval.html? and @eval.css? and @eval.javascript? and @eval.taSessions?
+
 	UsersSchema.virtual('taEval').get ->
 		not (@audit or @noEval or @specialEval)
 

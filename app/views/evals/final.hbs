@@ -29,7 +29,7 @@
 {{else}}
 	<p><strong class="error">No final project submitted</strong></p>
 {{/if}}
-<form method="post" action="/evals/{{student.id}}/final">
+<form method="post" action="/evals/{{student.id}}">
 	<input name="_method" value="put" type="hidden">
 	<div class="form-group">
 		<label for="final">Eval for final project</label>

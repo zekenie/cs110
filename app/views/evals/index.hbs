@@ -8,9 +8,13 @@
 			<li>
 				{{name}}
 				(
-          {{#if eval.final}}<i class="glyphicon glyphicon-ok"></i>{{/if}}
-          <a href="/evals/{{id}}/final">Final project eval</a>
-        )
+		          {{#if eval.final}}<i class="glyphicon glyphicon-ok"></i>{{/if}}
+		          <a href="/evals/{{id}}/final">Final project eval</a>
+		        )
+		        (
+		          {{#if skillsEvalComplete}}<i class="glyphicon glyphicon-ok"></i>{{/if}}
+		          <a href="/evals/{{id}}/skills">Skills eval</a>
+		        )
 			</li>
 		{{/each}}
 	</ul>

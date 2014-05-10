@@ -1,0 +1,78 @@
+{{!< ../layouts/default}}
+<h2>Final project eval for {{student.name}} <small>{{student.pronoun.subject}} / {{student.pronoun.possessive}}</small></h2>
+
+<div class="alert alert-danger">The javascript self evals were collected incorrectly and the information has been lost. Apologies.</div>
+
+<section id="history">
+	<div class="progress">
+		<div id="complete" class="progress-bar progress-bar-success" style=""></div>
+		<div id="pendingReview" class="progress-bar progress-bar-warning" style=""></div>
+		<div id="incomplete" class="progress-bar progress-bar-danger" style=""></div>
+	</div>
+
+	<ul class="media-list"></ul>
+	<script>
+	    var students = {{{hwHistory.students}}} || {};
+	    var hws = {{{hwHistory.hws}}} || {};
+	</script>
+	<script src='/generateHomework.js'></script>
+
+</section>
+
+<div class="row">
+	<div class="col-md-6">
+		<div class="well">
+			<strong>Tips:</strong>
+			<ul>
+				<li>Take time to review the student's homework history</li>
+
+			</ul>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<strong>Self Eval</strong>
+		{{#with student.selfEval}}
+			{{> selfEval}}
+		{{/with}}
+	</div>
+</div>
+
+<form method="post" action="/evals/{{student.id}}">
+	<input name="_method" value="put" type="hidden">
+	<div class="form-group">
+        <label for="html">HTML Growth</label>
+        <select class="form-control" data-select="{{user.eval.html}}" name="html">
+            <option></option>
+            <option>Bad</option>
+            <option>OK</option>
+            <option>Good</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="css">CSS Growth</label>
+        <select class="form-control" data-select="{{user.eval.css}}" name="css">
+            <option></option>
+            <option>Bad</option>
+            <option>OK</option>
+            <option>Good</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="javascript">JS Growth</label>
+        <select class="form-control" data-select="{{user.eval.javascript}}" name="javascript">
+            <option></option>
+            <option>Bad</option>
+            <option>OK</option>
+            <option>Good</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="taSessions">Attended TA sessions regularly?</label>
+        <select class="form-control" data-select="{{user.eval.taSessions}}" name="taSessions">
+            <option></option>
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+        </select>
+    </div>
+	<button class="btn" type="submit">Save</button>
+</form>
