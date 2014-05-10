@@ -22,6 +22,7 @@ module.exports = (app,config)->
 				req.reqUser.eval[key] = req.body[key] if req.body[key]?
 			req.reqUser.save (err,user)->
 				return next err if err?
+				req.flash 'Eval updated'
 				res.redirect "/evals"
 	]
 

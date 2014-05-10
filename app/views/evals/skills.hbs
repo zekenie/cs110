@@ -76,3 +76,10 @@
     </div>
 	<button class="btn" type="submit">Save</button>
 </form>
+<script>
+    var selects = $('[data-select]');
+    for(var i = 0; i < selects.length; i++) {
+        var sel = $(selects[i]);
+        sel.val(sel.attr('data-select'));
+    }
+</script>
