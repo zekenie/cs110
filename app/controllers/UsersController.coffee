@@ -4,7 +4,7 @@ _ = require 'lodash'
 module.exports = (app,config,tagHelper,Users)->
 	controller = {}
 	controller.load = (req,res,next,id)->
-		Users.findById(id).populate('issues issueContributions').exec (err,user)->
+		Users.findById(id).populate('issues issueContributions eval.comments.user').exec (err,user)->
 			return next err if err?
 			return res.send 404 if not user?
 			req.user.mine = req.user.equals user

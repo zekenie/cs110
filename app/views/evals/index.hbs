@@ -15,6 +15,9 @@
 		          {{#if skillsEvalComplete}}<i class="glyphicon glyphicon-ok"></i>{{/if}}
 		          <a href="/evals/{{id}}/skills">Skills eval</a>
 		        )
+		        (
+		        	<a href="//evals/{{id}}/comments">{{eval.comments.length}} Comments</a>
+		        )
 			</li>
 		{{/each}}
 	</ul>
