@@ -57,14 +57,19 @@ module.exports = (app,config)->
 
 
 	controller.comments = {
-		create:(req,res,next)->
-			req.body.user = req.user._id
-			req.reqUser.comment req.body, (err,user)->
-				return next err if err?
-				req.flash 'comment posted'
-				res.redirect '/evals'
-		index:(req,res,next)->
-			res.render 'evals/comments', {student:req.reqUser}
+		create:[
+			instructorOrTa,
+			(req,res,next)->
+				req.body.user = req.user._id
+				req.reqUser.comment req.body, (err,user)->
+					return next err if err?
+					req.flash 'comment posted'
+					res.redirect '/evals'
+		index:[
+			instructorOrTa,
+			(req,res,next)->
+				res.render 'evals/comments', {student:req.reqUser}
+			]
 	}
 
 	controller
