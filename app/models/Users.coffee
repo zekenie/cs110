@@ -15,6 +15,7 @@ module.exports = (dateFormatter,config,NotificationBlacklists,mdHelper)->
 		final:String
 		evaluator: {type:Schema.Types.ObjectId, ref:"Users"}
 		reviewedBy: {type:Schema.Types.ObjectId, ref:"Users"}
+		comments: String
 	}
 
 	NotificationsSchema = new Schema {
