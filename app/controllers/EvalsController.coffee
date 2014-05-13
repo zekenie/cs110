@@ -65,11 +65,12 @@ module.exports = (app,config)->
 					return next err if err?
 					req.flash 'comment posted'
 					res.redirect '/evals'
+		]
 		index:[
 			instructorOrTa,
 			(req,res,next)->
 				res.render 'evals/comments', {student:req.reqUser}
-			]
+		]
 	}
 
 	controller
