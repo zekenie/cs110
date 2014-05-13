@@ -3,7 +3,7 @@ Schema = mongoose.Schema
 async = require 'async'
 _ = require 'lodash'
 
-module.exports = (dateFormatter,config,NotificationBlacklists,mdHelper)->
+module.exports = (dateFormatter,CommentsSchema,config,NotificationBlacklists,mdHelper)->
 	twilio = require('twilio') config.twilio.sid, config.twilio.authToken
 	postmark = require('postmark') config.postmark
 	evalSchema = {
@@ -15,7 +15,7 @@ module.exports = (dateFormatter,config,NotificationBlacklists,mdHelper)->
 		final:String
 		evaluator: {type:Schema.Types.ObjectId, ref:"Users"}
 		reviewedBy: {type:Schema.Types.ObjectId, ref:"Users"}
-		comments: String
+		comments: [CommentsSchema]
 	}
 
 	NotificationsSchema = new Schema {
@@ -176,6 +176,11 @@ module.exports = (dateFormatter,config,NotificationBlacklists,mdHelper)->
 		for notification in @notifications
 			notification.seen = true
 		@save cb
+
+	UsersSchema.methods.comment = (comment,cb)->
+		@eval.comments.push comment
+		@save cb
+
 
 
 	UsersSchema.methods.getHwSubmissions = (cb)->

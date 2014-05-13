@@ -2,9 +2,7 @@ _ = require 'lodash'
 mongoose = require 'mongoose'
 module.exports = (app,config,dateFormatter,tagHelper,Hws)->
 	Users = mongoose.model 'Users'
-	Hw_submissions = mongoose.model 'Hw_submissions'
 	Days = mongoose.model 'Days'
-	Issues = mongoose.model 'Issues'
 	controller = {}
 
 	hwTransform = (hw)->
@@ -45,7 +43,7 @@ module.exports = (app,config,dateFormatter,tagHelper,Hws)->
 		(req,res,next)->
 			req.body.user = req.user._id
 			req.body.hw = req.hw._id
-			Hw_submissions.create req.body, (err,hw_submission)->
+			mongoose.model('Hw_submissions').create req.body, (err,hw_submission)->
 				return next err if err?
 				res.redirect "/hws/#{req.hw._id}"
 
