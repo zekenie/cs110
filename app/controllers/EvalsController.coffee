@@ -69,7 +69,8 @@ module.exports = (app,config)->
 		index:[
 			instructorOrTa,
 			(req,res,next)->
-				res.locals.completeEval = req.reqUser.eval.completeEval or req.reqUser.templateEval
+				res.locals.completeEval = req.reqUser.eval.completeEval
+				res.locals.completeEval = req.reqUser.templateEval if res.locals.completeEval is ''
 				res.render 'evals/comments', {student:req.reqUser}
 		]
 	}
