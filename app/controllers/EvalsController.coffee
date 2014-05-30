@@ -20,7 +20,7 @@ module.exports = (app,config)->
 		(req,res,next)->
 			for key,val in req.body
 				delete req[key] if val is ""
-			for key in ['html','css','javascript','taSessions','final']
+			for key in ['html','css','javascript','taSessions','final','completeEval']
 				req.reqUser.eval[key] = req.body[key] if req.body[key]?
 			req.reqUser.save (err,user)->
 				return next err if err?
@@ -69,6 +69,7 @@ module.exports = (app,config)->
 		index:[
 			instructorOrTa,
 			(req,res,next)->
+				res.locals.completeEval = req.reqUser.eval.completeEval or req.reqUser.templateEval
 				res.render 'evals/comments', {student:req.reqUser}
 		]
 	}
