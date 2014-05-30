@@ -3,7 +3,7 @@ Schema = mongoose.Schema
 async = require 'async'
 _ = require 'lodash'
 
-module.exports = (dateFormatter,CommentsSchema,config,NotificationBlacklists,mdHelper)->
+module.exports = (dateFormatter,CommentsSchema,config,NotificationBlacklists,mdHelper,EvalSnippets)->
 	twilio = require('twilio') config.twilio.sid, config.twilio.authToken
 	postmark = require('postmark') config.postmark
 	evalSchema = {
@@ -16,6 +16,7 @@ module.exports = (dateFormatter,CommentsSchema,config,NotificationBlacklists,mdH
 		evaluator: {type:Schema.Types.ObjectId, ref:"Users"}
 		reviewedBy: {type:Schema.Types.ObjectId, ref:"Users"}
 		comments: [CommentsSchema]
+		completeEval:String
 	}
 
 	NotificationsSchema = new Schema {
@@ -90,6 +91,15 @@ module.exports = (dateFormatter,CommentsSchema,config,NotificationBlacklists,mdH
 	#		return cb null,{message:'no records found'} unless users?
 	#		cb err,users
 	#		_.invoke users,'sendEmail',subject,msg,console.log
+
+	UsersSchema.virtual('templateEval').get = ->
+		"#{EvalSnippets.html[@eval.html]}
+
+		#{EvalSnippets.css[@eval.css]}
+
+		#{EvalSnippets.js[@eval.javascript]}
+
+		#{@eval.final}"
 
 	UsersSchema.statics.studentsWithHw = (query={},cb)->
 		mongoose.model('Hws').find({},"name").sort({dateDue:-1}).exec (err,hws)=>
