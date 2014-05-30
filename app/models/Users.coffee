@@ -92,8 +92,8 @@ module.exports = (dateFormatter,CommentsSchema,config,NotificationBlacklists,mdH
 	#		cb err,users
 	#		_.invoke users,'sendEmail',subject,msg,console.log
 
-	UsersSchema.virtual('templateEval').get = ->
-		"#{EvalSnippets.html[@eval.html]}
+	UsersSchema.methods.generateEvalTemplate = ->
+		"CS110: #{EvalSnippets.html[@eval.html]}
 
 		#{EvalSnippets.css[@eval.css]}
 

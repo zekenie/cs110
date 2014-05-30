@@ -1,8 +1,11 @@
 {{!< ../layouts/default}}
-<br>
+<p>{{templateEval}}</p>
+
+
+
 <form method="post" action="/evals/{{student.id}}">
   <input name="_method" value="put" type="hidden">
-  <textarea class="form-control" name="completeEval">{{completeEval}}</textarea>
+  <textarea class="form-control" name="completeEval">{{student.eval.completeEval}}</textarea>
   <button class="btn" type="submit">Save</button>
 </form>
 
