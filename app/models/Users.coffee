@@ -1,6 +1,7 @@
 mongoose = require 'mongoose'
 Schema = mongoose.Schema
 async = require 'async'
+handlebars = require 'handlebars'
 _ = require 'lodash'
 
 module.exports = (dateFormatter,CommentsSchema,config,NotificationBlacklists,mdHelper,EvalSnippets)->
@@ -93,13 +94,11 @@ module.exports = (dateFormatter,CommentsSchema,config,NotificationBlacklists,mdH
 	#		_.invoke users,'sendEmail',subject,msg,console.log
 
 	UsersSchema.methods.generateEvalTemplate = ->
-		"CS110: #{EvalSnippets.html[@eval.html]}
-
-		#{EvalSnippets.css[@eval.css]}
-
-		#{EvalSnippets.js[@eval.javascript]}
-
-		#{@eval.final}"
+		source = "<p>#{EvalSnippets.html[@eval.html]}</p>
+		<p>#{EvalSnippets.css[@eval.css]}</p>
+		<p>#{EvalSnippets.js[@eval.javascript]}</p>
+		<p>#{@eval.final}</p>"
+		handlebars.compile(source) @
 
 	UsersSchema.statics.studentsWithHw = (query={},cb)->
 		mongoose.model('Hws').find({},"name").sort({dateDue:-1}).exec (err,hws)=>
