@@ -37,8 +37,8 @@ module.exports = (dateFormatter,CommentsSchema,config,NotificationBlacklists,mdH
 		first: {type:String}
 		last: {type:String}
 		pronoun: {
-			subject:String
-			possessive:String
+			subject:{type:String, default:'[he/her]'}
+			possessive:{type:String, default:'[her/his]'}
 		}
 		selfEval: evalSchema
 		eval: evalSchema
@@ -94,7 +94,7 @@ module.exports = (dateFormatter,CommentsSchema,config,NotificationBlacklists,mdH
 	#		_.invoke users,'sendEmail',subject,msg,console.log
 
 	UsersSchema.methods.generateEvalTemplate = ->
-		source = "<p>#{EvalSnippets.html[@eval.html]}</p>
+		source = "<p>HTML: #{EvalSnippets.html[@eval.html]}</p>
 		<p>#{EvalSnippets.css[@eval.css]}</p>
 		<p>#{EvalSnippets.js[@eval.javascript]}</p>
 		<p>#{@eval.final}</p>"
