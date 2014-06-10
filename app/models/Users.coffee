@@ -98,7 +98,7 @@ module.exports = (dateFormatter,CommentsSchema,config,NotificationBlacklists,mdH
 		<p>#{EvalSnippets.css[@eval.css]}</p>
 		<p>#{EvalSnippets.js[@eval.javascript]}</p>
 		<p>#{@eval.final}</p>"
-		handlebars.compile(source) @
+		handlebars.compile(source) { student:@ }
 
 	UsersSchema.statics.studentsWithHw = (query={},cb)->
 		mongoose.model('Hws').find({},"name").sort({dateDue:-1}).exec (err,hws)=>

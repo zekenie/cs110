@@ -1,7 +1,7 @@
 module.exports = ->
 	{
 		html:{
-			Good: "{{student.first}} has demonstrated mastery of HTML. {{student.pronoun.subject}} can now create well-formatted web-based content and understand other people's code. {{student.pronoun.subject}} understands web standards and knows where to look for help when {{student.pronoun.subject}} is stuck. {{student.pronoun.subject has a good understanding of how the internet works. I'm impressed with {{student.pronoun.possessive}} performance in this area."
+			Good: "{{student.first}} has demonstrated mastery of HTML. {{student.pronoun.subject}} can now create well-formatted web-based content and understand other people's code. {{student.pronoun.subject}} understands web standards and knows where to look for help when {{student.pronoun.subject}} is stuck. {{student.pronoun.subject}} has a good understanding of how the Internet works. I'm impressed with {{student.pronoun.possessive}} performance in this area."
 			OK: "{{student.first}} has learned a great deal of HTML in this course. {{student.pronoun.subject}} has created generally well formatted web-based content. {{student.pronoun.subject}} knows how to communicate problems {{student.pronoun.subject}} is having--an important skill in web development."
 			Bad: "{{student.first}} struggled to learn HTML. While {{student.pronoun.subject}} has learned how to create web-based content, {{student.pronoun.possessive}} page structure and formatting skills are poor."
 		}
