@@ -94,7 +94,7 @@ module.exports = (dateFormatter,CommentsSchema,config,NotificationBlacklists,mdH
 	#		_.invoke users,'sendEmail',subject,msg,console.log
 
 	UsersSchema.methods.generateEvalTemplate = ->
-		source = "<p>HTML: #{EvalSnippets.html[@eval.html]}</p>
+		source = "<p>#{EvalSnippets.html[@eval.html]}</p>
 		<p>#{EvalSnippets.css[@eval.css]}</p>
 		<p>#{EvalSnippets.js[@eval.javascript]}</p>
 		<p>#{@eval.final}</p>"
