@@ -7,7 +7,7 @@
     "fb":{
     	"clientId":"{{FB_CLIENT_ID}}",
     	"clientSecret":"{{FB_CLIENT_SECRET}}",
-    	"callbackUrl":"http://www.cs110.me/fb/cb"
+    	"callbackUrl":"http://cs110.herokuapp.com/fb/cb"
     },
     "mongoUri":"{{MONGOLAB_URI}}",
     "request_timeout":2200,
